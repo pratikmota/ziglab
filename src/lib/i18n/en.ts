@@ -35,7 +35,8 @@ export const en = {
     content: "Skip to content",
   },
   hero: {
-    headline: "Learn Zig. Run it in the browser.",
+    headline: "Learn Zig.",
+    headlineNext: "Run it in the browser.",
     sub: "Short lessons, a real editor, and a path from hello world to comptime. No install required.",
     start: "Start learning",
     play: "Open playground",
