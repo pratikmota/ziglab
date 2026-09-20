@@ -11,6 +11,11 @@ export function zigVersionLabel(channel: ZigChannel = "stable") {
   return `Zig ${match?.version ?? siteConfig.zigStableLabel}`;
 }
 
+export function zigDocsUrl(hash = "") {
+  const base = `${siteConfig.zigOfficial}documentation/${siteConfig.zigStableLabel}/`;
+  return hash ? `${base}${hash.startsWith("#") ? hash : `#${hash}`}` : base;
+}
+
 export function offeredZigChannel(channel: ZigChannel): ZigChannel {
   return zigPlayVersions.some((item) => item.id === channel)
     ? channel

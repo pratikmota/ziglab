@@ -61,7 +61,6 @@ export const en = {
     title: "A playground, not only a course",
     body: "Open a full editor when you want to try an idea without a lesson around it.",
     try: "Try the playground",
-    channel: "Zig 0.16.0",
     channelHint: "Runner is a preview until WASM lands.",
     run: "Run",
     output: "Output",

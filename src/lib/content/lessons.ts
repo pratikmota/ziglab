@@ -14,6 +14,7 @@ import {
   type LessonType,
   type QuizItem,
 } from "@/lib/content/lesson-model";
+import { zigDocsUrl } from "@/lib/zig-version";
 
 export {
   comingFromLangs,
@@ -36,6 +37,14 @@ const chapterLevels = new Map(chapters.map((chapter) => [chapter.id, chapter.lev
 
 function isSafeSegment(value: string) {
   return SLUG_PATTERN.test(value);
+}
+
+function resolveDocsUrl(value: string) {
+  if (!value || !value.startsWith("#")) {
+    return value;
+  }
+
+  return zigDocsUrl(value);
 }
 
 function resolveUnder(root: string, ...parts: string[]) {
@@ -223,7 +232,7 @@ function parseLesson(chapter: string, slug: string, raw: string): Lesson {
     order: data.order,
     level,
     videoUrl: asString(data.videoUrl),
-    docsUrl: asString(data.docsUrl),
+    docsUrl: resolveDocsUrl(asString(data.docsUrl)),
     starterFile,
     comingFrom: parseComingFrom(data.comingFrom, lessonId),
     hints: parseHints(data.hints, lessonId),
