@@ -2,12 +2,14 @@ import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
 import { listPublishedPosts } from "@/lib/content/blog";
+import { getLessonHref, listLessons } from "@/lib/content/lessons";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
   const staticRoutes = [
     "",
+    "/learn",
     "/about",
     "/sponsors",
     "/blog",
@@ -17,7 +19,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteConfig.domain}${path}`,
     lastModified,
     changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : 0.7,
+    priority: path === "" ? 1 : path === "/learn" ? 0.9 : 0.7,
+  }));
+
+  const lessons = listLessons().map((lesson) => ({
+    url: `${siteConfig.domain}${getLessonHref(lesson)}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
   }));
 
   const posts = listPublishedPosts().map((post) => ({
@@ -27,5 +36,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...posts];
+  return [...staticRoutes, ...lessons, ...posts];
 }

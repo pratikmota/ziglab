@@ -1,0 +1,71 @@
+---
+id: welcome/check-welcome
+chapter: welcome
+slug: check-welcome
+type: quiz
+title: Welcome check
+description: Four questions on allocations, local progress, official Zig, and the playground.
+order: 4
+level: start
+videoUrl: ""
+docsUrl: ""
+quiz:
+  - id: q1
+    prompt: "Which statement is true about heap allocations in Zig?"
+    options:
+      - id: a
+        text: "The language hides most heap allocations behind convenient calls."
+      - id: b
+        text: "Heap allocations are explicit. You see an allocator in the code."
+      - id: c
+        text: "Zig always uses a garbage collector."
+    answer: b
+    explain:
+      a: "Zig prefers the opposite: if the heap is involved, it should be visible."
+      b: "Correct. Allocations stay on the page instead of happening behind a helper."
+      c: "Zig is not garbage-collected. If you need the heap, you ask for it."
+  - id: q2
+    prompt: "Where does ZigLab store your lesson progress in v1?"
+    options:
+      - id: a
+        text: "In a ZigLab account on the server."
+      - id: b
+        text: "In localStorage in this browser only."
+      - id: c
+        text: "It does not store progress at all."
+    answer: b
+    explain:
+      a: "There is no login and no user profile in v1."
+      b: "Correct. Progress stays on this device. Another browser is a fresh start."
+      c: "Completed lessons and the last opened page are saved locally."
+  - id: q3
+    prompt: "What is ZigLab’s relationship to official Zig?"
+    options:
+      - id: a
+        text: "ZigLab is the official language website and replaces the Language Reference."
+      - id: b
+        text: "ZigLab is an independent community lab. Official Zig lives at ziglang.org."
+      - id: c
+        text: "ZigLab is a fork of the Zig compiler."
+    answer: b
+    explain:
+      a: "The Language Reference and ziglang.org remain the official sources."
+      b: "Correct. ZigLab is a path in the browser, not the language project."
+      c: "ZigLab does not ship or fork the compiler in v1. A WASM compiler may connect later."
+  - id: q4
+    prompt: "What is the playground for?"
+    options:
+      - id: a
+        text: "Trying an idea in an editor without a lesson wrapped around it."
+      - id: b
+        text: "Posting your code to a ZigLab server that compiles it for you."
+      - id: c
+        text: "Replacing ziglang.org documentation."
+    answer: a
+    explain:
+      a: "Correct. The playground is a pad. Lessons are the path. Until WASM lands, Run is an honest preview."
+      b: "User code stays in the browser. ZigLab has no compile API in v1."
+      c: "Official docs stay official. The playground is for experiments."
+---
+
+Submit when you have an answer for each question. Wrong answers still complete the lesson. You can retry. Next does not submit for you.

@@ -1,0 +1,28 @@
+---
+id: welcome/what-is-zig
+chapter: welcome
+slug: what-is-zig
+type: concept
+title: What is Zig?
+description: Zig in plain words — a small language that keeps control flow and allocations visible.
+order: 1
+level: start
+videoUrl: ""
+docsUrl: "https://ziglang.org/learn/"
+comingFrom:
+  c: "Zig still feels close to C, but it will not hide a heap allocation behind a convenient call."
+  rust: "There is no borrow checker and no hidden RAII destructor that frees for you. You see the allocator."
+  go: "There is no garbage collector. If you need the heap, you ask for it in the code."
+---
+
+Zig is a small programming language for writing programs you can still read six months later. It is used for tools, firmware, games, and for talking to C without a second language in the way.
+
+Three ideas show up again and again:
+
+- **Control flow stays on the page.** There is no hidden constructor, no overloaded `+` that allocates, and no exception that jumps out of a function you thought was simple.
+- **Allocations stay visible.** If something needs the heap, the code names an allocator. Zig does not sweep memory for you in the background.
+- **C is a neighbor, not a rewrite.** You can call C and be called from C. That is a large part of why people pick Zig for existing codebases.
+
+You do not need those three ideas memorized today. You need a feel for the tone: Zig would rather be explicit than clever.
+
+This lab is a path through that tone. Official docs stay at ziglang.org. ZigLab is a place to walk, not a replacement for the language reference.

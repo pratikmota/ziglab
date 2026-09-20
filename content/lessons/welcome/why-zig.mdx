@@ -1,0 +1,22 @@
+---
+id: welcome/why-zig
+chapter: welcome
+slug: why-zig
+type: concept
+title: Why people pick Zig
+description: Debug the program, not the language. A short comptime teaser, and a path to existing C.
+order: 3
+level: start
+videoUrl: ""
+docsUrl: "https://ziglang.org/"
+---
+
+People do not pick Zig because it has the most features. They pick it because **surprises stay rare**.
+
+When a program misbehaves, you want to debug **your** code: the loop, the allocator, the integer width. You do not want to hunt a hidden conversion, a constructor that allocated, or a destructor that ran on the way out. Zig leans toward “what you see is what runs.”
+
+**Comptime** is the distinctive trick. Some Zig runs while the program is compiling. You can generate code, check sizes, and specialize with ordinary-looking functions instead of a second macro language. You will meet a small piece of that later. For now: comptime is still Zig, just earlier.
+
+Zig is also a practical way to keep talking to **C**. Teams with a large C or C++ tree often want a clearer language at the edges without throwing the tree away. Zig is built for that job.
+
+None of this makes Zig “officially better.” It is a tool. For the language itself, go to [ziglang.org](https://ziglang.org/). ZigLab is an independent lab that walks a path in the browser.
