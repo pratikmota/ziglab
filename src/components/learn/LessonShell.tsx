@@ -3,6 +3,7 @@
 import { ChevronLeft, ChevronRight, Flag, PanelLeft, PanelLeftClose } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
+import { toast } from "sonner";
 
 import { LessonHints } from "@/components/learn/LessonHints";
 import { LessonPlayground } from "@/components/learn/LessonPlayground";
@@ -37,7 +38,7 @@ import {
   useProgress,
 } from "@/lib/progress";
 import { lessonReportUrl } from "@/lib/report";
-import { cn } from "@/lib/utils";
+import { chromeLinkClass, cn } from "@/lib/utils";
 
 export type LessonChrome = Pick<
   LessonMeta,
@@ -88,6 +89,9 @@ export function LessonShell({
   );
   const hasEditor = Boolean(starter);
   const completed = isLessonComplete(lesson.id, progress);
+  const comingSoon = Boolean(
+    chapters.find((chapter) => chapter.id === lesson.chapter)?.stub
+  );
 
   useEffect(() => {
     markLessonOpened(lesson.id);
@@ -110,7 +114,10 @@ export function LessonShell({
           <p className="text-sm text-muted-foreground">
             <Link
               href="/learn"
-              className="hover:text-foreground hover:underline"
+              className={cn(
+                chromeLinkClass,
+                "hover:text-foreground hover:underline"
+              )}
             >
               {en.learn.title}
             </Link>
@@ -120,8 +127,11 @@ export function LessonShell({
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">
             {lesson.title}
           </h1>
-          <div className="mt-3">
+          <div className="mt-3 flex flex-wrap items-center gap-2">
             <Badge variant="secondary">{typeLabel[lesson.type]}</Badge>
+            {comingSoon ? (
+              <Badge variant="outline">{en.learn.comingSoon}</Badge>
+            ) : null}
           </div>
         </div>
         <Tooltip>
@@ -150,7 +160,10 @@ export function LessonShell({
         <p className="mt-4">
           <a
             href={lesson.docsUrl}
-            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+            className={cn(
+              chromeLinkClass,
+              "text-sm font-medium text-primary underline-offset-4 hover:underline"
+            )}
             {...externalLinkProps}
           >
             {en.learn.officialDocs}
@@ -208,7 +221,10 @@ export function LessonShell({
               <Button
                 type="button"
                 disabled={completed}
-                onClick={() => markLessonComplete(lesson.id)}
+                onClick={() => {
+                  markLessonComplete(lesson.id);
+                  toast.success(en.learn.markedComplete);
+                }}
               >
                 {en.learn.markComplete}
               </Button>

@@ -94,6 +94,7 @@ export const en = {
     resetBody:
       "This restores the Hello World template. Your current code will be replaced.",
     resetConfirm: "Reset",
+    resetDone: "Code reset",
     cancel: "Cancel",
     newTitle: "Start a new playground?",
     newBody:
@@ -168,7 +169,7 @@ export const en = {
       "There is no login, email, or GitHub sign-in on ZigLab in v1. We do not create user profiles.",
     storageTitle: "What stays on your device",
     storageBody:
-      "Lesson progress, lesson drafts, and playground drafts are stored in localStorage in your browser. They do not sync across devices. Clearing site data removes them.",
+      "Lesson progress, lesson drafts, and playground drafts are stored in localStorage in your browser. They do not sync across devices. On Learn, Clear progress removes completed lessons, quiz answers, and lesson drafts. Playground drafts stay until you use New, or until you clear site data in the browser.",
     dataTitle: "We do not sell data",
     dataBody:
       "We do not sell personal data. We do not run a ZigLab form that stores your code.",
@@ -219,6 +220,12 @@ export const en = {
     officialDocs: "Official docs",
     lessons: "Lessons",
     progress: "Progress",
+    clearProgress: "Clear progress",
+    clearProgressTitle: "Clear progress in this browser?",
+    clearProgressBody:
+      "This removes completed lessons, quiz answers, and lesson editor drafts on this device. Playground drafts stay. This cannot be undone.",
+    clearProgressConfirm: "Clear progress",
+    clearedProgress: "Progress cleared",
     collapseSidebar: "Collapse lessons",
     expandSidebar: "Expand lessons",
     video: "Watch a walkthrough",
@@ -227,6 +234,7 @@ export const en = {
     quizRetry: "Retry",
     quizScore: "Score",
     markComplete: "Mark complete",
+    markedComplete: "Lesson marked complete",
     showHint: "Show hint",
     expectedOutput: "When this runs, you should see:",
     tabLearn: "Learn",

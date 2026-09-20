@@ -15,6 +15,7 @@ export const siteConfig = {
   zigLearn: "https://ziglang.org/learn/",
   zsfDonate: "https://ziglang.org/zsf/",
   zigStableLabel: "0.16.0",
+  // Launch placeholders — fill before going live; do not invent companies.
   maintainer: {
     name: "Maintainer name",
     bio: "Placeholder bio. This will be filled before launch.",

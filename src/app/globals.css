@@ -71,13 +71,13 @@
   --line: #e0d8c8;
   --text: #1a1814;
   --text-muted: #6b6458;
-  --accent: #c48410;
-  --accent-hover: #a86e0a;
+  --accent: #8a5608;
+  --accent-hover: #704506;
   --accent-fg: #fff8e8;
   --success: #1a8f5c;
   --error: #c53636;
   --warning: #a67c12;
-  --focus: #c48410;
+  --focus: #8a5608;
 
   /* Hero stays dark in both themes */
   --hero-bg: #12110f;

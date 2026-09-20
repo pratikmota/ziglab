@@ -13,7 +13,7 @@ import { en } from "@/lib/i18n/en";
 import { useProgress } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
-export type SidebarChapter = Pick<ChapterMeta, "id" | "order" | "title"> & {
+export type SidebarChapter = Pick<ChapterMeta, "id" | "order" | "title" | "stub"> & {
   lessons: Pick<LessonMeta, "id" | "chapter" | "slug" | "title" | "order">[];
 };
 
@@ -60,7 +60,7 @@ export function LessonNav({
                           : undefined
                       }
                       className={cn(
-                        "flex items-start gap-2 rounded-lg px-2 py-1.5 text-sm transition-colors",
+                        "flex items-start gap-2 rounded-lg px-2 py-1.5 text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
                         current
                           ? "bg-muted font-medium text-foreground"
                           : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"

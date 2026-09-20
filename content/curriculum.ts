@@ -6,6 +6,7 @@ export type ChapterMeta = {
   title: string;
   level: ChapterLevel;
   goal: string;
+  stub?: boolean;
 };
 
 export const chapters: ChapterMeta[] = [
@@ -36,6 +37,7 @@ export const chapters: ChapterMeta[] = [
     title: "Arrays, strings, slices",
     level: "core",
     goal: "Work with arrays, byte strings, and slices.",
+    stub: true,
   },
   {
     id: "control-flow",
@@ -43,6 +45,7 @@ export const chapters: ChapterMeta[] = [
     title: "If, while, for",
     level: "core",
     goal: "Choose paths and loop over data.",
+    stub: true,
   },
   {
     id: "functions",
@@ -50,6 +53,7 @@ export const chapters: ChapterMeta[] = [
     title: "Functions",
     level: "core",
     goal: "Define functions, pass arguments, and return values.",
+    stub: true,
   },
   {
     id: "errors",
@@ -57,6 +61,7 @@ export const chapters: ChapterMeta[] = [
     title: "Errors, try, catch, defer",
     level: "core",
     goal: "Treat errors as values and clean up with defer.",
+    stub: true,
   },
   {
     id: "types-user",
@@ -64,6 +69,7 @@ export const chapters: ChapterMeta[] = [
     title: "Structs, enums, unions",
     level: "core",
     goal: "Model data with structs, enums, and unions.",
+    stub: true,
   },
   {
     id: "memory",
@@ -71,6 +77,7 @@ export const chapters: ChapterMeta[] = [
     title: "Pointers and optionals",
     level: "advanced",
     goal: "Use pointers and optionals without guessing.",
+    stub: true,
   },
   {
     id: "comptime",
@@ -78,6 +85,7 @@ export const chapters: ChapterMeta[] = [
     title: "Comptime basics",
     level: "advanced",
     goal: "See comptime as ordinary Zig that runs while compiling.",
+    stub: true,
   },
   {
     id: "interop",
@@ -85,6 +93,7 @@ export const chapters: ChapterMeta[] = [
     title: "Build and C interop",
     level: "advanced",
     goal: "Know what zig build and talking to C are for.",
+    stub: true,
   },
   {
     id: "capstone",
@@ -92,5 +101,6 @@ export const chapters: ChapterMeta[] = [
     title: "Capstone",
     level: "advanced",
     goal: "Put a few ideas together, then know what to learn next.",
+    stub: true,
   },
 ];

@@ -23,7 +23,7 @@ import {
 import { siteConfig, externalLinkProps } from "@/config/site";
 import { en } from "@/lib/i18n/en";
 import { mainNav } from "@/lib/nav";
-import { cn } from "@/lib/utils";
+import { chromeLinkClass, cn } from "@/lib/utils";
 
 function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -48,6 +48,7 @@ function NavLinks({
             href={item.href}
             onClick={onNavigate}
             className={cn(
+              chromeLinkClass,
               "text-sm font-medium transition-colors duration-150 ease-out",
               active
                 ? "text-foreground underline decoration-primary decoration-2 underline-offset-8"

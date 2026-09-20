@@ -105,6 +105,16 @@ export function writeLessonDraft(
   window.dispatchEvent(new Event("ziglab-storage"));
 }
 
+export function clearLessonDrafts() {
+  if (!canUseStorage()) {
+    return;
+  }
+
+  window.localStorage.removeItem(LESSON_DRAFT_KEY);
+  invalidateCache();
+  window.dispatchEvent(new Event("ziglab-storage"));
+}
+
 export function subscribeLessonDraft(onStoreChange: () => void) {
   if (!canUseStorage()) {
     return () => {};

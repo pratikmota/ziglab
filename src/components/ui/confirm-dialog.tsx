@@ -17,6 +17,7 @@ export function ConfirmDialog({
   title,
   description,
   confirmLabel,
+  confirmVariant = "default",
   onConfirm,
 }: {
   open: boolean;
@@ -24,6 +25,7 @@ export function ConfirmDialog({
   title: string;
   description: string;
   confirmLabel: string;
+  confirmVariant?: "default" | "destructive";
   onConfirm: () => void;
 }) {
   return (
@@ -39,9 +41,10 @@ export function ConfirmDialog({
           </Button>
           <Button
             type="button"
+            variant={confirmVariant}
             onClick={() => {
-              onConfirm();
               onOpenChange(false);
+              onConfirm();
             }}
           >
             {confirmLabel}

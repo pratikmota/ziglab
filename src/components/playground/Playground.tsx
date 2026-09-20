@@ -10,7 +10,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 
-import { ConfirmDialog } from "@/components/playground/ConfirmDialog";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { EditorToolbar } from "@/components/playground/EditorToolbar";
 import {
   OUTPUT_COLLAPSED_HEIGHT,
@@ -193,7 +193,13 @@ export function Playground({
         title={resetTitle}
         description={resetBody}
         confirmLabel={en.play.resetConfirm}
-        onConfirm={() => onChange(template)}
+        onConfirm={() => {
+          const alreadyTemplate = source === template;
+          onChange(template);
+          if (!alreadyTemplate) {
+            toast.success(en.play.resetDone);
+          }
+        }}
       />
     </div>
   );

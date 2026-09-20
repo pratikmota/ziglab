@@ -78,6 +78,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
     id: entry.id,
     order: entry.order,
     title: entry.title,
+    stub: entry.stub,
     lessons: allLessons
       .filter((item) => item.chapter === entry.id)
       .map((item) => ({

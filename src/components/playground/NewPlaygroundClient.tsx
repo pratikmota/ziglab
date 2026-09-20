@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { ConfirmDialog } from "@/components/playground/ConfirmDialog";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { PLAYGROUND_HELLO_SOURCE } from "@/lib/content/hello-zig";
 import { en } from "@/lib/i18n/en";
 import { writePlayDraft } from "@/lib/play-draft";

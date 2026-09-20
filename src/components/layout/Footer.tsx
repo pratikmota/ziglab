@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { siteConfig, externalLinkProps } from "@/config/site";
 import { en } from "@/lib/i18n/en";
 import { footerNav, legalNav } from "@/lib/nav";
+import { chromeLinkClass, cn } from "@/lib/utils";
 
 function SocialIcon({
   href,
@@ -26,7 +27,10 @@ function SocialIcon({
       href={href}
       {...externalLinkProps}
       aria-label={label}
-      className="text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className={cn(
+        chromeLinkClass,
+        "text-muted-foreground transition-colors duration-150 ease-out hover:text-foreground"
+      )}
     >
       {children}
     </a>
@@ -60,7 +64,10 @@ export function Footer({ compact = false }: { compact?: boolean }) {
               <a
                 href={siteConfig.github}
                 {...externalLinkProps}
-                className="font-medium text-foreground underline-offset-4 hover:underline"
+                className={cn(
+                  chromeLinkClass,
+                  "font-medium text-foreground underline-offset-4 hover:underline"
+                )}
               >
                 {en.footer.openSource}
               </a>
@@ -77,7 +84,10 @@ export function Footer({ compact = false }: { compact?: boolean }) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-foreground/90 hover:text-foreground"
+                      className={cn(
+                        chromeLinkClass,
+                        "text-foreground/90 hover:text-foreground"
+                      )}
                     >
                       {item.label}
                     </Link>
@@ -94,7 +104,10 @@ export function Footer({ compact = false }: { compact?: boolean }) {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-foreground/90 hover:text-foreground"
+                      className={cn(
+                        chromeLinkClass,
+                        "text-foreground/90 hover:text-foreground"
+                      )}
                     >
                       {item.label}
                     </Link>
@@ -108,7 +121,10 @@ export function Footer({ compact = false }: { compact?: boolean }) {
               </p>
               <Link
                 href="/sponsors"
-                className="text-sm font-medium text-primary hover:text-[color:var(--accent-hover)]"
+                className={cn(
+                  chromeLinkClass,
+                  "text-sm font-medium text-primary hover:text-[color:var(--accent-hover)]"
+                )}
               >
                 {en.sponsors.keepOnline}
               </Link>
@@ -128,7 +144,10 @@ export function Footer({ compact = false }: { compact?: boolean }) {
               <a
                 href={siteConfig.zigOfficial}
                 {...externalLinkProps}
-                className="underline-offset-4 hover:underline"
+                className={cn(
+                  chromeLinkClass,
+                  "underline-offset-4 hover:underline"
+                )}
               >
                 ziglang.org
               </a>

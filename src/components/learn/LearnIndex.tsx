@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 
 import { chapters, type ChapterLevel, type ChapterMeta } from "@content/curriculum";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +15,7 @@ import {
 } from "@/components/ui/progress";
 import { getLessonHref, type LessonMeta } from "@/lib/content/lesson-model";
 import { en } from "@/lib/i18n/en";
-import { useProgress } from "@/lib/progress";
+import { clearLearnProgress, hasLearnLocalData, useProgress } from "@/lib/progress";
 import { cn } from "@/lib/utils";
 
 export type LearnIndexLesson = Pick<
@@ -35,12 +38,14 @@ export function LearnIndex({
   lessons: LearnIndexLesson[];
 }) {
   const progress = useProgress();
+  const [clearOpen, setClearOpen] = useState(false);
   const total = lessons.length;
   const completedCount = lessons.filter((lesson) =>
     progress.completed.includes(lesson.id)
   ).length;
   const percent = total === 0 ? 0 : Math.round((completedCount / total) * 100);
   const lastLesson = lessons.find((lesson) => lesson.id === progress.lastLesson);
+  const hasProgress = hasLearnLocalData();
 
   const lessonsByChapter = new Map<string, LearnIndexLesson[]>();
   for (const lesson of lessons) {
@@ -51,13 +56,25 @@ export function LearnIndex({
 
   return (
     <div className="space-y-8">
-      <Progress
-        value={percent}
-        className="max-w-md [&_[data-slot=progress-track]]:h-2"
-      >
-        <ProgressLabel>{en.learn.progress}</ProgressLabel>
-        <ProgressValue>{() => `${completedCount}/${total}`}</ProgressValue>
-      </Progress>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <Progress
+          value={percent}
+          className="max-w-md flex-1 [&_[data-slot=progress-track]]:h-2"
+        >
+          <ProgressLabel>{en.learn.progress}</ProgressLabel>
+          <ProgressValue>{() => `${completedCount}/${total}`}</ProgressValue>
+        </Progress>
+        {hasProgress ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setClearOpen(true)}
+          >
+            {en.learn.clearProgress}
+          </Button>
+        ) : null}
+      </div>
 
       <div className="flex min-h-8 items-center">
         {lastLesson ? (
@@ -69,6 +86,19 @@ export function LearnIndex({
           </Button>
         ) : null}
       </div>
+
+      <ConfirmDialog
+        open={clearOpen}
+        onOpenChange={setClearOpen}
+        title={en.learn.clearProgressTitle}
+        description={en.learn.clearProgressBody}
+        confirmLabel={en.learn.clearProgressConfirm}
+        confirmVariant="destructive"
+        onConfirm={() => {
+          clearLearnProgress();
+          toast.success(en.learn.clearedProgress);
+        }}
+      />
 
       <ul className="grid gap-3 sm:grid-cols-2">
         {chapters.map((chapter) => (

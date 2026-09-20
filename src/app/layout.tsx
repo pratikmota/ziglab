@@ -42,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${jetbrainsMono.variable} min-h-dvh antialiased`}
     >
       <body className="flex min-h-dvh flex-col">

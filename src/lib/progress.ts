@@ -2,6 +2,8 @@
 
 import { useSyncExternalStore } from "react";
 
+import { clearLessonDrafts, readLessonDraftStore } from "@/lib/lesson-draft";
+
 export const PROGRESS_KEY = "ziglab.progress.v1";
 export const QUIZ_KEY = "ziglab.quiz.v1";
 
@@ -112,6 +114,30 @@ export function markLessonComplete(lessonId: string) {
 
 export function isLessonComplete(lessonId: string, progress = readProgress()) {
   return progress.completed.includes(lessonId);
+}
+
+export function clearLearnProgress() {
+  if (!canUseStorage()) {
+    return;
+  }
+
+  window.localStorage.removeItem(PROGRESS_KEY);
+  window.localStorage.removeItem(QUIZ_KEY);
+  invalidateCache();
+  clearLessonDrafts();
+}
+
+export function hasLearnLocalData() {
+  const progress = readProgress();
+  if (progress.completed.length > 0 || progress.lastLesson) {
+    return true;
+  }
+
+  if (Object.keys(readQuizStore()).length > 0) {
+    return true;
+  }
+
+  return Object.keys(readLessonDraftStore()).length > 0;
 }
 
 export function readQuizStore(): QuizStore {
