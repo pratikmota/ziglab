@@ -47,8 +47,7 @@ function editorTheme(dark: boolean) {
         color: "var(--text)",
       },
       "&.cm-focused": {
-        outline: "2px solid var(--ring)",
-        outlineOffset: "-2px",
+        outline: "none",
       },
       ".cm-scroller": {
         overflow: "auto",
@@ -200,7 +199,10 @@ export default function CodeEditor({
   return (
     <div
       ref={parentRef}
-      className={cn("h-full min-h-0 overflow-hidden", className)}
+      className={cn(
+        "h-full min-h-0 overflow-hidden p-0.5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-ring",
+        className
+      )}
     />
   );
 }
