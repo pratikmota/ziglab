@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { en } from "@/lib/i18n/en";
+import { zigVersionLabel } from "@/lib/zig-version";
 
 const helloWorld = `const std = @import("std");
 
@@ -36,7 +37,7 @@ export function PlaygroundTeaser() {
         >
           <div className="flex items-center justify-between gap-3 border-b border-line px-3 py-2">
             <span className="rounded-md border border-line bg-bg-input px-2 py-1 font-mono text-xs text-muted-foreground">
-              {en.playground.channel}
+              {zigVersionLabel()}
             </span>
             <span className="rounded-md bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground">
               {en.playground.run}

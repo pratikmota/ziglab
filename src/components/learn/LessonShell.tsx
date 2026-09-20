@@ -84,7 +84,7 @@ export function LessonShell({
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-1">
       {!collapsed ? (
-        <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-[260px] shrink-0 flex-col border-r border-line bg-background pl-4 sm:pl-6 xl:flex">
+        <aside className="sticky top-14 hidden max-h-[calc(100dvh-3.5rem)] w-[260px] shrink-0 flex-col self-start overflow-y-auto border-r border-line bg-background pl-4 sm:pl-6 xl:flex">
           <div className="flex items-center justify-between gap-2 px-3 py-3">
             <p className="text-sm font-medium">{en.learn.lessons}</p>
             <Button
@@ -97,12 +97,12 @@ export function LessonShell({
               <PanelLeftClose />
             </Button>
           </div>
-          <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-6">
+          <div className="px-2 pb-6">
             <LessonNav chapters={chapters} currentId={lesson.id} />
           </div>
         </aside>
       ) : (
-        <div className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-12 shrink-0 flex-col items-center border-r border-line pt-3 xl:flex">
+        <div className="sticky top-14 hidden max-h-[calc(100dvh-3.5rem)] w-12 shrink-0 flex-col items-center self-start border-r border-line pt-3 xl:flex">
           <Button
             type="button"
             variant="ghost"

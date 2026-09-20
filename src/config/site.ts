@@ -14,6 +14,7 @@ export const siteConfig = {
   zigOfficial: "https://ziglang.org/",
   zigLearn: "https://ziglang.org/learn/",
   zsfDonate: "https://ziglang.org/zsf/",
+  zigStableLabel: "0.16.0",
   maintainer: {
     name: "Maintainer name",
     bio: "Placeholder bio. This will be filled before launch.",

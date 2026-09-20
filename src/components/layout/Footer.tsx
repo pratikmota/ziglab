@@ -33,8 +33,21 @@ function SocialIcon({
   );
 }
 
-export function Footer() {
+export function Footer({ compact = false }: { compact?: boolean }) {
   const year = new Date().getFullYear();
+
+  if (compact) {
+    return (
+      <footer className="border-t border-line bg-bg-elevated">
+        <div className="mx-auto flex h-9 w-full max-w-6xl items-center justify-between gap-3 px-4 text-xs text-muted-foreground sm:px-6">
+          <p className="truncate">{en.footer.tagline}</p>
+          <p className="shrink-0">
+            © {year} {en.footer.copyright}
+          </p>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className="border-t border-line bg-bg-elevated">

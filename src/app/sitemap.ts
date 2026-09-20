@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/learn",
+    "/play",
     "/about",
     "/sponsors",
     "/blog",
@@ -19,7 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteConfig.domain}${path}`,
     lastModified,
     changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : path === "/learn" ? 0.9 : 0.7,
+    priority:
+      path === "" ? 1 : path === "/learn" || path === "/play" ? 0.9 : 0.7,
   }));
 
   const lessons = listLessons().map((lesson) => ({

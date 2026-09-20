@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
-import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { siteConfig } from "@/config/site";
 import { en } from "@/lib/i18n/en";
@@ -41,9 +42,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${jetbrainsMono.variable} min-h-dvh antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-dvh flex-col">
         <ThemeProvider>
           <TooltipProvider>
             <a
@@ -56,7 +57,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <main id="content" className="flex flex-1 flex-col">
               {children}
             </main>
-            <Footer />
+            <SiteFooter />
+            <Toaster />
           </TooltipProvider>
         </ThemeProvider>
       </body>
