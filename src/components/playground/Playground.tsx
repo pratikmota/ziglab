@@ -19,30 +19,17 @@ import {
   OUTPUT_MIN_HEIGHT,
   OutputPanel,
 } from "@/components/playground/OutputPanel";
-import { siteConfig } from "@/config/site";
-import { getLessonHref } from "@/lib/content/lesson-model";
-import { en } from "@/lib/i18n/en";
+import type { PlaygroundChrome, PlaygroundPane } from "@/components/playground/types";
 import type { ExecutionAdapter, RunResult, ZigChannel } from "@/lib/execution/types";
-import { lessonReportUrl, playgroundReportUrl } from "@/lib/report";
+import { en } from "@/lib/i18n/en";
+import { cn } from "@/lib/utils";
 
 const CodeEditor = dynamic(() => import("@/components/editor/CodeEditor"), {
   ssr: false,
   loading: () => <div className="h-full bg-bg-input" aria-hidden />,
 });
 
-export type PlaygroundReportContext = {
-  kind: "playground" | "lesson";
-  lessonId?: string;
-};
-
-function lessonReportPath(lessonId: string) {
-  const [chapter, ...slugParts] = lessonId.split("/");
-  const slug = slugParts.join("/");
-  if (!chapter || !slug) {
-    return `/learn/${lessonId}`;
-  }
-  return getLessonHref({ chapter, slug });
-}
+export type { PlaygroundChrome, PlaygroundPane };
 
 export function Playground({
   source,
@@ -51,8 +38,13 @@ export function Playground({
   onChannelChange,
   adapter,
   template,
-  reportContext,
-  showNew = false,
+  chrome = {},
+  pane = "all",
+  matchSources,
+  expectedOutput,
+  resetTitle = en.play.resetTitle,
+  resetBody = en.play.resetBody,
+  className,
 }: {
   source: string;
   channel: ZigChannel;
@@ -60,8 +52,13 @@ export function Playground({
   onChannelChange: (channel: ZigChannel) => void;
   adapter: ExecutionAdapter;
   template: string;
-  reportContext: PlaygroundReportContext;
-  showNew?: boolean;
+  chrome?: PlaygroundChrome;
+  pane?: PlaygroundPane;
+  matchSources?: string[];
+  expectedOutput?: string;
+  resetTitle?: string;
+  resetBody?: string;
+  className?: string;
 }) {
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<RunResult | null>(null);
@@ -80,15 +77,6 @@ export function Playground({
     runningRef.current = running;
   }, [running]);
 
-  const reportHref =
-    reportContext.kind === "lesson" && reportContext.lessonId
-      ? lessonReportUrl(
-          reportContext.lessonId,
-          `${siteConfig.domain}${lessonReportPath(reportContext.lessonId)}`,
-          channel
-        )
-      : playgroundReportUrl(`${siteConfig.domain}/play`, channel);
-
   const handleRun = useCallback(async () => {
     if (runningRef.current) {
       return;
@@ -103,28 +91,15 @@ export function Playground({
       const next = await adapter.run({
         code: sourceRef.current,
         channel,
+        matchSources,
+        expectedOutput,
       });
       setResult(next);
     } finally {
       runningRef.current = false;
       setRunning(false);
     }
-  }, [adapter, channel]);
-
-  useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      if (resetOpen) {
-        return;
-      }
-      if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
-        event.preventDefault();
-        void handleRun();
-      }
-    }
-
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [handleRun, resetOpen]);
+  }, [adapter, channel, expectedOutput, matchSources]);
 
   function onResizeStart(event: ReactPointerEvent<HTMLDivElement>) {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -163,19 +138,28 @@ export function Playground({
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <EditorToolbar
-        channel={channel}
-        running={running}
-        showNew={showNew}
-        reportHref={reportHref}
-        onChannelChange={onChannelChange}
-        onRun={() => void handleRun()}
-        onReset={() => setResetOpen(true)}
-        onCopy={() => void handleCopy()}
-      />
+    <div className={cn("flex min-h-0 flex-1 flex-col", className)}>
+      <div className={cn(pane === "output" && "max-lg:hidden")}>
+        <EditorToolbar
+          channel={channel}
+          running={running}
+          compact={chrome.compact}
+          showFormat={chrome.showFormat}
+          newHref={chrome.newHref}
+          reportHref={chrome.reportHref}
+          onChannelChange={onChannelChange}
+          onRun={() => void handleRun()}
+          onReset={() => setResetOpen(true)}
+          onCopy={() => void handleCopy()}
+        />
+      </div>
       <p className="sr-only">{en.play.escHint}</p>
-      <div className="relative min-h-[160px] flex-1">
+      <div
+        className={cn(
+          "relative min-h-[160px] flex-1",
+          pane === "output" && "max-lg:hidden"
+        )}
+      >
         <CodeEditor
           className="absolute inset-0"
           value={source}
@@ -183,22 +167,31 @@ export function Playground({
           onRun={() => void handleRun()}
         />
       </div>
-      <OutputPanel
-        running={running}
-        result={result}
-        height={outputHeight}
-        collapsed={collapsed}
-        onToggleCollapsed={() => setCollapsed((open) => !open)}
-        onResizeStart={onResizeStart}
-        onResizeMove={onResizeMove}
-        onResizeEnd={onResizeEnd}
-        onClear={() => setResult(null)}
-      />
+      <div
+        className={cn(
+          "flex min-h-0 flex-col",
+          pane === "editor" && "max-lg:hidden",
+          pane === "output" && "max-lg:min-h-0 max-lg:flex-1"
+        )}
+      >
+        <OutputPanel
+          running={running}
+          result={result}
+          height={outputHeight}
+          collapsed={collapsed}
+          fill={pane === "output"}
+          onToggleCollapsed={() => setCollapsed((open) => !open)}
+          onResizeStart={onResizeStart}
+          onResizeMove={onResizeMove}
+          onResizeEnd={onResizeEnd}
+          onClear={() => setResult(null)}
+        />
+      </div>
       <ConfirmDialog
         open={resetOpen}
         onOpenChange={setResetOpen}
-        title={en.play.resetTitle}
-        description={en.play.resetBody}
+        title={resetTitle}
+        description={resetBody}
         confirmLabel={en.play.resetConfirm}
         onConfirm={() => onChange(template)}
       />

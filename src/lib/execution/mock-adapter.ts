@@ -46,9 +46,28 @@ export class MockAdapter implements ExecutionAdapter {
     const waitMs = 400 + Math.floor(Math.random() * 401);
     await delay(waitMs);
 
-    const matchesHello =
-      normalizeWhitespace(req.code) ===
-      normalizeWhitespace(PLAYGROUND_HELLO_SOURCE);
+    const normalizedCode = normalizeWhitespace(req.code);
+    const expected = req.expectedOutput?.replace(/\r\n/g, "\n");
+    const matchSources = req.matchSources ?? [];
+
+    if (expected && matchSources.length > 0) {
+      const matchesKnown = matchSources.some(
+        (source) => normalizedCode === normalizeWhitespace(source)
+      );
+      if (matchesKnown) {
+        return {
+          ok: true,
+          stdout: expected.endsWith("\n") ? expected : `${expected}\n`,
+          stderr: "",
+          exitCode: 0,
+          durationMs: 0,
+          compilerLabel: this.compilerLabel,
+          preview: true,
+        };
+      }
+    }
+
+    const matchesHello = normalizedCode === normalizeWhitespace(PLAYGROUND_HELLO_SOURCE);
 
     if (matchesHello) {
       return {

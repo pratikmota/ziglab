@@ -19,6 +19,7 @@ export function OutputPanel({
   result,
   height,
   collapsed,
+  fill = false,
   onToggleCollapsed,
   onResizeStart,
   onResizeMove,
@@ -29,6 +30,7 @@ export function OutputPanel({
   result: RunResult | null;
   height: number;
   collapsed: boolean;
+  fill?: boolean;
   onToggleCollapsed: () => void;
   onResizeStart: (event: ReactPointerEvent<HTMLDivElement>) => void;
   onResizeMove: (event: ReactPointerEvent<HTMLDivElement>) => void;
@@ -36,6 +38,7 @@ export function OutputPanel({
   onClear: () => void;
 }) {
   const panelHeight = collapsed ? OUTPUT_COLLAPSED_HEIGHT : height;
+  const fillExpanded = fill && !collapsed;
   const stdout = result?.stdout ?? "";
   const stderr = result?.stderr ?? "";
   const showPreview = Boolean(result?.preview);
@@ -44,8 +47,16 @@ export function OutputPanel({
 
   return (
     <section
-      className="flex shrink-0 flex-col border-t border-line bg-bg-elevated"
-      style={{ height: panelHeight }}
+      className={cn(
+        "flex flex-col border-t border-line bg-bg-elevated",
+        fillExpanded
+          ? "max-lg:min-h-0 max-lg:flex-1 lg:h-(--pg-output-h) lg:shrink-0"
+          : "shrink-0"
+      )}
+      style={{
+        ["--pg-output-h" as string]: `${panelHeight}px`,
+        ...(!fillExpanded ? { height: panelHeight } : {}),
+      }}
       aria-label={en.play.output}
     >
       {collapsed ? null : (

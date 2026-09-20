@@ -1,0 +1,71 @@
+---
+id: values/check-values
+chapter: values
+slug: check-values
+type: quiz
+title: Values check
+description: Four questions on const versus var, integer widths, floats, and overflow.
+order: 5
+level: start
+videoUrl: ""
+docsUrl: ""
+quiz:
+  - id: q1
+    prompt: "When should you use var instead of const?"
+    options:
+      - id: a
+        text: "For every local name. const is only for imports."
+      - id: b
+        text: "When the value must change after the binding."
+      - id: c
+        text: "When the value is a float."
+    answer: b
+    explain:
+      a: "const is the ordinary binding, including for numbers and bools."
+      b: "Correct. var is the exception: the name is allowed to be assigned again."
+      c: "Floats can be const. Mutability is not about integer versus float."
+  - id: q2
+    prompt: "What does u8 mean?"
+    options:
+      - id: a
+        text: "An unsigned 8-bit integer, 0 through 255."
+      - id: b
+        text: "A Unicode string of length 8."
+      - id: c
+        text: "A signed integer that wraps at 8."
+    answer: a
+    explain:
+      a: "Correct. u means unsigned. 8 is the bit width."
+      b: "Strings in Zig are bytes, but u8 is the integer type for one byte, not a string."
+      c: "Signed integers use i, as in i8. Wrapping is a separate choice of operator or build mode."
+  - id: q3
+    prompt: "Why does Zig keep integers and floats as different types?"
+    options:
+      - id: a
+        text: "So a fractional value cannot silently become a truncated integer."
+      - id: b
+        text: "Because floats are deprecated."
+      - id: c
+        text: "So you can add true to 1.5."
+    answer: a
+    explain:
+      a: "Correct. Conversions should be visible. Dropping .5 on the floor is easy to miss."
+      b: "f32 and f64 are ordinary primitive types."
+      c: "bool is not an integer, and floats are not bools."
+  - id: q4
+    prompt: "What happens on illegal integer overflow in Debug or ReleaseSafe?"
+    options:
+      - id: a
+        text: "The value wraps to 0 and the program continues with no signal."
+      - id: b
+        text: "Zig detects it and panics instead of wrapping in silence."
+      - id: c
+        text: "The compiler deletes the statement."
+    answer: b
+    explain:
+      a: "Silent wrap is the C-ish default Zig is trying not to hide. Use wrapping operators or a faster release mode when you mean that."
+      b: "Correct. Safe builds treat overflow as a bug unless you opt into wrapping."
+      c: "The statement is still there. The runtime check is what fires."
+---
+
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

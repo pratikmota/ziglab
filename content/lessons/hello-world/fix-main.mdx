@@ -1,0 +1,24 @@
+---
+id: hello-world/fix-main
+chapter: hello-world
+slug: fix-main
+type: challenge
+title: Make it run
+description: Repair a broken Hello World so the entry point is public.
+order: 3
+level: start
+videoUrl: ""
+docsUrl: ""
+starterFile: fix-main.zig
+expectedOutput: Hello, ZigLab
+hints:
+  - Zig looks for a public function named main as the program entry point.
+  - A function without pub is private to this file. The runtime cannot call it.
+  - Change fn main to pub fn main, then Run. The message can stay Hello, ZigLab.
+---
+
+This starter looks almost like Hello World, but it will not start. Something about `main` is missing.
+
+Fix the file so a Zig runtime would find an entry point. Do not invent a new program — repair this one toward the tiny program you already know.
+
+Show a hint if you want a nudge. One hint at a time. Mark complete when you have made the change, even while the runner is still a preview.

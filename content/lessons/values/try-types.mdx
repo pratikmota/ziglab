@@ -1,0 +1,22 @@
+---
+id: values/try-types
+chapter: values
+slug: try-types
+type: try
+title: Name the types
+description: Read typed const and var bindings and print their values.
+order: 2
+level: start
+videoUrl: ""
+docsUrl: ""
+starterFile: try-types.zig
+expectedOutput: "count=7 ratio=1.5 ready=true"
+hints:
+  - "Each binding names a type after the colon: i32, f64, bool."
+  - "count is const, so you would not assign a new integer later. ready is var, so it may change."
+  - "The print call fills {d}, {d}, and {} from the tuple in order. Run the starter to see the preview line."
+---
+
+The starter declares three values: an integer, a float, and a boolean. Read the types on the left of each `=`.
+
+You can change a number or flip `ready` if you want. The preview runner will still show the starter output until the real compiler is connected. The point of this page is to look at `const`, `var`, and the type names together.

@@ -1,0 +1,20 @@
+---
+id: values/overflow-safety
+chapter: values
+slug: overflow-safety
+type: concept
+title: Safety note
+description: Zig cares about integer overflow. Default builds catch it instead of wrapping in silence.
+order: 4
+level: start
+videoUrl: ""
+docsUrl: "https://ziglang.org/documentation/0.16.0/#Integers"
+---
+
+In many C programs, adding one to a `uint8_t` that already holds 255 wraps to 0 and the program continues. That wrap can be what you wanted. Often it is a bug that shows up later.
+
+Zig’s default Debug and ReleaseSafe builds **detect illegal overflow** on wrapping-prone integer math and panic instead of pretending the math was fine. ReleaseFast and ReleaseSmall can drop those checks when you ask for speed or size. There are also wrapping operators (`+%` and friends) when wraparound is the point.
+
+You do not need to memorize the operator table today. Take the tone: **overflow is not invisible**. If a `u8` cannot hold the next value, Zig would rather stop you in a safe build than invent a wrong number.
+
+There is no editor on this page. The idea is small and it belongs in your head before later chapters start indexing arrays.

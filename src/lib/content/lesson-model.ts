@@ -34,6 +34,8 @@ export type LessonMeta = {
   docsUrl: string;
   starterFile: string;
   comingFrom: ComingFrom;
+  hints: string[];
+  expectedOutput: string;
   quiz: QuizItem[];
 };
 

@@ -1,0 +1,27 @@
+---
+id: values/const-and-var
+chapter: values
+slug: const-and-var
+type: concept
+title: const and var
+description: Bind a name with const by default. Use var only when the value must change.
+order: 1
+level: start
+videoUrl: ""
+docsUrl: "https://ziglang.org/documentation/0.16.0/#Assignment"
+comingFrom:
+  c: "C lets you mutate a local unless you mark it const. Zig flips the default: const is the ordinary binding, var is the exception."
+  rust: "Like let versus let mut: immutability is the default. Zig writes that default as const, and mutation as var."
+---
+
+A name in Zig is either **const** or **var**.
+
+`const count = 3;` binds `count` to `3`. You cannot assign a new value later. That is the usual choice.
+
+`var ready = true;` binds `ready` and allows `ready = false;` later. Use `var` only when the value must change.
+
+The compiler checks this. If you write `const` and then assign, the program does not compile. That is a feature: the page tells you whether a name is allowed to move.
+
+You can still give a type on either kind of binding: `const count: i32 = 3;`. If you omit the type, Zig infers it from the value when it can.
+
+Next you will see a few typed values in an editor. After that, a short note on integers, floats, and overflow — still reading, no editor.

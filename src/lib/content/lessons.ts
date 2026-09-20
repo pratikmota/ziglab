@@ -146,6 +146,24 @@ function parseQuiz(value: unknown, lessonId: string, type: LessonType): QuizItem
   });
 }
 
+function parseHints(value: unknown, lessonId: string): string[] {
+  if (value == null || value === "") {
+    return [];
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error(`Lesson "${lessonId}" has invalid hints.`);
+  }
+
+  return value.map((item, index) => {
+    const text = asString(item);
+    if (!text) {
+      throw new Error(`Lesson "${lessonId}" hint ${index + 1} is empty.`);
+    }
+    return text;
+  });
+}
+
 function parseLesson(chapter: string, slug: string, raw: string): Lesson {
   const { data, content } = matter(raw);
   const lessonId = `${chapter}/${slug}`;
@@ -171,6 +189,15 @@ function parseLesson(chapter: string, slug: string, raw: string): Lesson {
   const starterFile = asString(data.starterFile);
   if ((type === "concept" || type === "quiz") && starterFile) {
     throw new Error(`Lesson "${lessonId}" is ${type} and must not have starterFile.`);
+  }
+  if ((type === "try" || type === "challenge") && !starterFile) {
+    throw new Error(`Lesson "${lessonId}" is ${type} and needs starterFile.`);
+  }
+  if (starterFile) {
+    const zigPath = resolveUnder(LESSONS_DIR, chapter, starterFile);
+    if (!zigPath || !fs.existsSync(zigPath)) {
+      throw new Error(`Lesson "${lessonId}" starter "${starterFile}" is missing.`);
+    }
   }
 
   const frontId = asString(data.id) || lessonId;
@@ -199,6 +226,8 @@ function parseLesson(chapter: string, slug: string, raw: string): Lesson {
     docsUrl: asString(data.docsUrl),
     starterFile,
     comingFrom: parseComingFrom(data.comingFrom, lessonId),
+    hints: parseHints(data.hints, lessonId),
+    expectedOutput: asString(data.expectedOutput),
     quiz: parseQuiz(data.quiz, lessonId, type),
     content,
   };
@@ -266,6 +295,8 @@ export function listLessons(): LessonMeta[] {
         docsUrl,
         starterFile,
         comingFrom,
+        hints,
+        expectedOutput,
         quiz,
       }) => ({
         id,
@@ -280,9 +311,24 @@ export function listLessons(): LessonMeta[] {
         docsUrl,
         starterFile,
         comingFrom,
+        hints,
+        expectedOutput,
         quiz,
       })
     );
+}
+
+export function readStarterSource(lesson: Pick<LessonMeta, "id" | "chapter" | "starterFile">) {
+  if (!lesson.starterFile) {
+    throw new Error(`Lesson "${lesson.id}" has no starterFile.`);
+  }
+
+  const filePath = resolveUnder(LESSONS_DIR, lesson.chapter, lesson.starterFile);
+  if (!filePath || !fs.existsSync(filePath)) {
+    throw new Error(`Lesson "${lesson.id}" starter "${lesson.starterFile}" is missing.`);
+  }
+
+  return fs.readFileSync(filePath, "utf8");
 }
 
 export function getAdjacentLessons(lessonId: string) {

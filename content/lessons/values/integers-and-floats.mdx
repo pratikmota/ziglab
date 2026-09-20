@@ -1,0 +1,24 @@
+---
+id: values/integers-and-floats
+chapter: values
+slug: integers-and-floats
+type: concept
+title: Integers and floats
+description: Zig names integer widths and keeps integers and floats as different kinds of number.
+order: 3
+level: start
+videoUrl: ""
+docsUrl: "https://ziglang.org/documentation/0.16.0/#Primitive-Types"
+---
+
+Zig does not treat “a number” as one type. Integers and floats are separate, and integers have a **width**.
+
+**Integers.** `i32` is a signed 32-bit integer. `u8` is an unsigned 8-bit integer (0 through 255). `i64`, `u16`, and the rest follow the same pattern: `i` or `u`, then the bit count. `usize` is the pointer-sized unsigned integer, used for indexes and sizes.
+
+**Comptime integers.** A bare `3` in source is a comptime integer until it has to pick a concrete type — for example when you write `const count: i32 = 3;`. You do not need the details today. Remember that the type is not guessed from “it looks numeric.”
+
+**Floats.** `f32` and `f64` are IEEE floats. You cannot assign a float to an integer slot without being explicit. Zig would rather you notice the conversion than silently drop the fractional part.
+
+**Bool.** `bool` is `true` or `false`. It is not an integer, even though some languages let you add `true` to `1`.
+
+Pick the width you mean. A `u8` that overflows is a different story from a `u32`. The next page is a short safety note about that.

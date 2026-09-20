@@ -6,14 +6,32 @@ import { LessonShell } from "@/components/learn/LessonShell";
 import { Quiz } from "@/components/learn/Quiz";
 import { VideoEmbed } from "@/components/learn/VideoEmbed";
 import { chapters } from "@content/curriculum";
+import { PLAYGROUND_HELLO_SOURCE } from "@/lib/content/hello-zig";
 import {
   getAdjacentLessons,
   getLesson,
   getLessonHref,
   listLessons,
+  readStarterSource,
 } from "@/lib/content/lessons";
 import { compileMdx } from "@/lib/content/mdx";
 import { routeMetadata } from "@/lib/seo";
+
+function uniqueMatchSources(sources: string[]) {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const source of sources) {
+    const key = source.replace(/\r\n/g, "\n").replace(/[ \t]+$/gm, "").trim();
+    if (!key || seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    result.push(source);
+  }
+
+  return result;
+}
 
 type LessonPageProps = {
   params: Promise<{ chapter: string; slug: string }>;
@@ -87,6 +105,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
       }
     : null;
 
+  const hasEditor = lesson.type === "try" || lesson.type === "challenge";
+  const starter = hasEditor ? readStarterSource(lesson) : "";
+  const matchSources =
+    lesson.type === "challenge"
+      ? [PLAYGROUND_HELLO_SOURCE]
+      : uniqueMatchSources([starter, PLAYGROUND_HELLO_SOURCE]);
+
   return (
     <LessonShell
       lesson={{
@@ -101,6 +126,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
       previous={previous}
       next={next}
       chapters={navChapters}
+      starter={starter || undefined}
+      matchSources={hasEditor ? matchSources : undefined}
+      hints={lesson.hints}
+      expectedOutput={lesson.expectedOutput}
     >
       <article>
         <ComingFromCallout comingFrom={lesson.comingFrom} />

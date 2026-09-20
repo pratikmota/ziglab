@@ -12,6 +12,8 @@ export type RunRequest = {
   code: string;
   channel: ZigChannel;
   timeoutMs?: number;
+  matchSources?: string[];
+  expectedOutput?: string;
 };
 
 export type RunResult = {

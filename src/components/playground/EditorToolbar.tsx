@@ -43,7 +43,9 @@ function DisabledTooltip({
 export function EditorToolbar({
   channel,
   running,
-  showNew,
+  compact = false,
+  showFormat = false,
+  newHref,
   reportHref,
   onChannelChange,
   onRun,
@@ -52,8 +54,10 @@ export function EditorToolbar({
 }: {
   channel: ZigChannel;
   running: boolean;
-  showNew: boolean;
-  reportHref: string;
+  compact?: boolean;
+  showFormat?: boolean;
+  newHref?: string;
+  reportHref?: string;
   onChannelChange: (channel: ZigChannel) => void;
   onRun: () => void;
   onReset: () => void;
@@ -114,41 +118,82 @@ export function EditorToolbar({
           {en.play.run}
         </Button>
 
-        <Button type="button" variant="outline" size="sm" onClick={onReset}>
-          <RotateCcw />
-          {en.play.reset}
-        </Button>
+        {compact ? (
+          <>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label={en.play.reset}
+                    onClick={onReset}
+                  />
+                }
+              >
+                <RotateCcw />
+              </TooltipTrigger>
+              <TooltipContent>{en.play.reset}</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label={en.play.copy}
+                    onClick={onCopy}
+                  />
+                }
+              >
+                <Copy />
+              </TooltipTrigger>
+              <TooltipContent>{en.play.copy}</TooltipContent>
+            </Tooltip>
+          </>
+        ) : (
+          <>
+            <Button type="button" variant="outline" size="sm" onClick={onReset}>
+              <RotateCcw />
+              {en.play.reset}
+            </Button>
 
-        <Button type="button" variant="outline" size="sm" onClick={onCopy}>
-          <Copy />
-          {en.play.copy}
-        </Button>
+            <Button type="button" variant="outline" size="sm" onClick={onCopy}>
+              <Copy />
+              {en.play.copy}
+            </Button>
+          </>
+        )}
 
-        <DisabledTooltip label={en.play.format} hint={en.play.formatSoon} />
+        {compact ? null : showFormat ? (
+          <DisabledTooltip label={en.play.format} hint={en.play.formatSoon} />
+        ) : null}
 
-        {showNew ? (
+        {compact ? null : newHref ? (
           <Button
             variant="outline"
             size="sm"
             nativeButton={false}
-            render={<Link href="/play/new" />}
+            render={<Link href={newHref} />}
           >
             <Plus />
             {en.play.new}
           </Button>
         ) : null}
 
-        <DisabledTooltip label={en.play.share} hint={en.play.shareSoon} />
-
-        <Button
-          variant="outline"
-          size="sm"
-          nativeButton={false}
-          render={<a href={reportHref} {...externalLinkProps} />}
-        >
-          <Flag />
-          {en.play.report}
-        </Button>
+        {compact ? null : reportHref ? (
+          <Button
+            variant="outline"
+            size="sm"
+            nativeButton={false}
+            render={<a href={reportHref} {...externalLinkProps} />}
+          >
+            <Flag />
+            {en.play.report}
+          </Button>
+        ) : null}
       </div>
       <p className="mt-1.5 text-[11px] text-muted-foreground">
         {en.play.channelHint}

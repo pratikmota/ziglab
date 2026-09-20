@@ -1,0 +1,30 @@
+---
+id: hello-world/a-tiny-program
+chapter: hello-world
+slug: a-tiny-program
+type: concept
+title: A tiny program
+description: Walk through import, pub fn main, and the print call in a complete Zig program.
+order: 1
+level: start
+videoUrl: ""
+docsUrl: "https://ziglang.org/learn/"
+---
+
+A Zig program that prints a line is already a complete program. Three pieces do the work.
+
+**Import.** `const std = @import("std");` loads the standard library and binds it to the name `std`. `@import` is a builtin: the compiler handles it. You are not calling a function that runs later.
+
+**The entry point.** `pub fn main() void { ... }` is where the program starts. `fn` declares a function. `pub` means other code — here, the runtime — may call it. `void` means this `main` does not return a value.
+
+**Print.** `std.debug.print` writes to stderr. The first argument is a format string. `\n` is a newline. The second argument, `.{ }`, is a tuple of values to fill into the string. For a fixed message, the tuple is empty.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    std.debug.print("Hello, ZigLab\n", .{});
+}
+```
+
+Read it top to bottom. There is no hidden class, no implicit `main` generated from a file name, and no extra step that “starts the app.” The next lesson puts this same program in an editor so you can change the message.

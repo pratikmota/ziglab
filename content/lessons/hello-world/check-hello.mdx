@@ -1,0 +1,71 @@
+---
+id: hello-world/check-hello
+chapter: hello-world
+slug: check-hello
+type: quiz
+title: First program check
+description: Four questions on import, main, print, and what pub is for.
+order: 4
+level: start
+videoUrl: ""
+docsUrl: ""
+quiz:
+  - id: q1
+    prompt: "What does const std = @import(\"std\"); do?"
+    options:
+      - id: a
+        text: "It downloads the standard library from the network when the program runs."
+      - id: b
+        text: "It loads the standard library at compile time and binds it to the name std."
+      - id: c
+        text: "It prints the word std."
+    answer: b
+    explain:
+      a: "Import is a compile-time builtin. Nothing is fetched when main runs."
+      b: "Correct. @import is handled by the compiler. std is just the name you chose."
+      c: "The line is a binding, not a print."
+  - id: q2
+    prompt: "Why does main usually start with pub?"
+    options:
+      - id: a
+        text: "So the runtime (or other code) can call it. Without pub, main stays private to the file."
+      - id: b
+        text: "pub means the function returns a value."
+      - id: c
+        text: "pub turns on the garbage collector for that function."
+    answer: a
+    explain:
+      a: "Correct. pub is visibility. The entry point has to be visible."
+      b: "The return type is written after the parentheses, like void."
+      c: "Zig does not have a garbage collector."
+  - id: q3
+    prompt: "What is the second argument to std.debug.print in Hello World?"
+    options:
+      - id: a
+        text: "A file path where the text should be saved."
+      - id: b
+        text: "A tuple of values to fill into the format string. It can be empty."
+      - id: c
+        text: "The Zig version to compile with."
+    answer: b
+    explain:
+      a: "print writes to stderr. It does not take an output path in this call."
+      b: "Correct. .{ } is an empty tuple because the message has no placeholders to fill."
+      c: "The compiler version is not an argument to print."
+  - id: q4
+    prompt: "Which statement about this tiny program is true?"
+    options:
+      - id: a
+        text: "The file name silently becomes main. You do not write a function."
+      - id: b
+        text: "A hidden class wraps the file and constructs the program."
+      - id: c
+        text: "You write import, pub fn main, and the print call. What you see is what runs."
+    answer: c
+    explain:
+      a: "Zig does not invent main from the file name. You write the function."
+      b: "There is no implicit class around a .zig file."
+      c: "Correct. The three pieces are on the page."
+---
+
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.
