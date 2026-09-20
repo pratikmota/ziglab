@@ -1,0 +1,17 @@
+# -Ddev=wasm must include legalize or zig.wasm panics when emitting wasm.
+--- a/src/dev.zig
++++ b/src/dev.zig
+@@ -197,10 +197,9 @@
+                 else => Env.sema.supports(feature),
+             },
+             .wasm => switch (feature) {
+-                .stdio_listen,
+-                .incremental,
+                 .wasm_backend,
+                 .wasm_linker,
++                .legalize,
+                 => true,
+                 else => Env.sema.supports(feature),
+             },
+             .@"x86_64-linux" => switch (feature) {
+                 .build_command,

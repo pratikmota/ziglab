@@ -38,3 +38,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# WASM toolchain (07-1): bulky trees, not Zig source
+/tools/zig-wasm/dist/
+/tools/zig-wasm/.cache/
+/tools/zig-wasm/.zig-cache/
+/tools/zig-wasm/zig-out/
+/tools/zig-wasm/.vendor/
+/tools/zig-wasm/spike/node_modules/
+
+# In-tree unpack of official Zig (do not commit)
+/ziglang-source/
