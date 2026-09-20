@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { toast } from "sonner";
@@ -20,7 +21,7 @@ import {
   OutputPanel,
 } from "@/components/playground/OutputPanel";
 import type { PlaygroundChrome, PlaygroundPane } from "@/components/playground/types";
-import type { ExecutionAdapter, RunResult, ZigChannel } from "@/lib/execution/types";
+import type { ExecutionAdapter, RunResult, RunStatus, ZigChannel } from "@/lib/execution/types";
 import { en } from "@/lib/i18n/en";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,15 @@ const CodeEditor = dynamic(() => import("@/components/editor/CodeEditor"), {
   ssr: false,
   loading: () => <div className="h-full bg-bg-input" aria-hidden />,
 });
+
+function subscribeNever() {
+  return () => {};
+}
+
+/** False on the server and the hydration render so adapter chrome cannot mismatch. */
+function useClientPaint() {
+  return useSyncExternalStore(subscribeNever, () => true, () => false);
+}
 
 export type { PlaygroundChrome, PlaygroundPane };
 
@@ -61,6 +71,10 @@ export function Playground({
   className?: string;
 }) {
   const [running, setRunning] = useState(false);
+  const [statusForAdapter, setStatusForAdapter] = useState<{
+    id: string;
+    status: RunStatus;
+  }>({ id: adapter.id, status: "loading" });
   const [result, setResult] = useState<RunResult | null>(null);
   const [resetOpen, setResetOpen] = useState(false);
   const [outputHeight, setOutputHeight] = useState(OUTPUT_DEFAULT_HEIGHT);
@@ -68,6 +82,13 @@ export function Playground({
   const dragRef = useRef<{ startY: number; startHeight: number } | null>(null);
   const sourceRef = useRef(source);
   const runningRef = useRef(running);
+  const clientPaint = useClientPaint();
+
+  const adapterStatus: RunStatus = clientPaint
+    ? statusForAdapter.id === adapter.id
+      ? statusForAdapter.status
+      : "loading"
+    : "loading";
 
   useEffect(() => {
     sourceRef.current = source;
@@ -76,6 +97,16 @@ export function Playground({
   useEffect(() => {
     runningRef.current = running;
   }, [running]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void Promise.resolve(adapter.status()).then((next) => {
+      if (!cancelled) setStatusForAdapter({ id: adapter.id, status: next });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [adapter]);
 
   const handleRun = useCallback(async () => {
     if (runningRef.current) {
@@ -143,6 +174,7 @@ export function Playground({
         <EditorToolbar
           channel={channel}
           running={running}
+          adapterStatus={adapterStatus}
           compact={chrome.compact}
           showFormat={chrome.showFormat}
           newHref={chrome.newHref}
@@ -176,6 +208,7 @@ export function Playground({
       >
         <OutputPanel
           running={running}
+          adapterStatus={adapterStatus}
           result={result}
           height={outputHeight}
           collapsed={collapsed}

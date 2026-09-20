@@ -145,6 +145,34 @@ function guestWasiImport(instance: WASI): WebAssembly.Imports["wasi_snapshot_pre
   };
 }
 
+/** Instantiate zig.wasm with WASI imports. Does not call _start. */
+export async function probeZigWasm(zigWasm: Uint8Array): Promise<void> {
+  const probeWasi = new WASI(
+    ["zig.wasm"],
+    [],
+    [
+      new OpenFile(new File([])),
+      new OpenFile(new File([])),
+      new OpenFile(new File([])),
+      new PreopenDirectory(".", new Map()),
+      new PreopenDirectory("/lib", new Map()),
+      new PreopenDirectory("/cache", new Map()),
+    ],
+    { debug: false },
+  );
+  try {
+    const compiled = await WebAssembly.instantiate(wasmBytes(zigWasm), {
+      wasi_snapshot_preview1: guestWasiImport(probeWasi),
+    });
+    asWasiStart(compiled.instance);
+    installMemoryCap(compiled.instance);
+  } catch (err) {
+    if (err instanceof WasiGuestError) throw err;
+    const message = err instanceof Error ? err.message : "instantiate failed";
+    throw new WasiGuestError("unavailable", `zig.wasm instantiate failed: ${message}`);
+  }
+}
+
 function asFile(inode: Inode | undefined): File | undefined {
   return inode instanceof File ? inode : undefined;
 }

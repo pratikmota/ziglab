@@ -49,3 +49,6 @@ next-env.d.ts
 
 # In-tree unpack of official Zig (do not commit)
 /ziglang-source/
+
+# WASM playground artifacts (07-3): copied from tools/zig-wasm/dist via pnpm wasm:publish
+/public/wasm/

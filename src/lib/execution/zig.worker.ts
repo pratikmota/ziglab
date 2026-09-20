@@ -3,6 +3,7 @@ import {
   compileZigSource,
   fetchZigArtifacts,
   loadTimeoutSignal,
+  probeZigWasm,
   rejectOversizedSource,
   runCompiledWasm,
   unpackStdLib,
@@ -50,18 +51,45 @@ async function libTreeFor(stdUrl: string, stdArchive: Uint8Array): Promise<Map<s
   return cloneInodeTree(tree);
 }
 
-async function handleRun(req: ZigWorkerRequest): Promise<void> {
+async function loadArtifacts(
+  artifacts: ZigWorkerRequest["artifacts"],
+  loadTimeoutMs: number | undefined,
+  id: number,
+) {
+  post({ type: "stage", id, stage: "fetch" });
+  const loaded = await fetchZigArtifacts(artifacts, {
+    cache: artifactCache,
+    signal: loadTimeoutSignal(loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS),
+  });
+  await libTreeFor(artifacts.stdUrl, loaded.stdArchive);
+  return loaded;
+}
+
+async function handlePreload(req: Extract<ZigWorkerRequest, { type: "preload" }>): Promise<void> {
+  const started = Date.now();
+  const loaded = await loadArtifacts(req.artifacts, req.loadTimeoutMs, req.id);
+  await probeZigWasm(loaded.zigWasm);
+  post({
+    type: "result",
+    id: req.id,
+    result: {
+      ok: true,
+      stdout: "",
+      stderr: "",
+      exitCode: 0,
+      durationMs: Date.now() - started,
+    },
+  });
+}
+
+async function handleRun(req: Extract<ZigWorkerRequest, { type: "run" }>): Promise<void> {
   const oversized = rejectOversizedSource(req.code);
   if (oversized) {
     post({ type: "result", id: req.id, result: oversized });
     return;
   }
 
-  post({ type: "stage", id: req.id, stage: "fetch" });
-  const loaded = await fetchZigArtifacts(req.artifacts, {
-    cache: artifactCache,
-    signal: loadTimeoutSignal(req.loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS),
-  });
+  const loaded = await loadArtifacts(req.artifacts, req.loadTimeoutMs, req.id);
   const libTree = await libTreeFor(req.artifacts.stdUrl, loaded.stdArchive);
 
   post({ type: "stage", id: req.id, stage: "compile" });
@@ -82,7 +110,14 @@ async function handleRun(req: ZigWorkerRequest): Promise<void> {
 
 addEventListener("message", (event: MessageEvent<ZigWorkerRequest>) => {
   const data = event.data;
-  if (!data || data.type !== "run") return;
+  if (!data) return;
+  if (data.type === "preload") {
+    void handlePreload(data).catch((err: unknown) => {
+      post({ type: "result", id: data.id, result: asResult(err) });
+    });
+    return;
+  }
+  if (data.type !== "run") return;
   void handleRun(data).catch((err: unknown) => {
     post({ type: "result", id: data.id, result: asResult(err) });
   });

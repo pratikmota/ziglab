@@ -3,7 +3,7 @@
 import { Playground } from "@/components/playground/Playground";
 import type { PlaygroundPane } from "@/components/playground/types";
 import { useEditorSession } from "@/components/playground/use-editor-session";
-import { getAdapter } from "@/lib/execution/registry";
+import { usePlayAdapter } from "@/components/playground/use-play-adapter";
 import { en } from "@/lib/i18n/en";
 import { useLessonDraft, writeLessonDraft } from "@/lib/lesson-draft";
 
@@ -29,6 +29,7 @@ export function LessonPlayground({
     fallbackCode: starter,
     persist: (next) => writeLessonDraft(lessonId, next),
   });
+  const adapter = usePlayAdapter(channel);
 
   return (
     <Playground
@@ -36,7 +37,7 @@ export function LessonPlayground({
       channel={channel}
       onChange={setCode}
       onChannelChange={setChannel}
-      adapter={getAdapter(channel)}
+      adapter={adapter}
       template={starter}
       chrome={{ compact: true }}
       pane={pane}

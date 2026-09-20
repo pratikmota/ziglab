@@ -51,7 +51,7 @@ quiz:
     explain:
       a: "The Language Reference and ziglang.org remain the official sources."
       b: "Correct. ZigLab is a path in the browser, not the language project."
-      c: "ZigLab does not ship or fork the compiler in v1. A WASM compiler may connect later."
+      c: "ZigLab does not fork the language. Official Zig stays at ziglang.org. The lab ships a WASM build of the compiler so Run can work in this browser."
   - id: q4
     prompt: "What is the playground for?"
     options:
@@ -63,7 +63,7 @@ quiz:
         text: "Replacing ziglang.org documentation."
     answer: a
     explain:
-      a: "Correct. The playground is a pad. Lessons are the path. Until WASM lands, Run is an honest preview."
+      a: "Correct. The playground is a pad. Lessons are the path. Run compiles in this browser; it is a sandbox, not a ZigLab server."
       b: "User code stays in the browser. ZigLab has no compile API in v1."
       c: "Official docs stay official. The playground is for experiments."
 ---

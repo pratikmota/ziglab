@@ -12,7 +12,7 @@ import type {
 import { zigVersionLabel } from "@/lib/zig-version";
 
 export const MOCK_PREVIEW_MESSAGE =
-  "The in-browser Zig compiler is not wired up yet. Your code is kept locally. Try changing the sample and check the expected output.";
+  "The in-browser Zig compiler could not load. This is a preview runner. Your code stays in this browser.";
 
 function normalizeWhitespace(code: string) {
   return code.replace(/\r\n/g, "\n").replace(/[ \t]+$/gm, "").trim();
@@ -60,7 +60,7 @@ export class MockAdapter implements ExecutionAdapter {
           stdout: expected.endsWith("\n") ? expected : `${expected}\n`,
           stderr: "",
           exitCode: 0,
-          durationMs: 0,
+          durationMs: waitMs,
           compilerLabel: this.compilerLabel,
           preview: true,
         };
@@ -75,7 +75,7 @@ export class MockAdapter implements ExecutionAdapter {
         stdout: PLAYGROUND_HELLO_STDOUT,
         stderr: "",
         exitCode: 0,
-        durationMs: 0,
+        durationMs: waitMs,
         compilerLabel: this.compilerLabel,
         preview: true,
       };
@@ -86,7 +86,7 @@ export class MockAdapter implements ExecutionAdapter {
       stdout: "",
       stderr: MOCK_PREVIEW_MESSAGE,
       exitCode: null,
-      durationMs: 0,
+      durationMs: waitMs,
       compilerLabel: this.compilerLabel,
       preview: true,
     };

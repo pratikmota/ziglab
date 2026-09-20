@@ -1,12 +1,19 @@
 import type { HostRunResult, ZigWasmArtifacts } from "./wasi-guest";
 
-export type ZigWorkerRequest = {
-  type: "run";
-  id: number;
-  code: string;
-  artifacts: ZigWasmArtifacts;
-  loadTimeoutMs?: number;
-};
+export type ZigWorkerRequest =
+  | {
+      type: "run";
+      id: number;
+      code: string;
+      artifacts: ZigWasmArtifacts;
+      loadTimeoutMs?: number;
+    }
+  | {
+      type: "preload";
+      id: number;
+      artifacts: ZigWasmArtifacts;
+      loadTimeoutMs?: number;
+    };
 
 export type ZigWorkerStage = "fetch" | "compile" | "run";
 

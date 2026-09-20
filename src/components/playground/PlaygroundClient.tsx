@@ -2,9 +2,9 @@
 
 import { Playground } from "@/components/playground/Playground";
 import { useEditorSession } from "@/components/playground/use-editor-session";
+import { usePlayAdapter } from "@/components/playground/use-play-adapter";
 import { siteConfig } from "@/config/site";
 import { PLAYGROUND_HELLO_SOURCE } from "@/lib/content/hello-zig";
-import { getAdapter } from "@/lib/execution/registry";
 import { usePlayDraft, writePlayDraft } from "@/lib/play-draft";
 import { playgroundReportUrl } from "@/lib/report";
 
@@ -15,6 +15,7 @@ export function PlaygroundClient() {
     fallbackCode: PLAYGROUND_HELLO_SOURCE,
     persist: writePlayDraft,
   });
+  const adapter = usePlayAdapter(channel);
 
   return (
     <Playground
@@ -22,7 +23,7 @@ export function PlaygroundClient() {
       channel={channel}
       onChange={setCode}
       onChannelChange={setChannel}
-      adapter={getAdapter(channel)}
+      adapter={adapter}
       template={PLAYGROUND_HELLO_SOURCE}
       chrome={{
         showFormat: true,

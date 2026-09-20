@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import { externalLinkProps } from "@/config/site";
 import { en } from "@/lib/i18n/en";
-import type { ZigChannel } from "@/lib/execution/types";
+import type { RunStatus, ZigChannel } from "@/lib/execution/types";
 import { zigPlayVersions, zigVersionLabel } from "@/lib/zig-version";
 
 function DisabledTooltip({
@@ -43,6 +43,7 @@ function DisabledTooltip({
 export function EditorToolbar({
   channel,
   running,
+  adapterStatus = "loading",
   compact = false,
   showFormat = false,
   newHref,
@@ -54,6 +55,7 @@ export function EditorToolbar({
 }: {
   channel: ZigChannel;
   running: boolean;
+  adapterStatus?: RunStatus;
   compact?: boolean;
   showFormat?: boolean;
   newHref?: string;
@@ -111,11 +113,15 @@ export function EditorToolbar({
           type="button"
           size="sm"
           onClick={onRun}
-          disabled={running}
-          aria-busy={running}
+          disabled={running || adapterStatus === "loading"}
+          aria-busy={running || adapterStatus === "loading"}
         >
-          {running ? <Loader2 className="animate-spin" /> : <Play />}
-          {en.play.run}
+          {running || adapterStatus === "loading" ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <Play />
+          )}
+          {adapterStatus === "loading" ? en.play.loadingCompiler : en.play.run}
         </Button>
 
         {compact ? (
@@ -196,7 +202,11 @@ export function EditorToolbar({
         ) : null}
       </div>
       <p className="mt-1.5 text-[11px] text-muted-foreground">
-        {en.play.channelHint}
+        {adapterStatus === "loading"
+          ? en.play.loadingCompiler
+          : adapterStatus === "unavailable"
+            ? en.play.channelHint
+            : en.play.secretsWarning}
       </p>
     </div>
   );

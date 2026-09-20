@@ -3,6 +3,7 @@ import {
   compileZigSource,
   fetchZigArtifacts,
   loadTimeoutSignal,
+  probeZigWasm,
   rejectOversizedSource,
   runCompiledWasm,
   unpackStdLib,
@@ -106,6 +107,24 @@ export class ZigWasiHost {
     this.mode = options.mode ?? "worker";
   }
 
+  async preload(artifacts: HostRunRequest["artifacts"], loadTimeoutMs?: number): Promise<HostRunResult> {
+    if (this.disposed) return unavailable("unavailable: host has been disposed");
+    return this.enqueue(async () => {
+      if (this.disposed) return unavailable("unavailable: host has been disposed");
+      if (this.mode === "in-process") return this.preloadInProcess(artifacts, loadTimeoutMs);
+      if (!browserWorkersAvailable()) {
+        return unavailable(
+          "unavailable: WASI host requires a browser Worker (do not import from the server)",
+        );
+      }
+      return this.postWorker({
+        type: "preload",
+        artifacts,
+        loadTimeoutMs: loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS,
+      });
+    });
+  }
+
   async run(req: HostRunRequest): Promise<HostRunResult> {
     if (this.disposed) return unavailable("unavailable: host has been disposed");
     const oversized = rejectOversizedSource(req.code);
@@ -119,7 +138,14 @@ export class ZigWasiHost {
           "unavailable: WASI host requires a browser Worker (do not import from the server)",
         );
       }
-      return this.runInWorker(req);
+      return this.postWorker({
+        type: "run",
+        code: req.code,
+        artifacts: req.artifacts,
+        loadTimeoutMs: req.loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS,
+        compileTimeoutMs: req.compileTimeoutMs ?? WASM_COMPILE_TIMEOUT_MS,
+        runTimeoutMs: req.runTimeoutMs ?? WASM_RUN_TIMEOUT_MS,
+      });
     });
   }
 
@@ -143,6 +169,32 @@ export class ZigWasiHost {
     return run;
   }
 
+  private async preloadInProcess(
+    artifacts: HostRunRequest["artifacts"],
+    loadTimeoutMs?: number,
+  ): Promise<HostRunResult> {
+    const started = Date.now();
+    try {
+      const loaded = await fetchZigArtifacts(artifacts, {
+        cache: this.artifactCache,
+        signal: loadTimeoutSignal(loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS),
+      });
+      if (!this.libTreeCache.has(artifacts.stdUrl)) {
+        this.libTreeCache.set(artifacts.stdUrl, await unpackStdLib(loaded.stdArchive));
+      }
+      await probeZigWasm(loaded.zigWasm);
+      return {
+        ok: true,
+        stdout: "",
+        stderr: "",
+        exitCode: 0,
+        durationMs: Date.now() - started,
+      };
+    } catch (err) {
+      return asHostResult(err);
+    }
+  }
+
   private async runInProcess(req: HostRunRequest): Promise<HostRunResult> {
     try {
       const loadTimeoutMs = req.loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS;
@@ -164,18 +216,32 @@ export class ZigWasiHost {
     }
   }
 
-  private runInWorker(req: HostRunRequest): Promise<HostRunResult> {
+  private postWorker(
+    message:
+      | {
+          type: "preload";
+          artifacts: HostRunRequest["artifacts"];
+          loadTimeoutMs: number;
+        }
+      | {
+          type: "run";
+          code: string;
+          artifacts: HostRunRequest["artifacts"];
+          loadTimeoutMs: number;
+          compileTimeoutMs: number;
+          runTimeoutMs: number;
+        },
+  ): Promise<HostRunResult> {
     const worker = this.ensureWorker();
     const id = this.nextId;
     this.nextId += 1;
-    const loadTimeoutMs = req.loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS;
-    const compileTimeoutMs = req.compileTimeoutMs ?? WASM_COMPILE_TIMEOUT_MS;
-    const runTimeoutMs = req.runTimeoutMs ?? WASM_RUN_TIMEOUT_MS;
+    const compileTimeoutMs = message.type === "run" ? message.compileTimeoutMs : WASM_COMPILE_TIMEOUT_MS;
+    const runTimeoutMs = message.type === "run" ? message.runTimeoutMs : WASM_RUN_TIMEOUT_MS;
 
     return new Promise((resolve) => {
       this.pending = {
         id,
-        loadTimeoutMs,
+        loadTimeoutMs: message.loadTimeoutMs,
         compileTimeoutMs,
         runTimeoutMs,
         loadStartedAt: null,
@@ -184,14 +250,22 @@ export class ZigWasiHost {
         timer: null,
         resolve,
       };
-      const message: ZigWorkerRequest = {
-        type: "run",
-        id,
-        code: req.code,
-        artifacts: req.artifacts,
-        loadTimeoutMs,
-      };
-      worker.postMessage(message);
+      const payload: ZigWorkerRequest =
+        message.type === "preload"
+          ? {
+              type: "preload",
+              id,
+              artifacts: message.artifacts,
+              loadTimeoutMs: message.loadTimeoutMs,
+            }
+          : {
+              type: "run",
+              id,
+              code: message.code,
+              artifacts: message.artifacts,
+              loadTimeoutMs: message.loadTimeoutMs,
+            };
+      worker.postMessage(payload);
     });
   }
 

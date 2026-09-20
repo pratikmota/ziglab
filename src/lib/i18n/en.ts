@@ -61,13 +61,13 @@ export const en = {
     title: "A playground, not only a course",
     body: "Open a full editor when you want to try an idea without a lesson around it.",
     try: "Try the playground",
-    channelHint: "Runner is a preview until WASM lands.",
+    channelHint: "Learning sandbox — do not paste tokens or private keys.",
     run: "Run",
     output: "Output",
   },
   play: {
     pageDescription:
-      "Run Zig in the browser. The runner is a preview until the WASM compiler is connected.",
+      "Run Zig in the browser. Compiles locally with a sandboxed WASM toolchain. Do not paste secrets.",
     run: "Run",
     reset: "Reset",
     copy: "Copy",
@@ -80,7 +80,11 @@ export const en = {
     channel: "Zig version",
     stable: "Stable",
     master: "Master (nightly)",
-    channelHint: "Runner is a preview until WASM lands.",
+    channelHint: "Runner is a preview because the WASM compiler could not load.",
+    secretsWarning:
+      "Learning sandbox — code stays in this browser. Do not paste tokens or private keys.",
+    loadingCompiler: "Loading compiler…",
+    unavailableCompiler: "In-browser compiler is unavailable. Using the preview runner.",
     emptyOutput: "Run the program to see output.",
     compiling: "Compiling…",
     output: "Output",
@@ -88,7 +92,7 @@ export const en = {
     previewChip: "Preview runner — WASM compiler not connected.",
     success: "Success",
     error: "Error",
-    elapsed: "0 ms",
+    elapsed: "{ms} ms",
     escHint: "Press Escape to leave the editor.",
     resetTitle: "Reset playground?",
     resetBody:
