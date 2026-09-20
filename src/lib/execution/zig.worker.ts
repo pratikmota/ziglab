@@ -2,6 +2,7 @@ import {
   cloneInodeTree,
   compileZigSource,
   fetchZigArtifacts,
+  formatZigSource,
   loadTimeoutSignal,
   probeZigWasm,
   rejectOversizedSource,
@@ -51,16 +52,24 @@ async function libTreeFor(stdUrl: string, stdArchive: Uint8Array): Promise<Map<s
   return cloneInodeTree(tree);
 }
 
-async function loadArtifacts(
+async function fetchArtifacts(
   artifacts: ZigWorkerRequest["artifacts"],
   loadTimeoutMs: number | undefined,
   id: number,
 ) {
   post({ type: "stage", id, stage: "fetch" });
-  const loaded = await fetchZigArtifacts(artifacts, {
+  return fetchZigArtifacts(artifacts, {
     cache: artifactCache,
     signal: loadTimeoutSignal(loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS),
   });
+}
+
+async function loadArtifacts(
+  artifacts: ZigWorkerRequest["artifacts"],
+  loadTimeoutMs: number | undefined,
+  id: number,
+) {
+  const loaded = await fetchArtifacts(artifacts, loadTimeoutMs, id);
   await libTreeFor(artifacts.stdUrl, loaded.stdArchive);
   return loaded;
 }
@@ -108,11 +117,45 @@ async function handleRun(req: Extract<ZigWorkerRequest, { type: "run" }>): Promi
   });
 }
 
+async function handleFormat(req: Extract<ZigWorkerRequest, { type: "format" }>): Promise<void> {
+  const oversized = rejectOversizedSource(req.code);
+  if (oversized) {
+    post({ type: "result", id: req.id, result: oversized });
+    return;
+  }
+
+  const loaded = await fetchArtifacts(req.artifacts, req.loadTimeoutMs, req.id);
+
+  post({ type: "stage", id: req.id, stage: "compile" });
+  const formatted = await formatZigSource(req.code, loaded);
+  if (!formatted.ok) {
+    post({ type: "result", id: req.id, result: formatted.result });
+    return;
+  }
+  post({
+    type: "result",
+    id: req.id,
+    result: {
+      ok: true,
+      stdout: formatted.code,
+      stderr: "",
+      exitCode: 0,
+      durationMs: formatted.durationMs,
+    },
+  });
+}
+
 addEventListener("message", (event: MessageEvent<ZigWorkerRequest>) => {
   const data = event.data;
   if (!data) return;
   if (data.type === "preload") {
     void handlePreload(data).catch((err: unknown) => {
+      post({ type: "result", id: data.id, result: asResult(err) });
+    });
+    return;
+  }
+  if (data.type === "format") {
+    void handleFormat(data).catch((err: unknown) => {
       post({ type: "result", id: data.id, result: asResult(err) });
     });
     return;

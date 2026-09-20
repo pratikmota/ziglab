@@ -46,10 +46,19 @@ export type HostRunResult = {
   errorKind?:
     | "source_too_large"
     | "compile_failed"
+    | "format_failed"
     | "run_failed"
     | "timeout"
     | "unavailable"
     | "memory";
+};
+
+export type HostFormatResult = {
+  ok: boolean;
+  code: string;
+  stderr: string;
+  durationMs: number;
+  errorKind?: HostRunResult["errorKind"];
 };
 
 export class WasiGuestError extends Error {
@@ -406,6 +415,144 @@ export async function compileZigSource(
   }
 
   return { ok: true, wasm: mainWasm.data, durationMs: Date.now() - started };
+}
+
+export type FormatOutcome =
+  | { ok: true; code: string; durationMs: number }
+  | { ok: false; result: HostRunResult };
+
+/**
+ * WASI zig.wasm: `fmt --stdin`.
+ * In-place `fmt main.zig` uses atomic replace (rename), which the WASI shim
+ * does not implement. Stdin/stdout is still real zig fmt.
+ */
+export async function formatZigSource(
+  code: string,
+  loaded: LoadedZigArtifacts,
+): Promise<FormatOutcome> {
+  const oversized = rejectOversizedSource(code);
+  if (oversized) return { ok: false, result: oversized };
+
+  const started = Date.now();
+  const fmtOut = captureFd();
+  const fmtErr = captureFd();
+
+  const fmtWasi = new WASI(
+    ["zig.wasm", "fmt", "--stdin"],
+    [],
+    [
+      new OpenFile(new File(new TextEncoder().encode(code))),
+      fmtOut.fd,
+      fmtErr.fd,
+      new PreopenDirectory(".", new Map()),
+      new PreopenDirectory("/lib", new Map()),
+      new PreopenDirectory("/cache", new Map()),
+    ],
+    { debug: false },
+  );
+
+  let instance: WebAssembly.Instance;
+  try {
+    const compiled = await WebAssembly.instantiate(wasmBytes(loaded.zigWasm), {
+      wasi_snapshot_preview1: guestWasiImport(fmtWasi),
+    });
+    instance = compiled.instance;
+    installMemoryCap(instance);
+  } catch (err) {
+    if (err instanceof WasiGuestError) {
+      return {
+        ok: false,
+        result: {
+          ok: false,
+          stdout: "",
+          stderr: err.message,
+          exitCode: null,
+          durationMs: Date.now() - started,
+          errorKind: err.kind,
+        },
+      };
+    }
+    const message = err instanceof Error ? err.message : "unavailable";
+    return {
+      ok: false,
+      result: {
+        ok: false,
+        stdout: "",
+        stderr: `unavailable: ${message}`,
+        exitCode: null,
+        durationMs: Date.now() - started,
+        errorKind: "unavailable",
+      },
+    };
+  }
+
+  let fmtExit = 0;
+  try {
+    fmtExit = fmtWasi.start(asWasiStart(instance));
+    assertMemory(instance);
+  } catch (err) {
+    if (err instanceof WasiGuestError) {
+      return {
+        ok: false,
+        result: {
+          ok: false,
+          stdout: fmtOut.text(),
+          stderr: truncate(`${fmtErr.text()}\n${err.message}`.trim()),
+          exitCode: null,
+          durationMs: Date.now() - started,
+          errorKind: err.kind,
+        },
+      };
+    }
+    const message = err instanceof Error ? err.message : "format failed";
+    return {
+      ok: false,
+      result: {
+        ok: false,
+        stdout: fmtOut.text(),
+        stderr: truncate(`${fmtErr.text()}\n${message}`.trim()),
+        exitCode: null,
+        durationMs: Date.now() - started,
+        errorKind: "format_failed",
+      },
+    };
+  }
+
+  const formatted = fmtOut.text();
+  if (fmtExit !== 0) {
+    const fmtLog = truncate(`${formatted}\n${fmtErr.text()}`.trim());
+    return {
+      ok: false,
+      result: {
+        ok: false,
+        stdout: formatted,
+        stderr: fmtLog || `format failed: exit ${fmtExit}`,
+        exitCode: fmtExit,
+        durationMs: Date.now() - started,
+        errorKind: "format_failed",
+      },
+    };
+  }
+
+  if (code.length > 0 && formatted.length === 0) {
+    return {
+      ok: false,
+      result: {
+        ok: false,
+        stdout: "",
+        stderr: truncate(fmtErr.text()) || "format failed: zig fmt produced no output",
+        exitCode: fmtExit,
+        durationMs: Date.now() - started,
+        errorKind: "format_failed",
+      },
+    };
+  }
+
+  return {
+    ok: true,
+    code: formatted,
+    durationMs: Date.now() - started,
+  };
 }
 
 export async function runCompiledWasm(wasm: Uint8Array): Promise<HostRunResult> {

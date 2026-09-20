@@ -3,6 +3,7 @@
 import { MockAdapter } from "@/lib/execution/mock-adapter";
 import type {
   ExecutionAdapter,
+  FormatResult,
   RunRequest,
   RunResult,
   RunStatus,
@@ -15,6 +16,9 @@ import { zigVersionLabel } from "@/lib/zig-version";
 function normalizeOutput(text: string) {
   return text.replace(/\r\n/g, "\n");
 }
+
+/** Known-ugly input: zig fmt must rewrite spaces around `=`. */
+const FMT_PROBE_SOURCE = "const x=1;";
 
 function matchesExpected(stdout: string, stderr: string, expected: string) {
   const want = normalizeOutput(expected).trim();
@@ -42,6 +46,7 @@ export class WasmAdapter implements ExecutionAdapter {
   private readonly mock: MockAdapter;
   private ready: Promise<RunStatus> | null = null;
   private readyStatus: RunStatus = "loading";
+  format?: (code: string) => Promise<FormatResult>;
 
   constructor({
     channel,
@@ -109,8 +114,48 @@ export class WasmAdapter implements ExecutionAdapter {
 
   private async preload(): Promise<RunStatus> {
     this.readyStatus = "loading";
+    this.format = undefined;
     const loaded = await this.host.preload(this.artifacts);
-    this.readyStatus = loaded.ok ? "idle" : "unavailable";
+    if (!loaded.ok) {
+      this.readyStatus = "unavailable";
+      return this.readyStatus;
+    }
+    if (await this.probeFormat()) {
+      this.format = (code) => this.formatSource(code);
+    }
+    this.readyStatus = "idle";
     return this.readyStatus;
+  }
+
+  private async probeFormat(): Promise<boolean> {
+    const result = await this.host.format({
+      code: FMT_PROBE_SOURCE,
+      artifacts: this.artifacts,
+      compileTimeoutMs: this.compileTimeoutMs,
+    });
+    if (!result.ok) return false;
+    const rewritten = normalizeOutput(result.code);
+    if (rewritten === FMT_PROBE_SOURCE || rewritten.trim() === FMT_PROBE_SOURCE) {
+      return false;
+    }
+    return rewritten.includes("x = 1");
+  }
+
+  private async formatSource(code: string): Promise<FormatResult> {
+    const status = await this.ensureReady();
+    if (status === "unavailable") {
+      return { ok: false, code, stderr: "unavailable", durationMs: 0 };
+    }
+    const result = await this.host.format({
+      code,
+      artifacts: this.artifacts,
+      compileTimeoutMs: this.compileTimeoutMs,
+    });
+    return {
+      ok: result.ok,
+      code: result.ok ? result.code : code,
+      stderr: result.stderr,
+      durationMs: result.durationMs,
+    };
   }
 }

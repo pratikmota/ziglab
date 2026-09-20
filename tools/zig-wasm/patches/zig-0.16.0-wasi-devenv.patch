@@ -1,7 +1,8 @@
 # -Ddev=wasm must include legalize or zig.wasm panics when emitting wasm.
+# fmt_command so playground Format can run `zig fmt` in WASI.
 --- a/src/dev.zig
 +++ b/src/dev.zig
-@@ -197,10 +197,9 @@
+@@ -197,10 +197,10 @@
                  else => Env.sema.supports(feature),
              },
              .wasm => switch (feature) {
@@ -10,6 +11,7 @@
                  .wasm_backend,
                  .wasm_linker,
 +                .legalize,
++                .fmt_command,
                  => true,
                  else => Env.sema.supports(feature),
              },

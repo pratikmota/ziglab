@@ -108,7 +108,7 @@ async function main() {
   const runTimeoutMs = 10_000;
 
   try {
-    console.error("1/3 hello.zig…");
+    console.error("1/4 hello.zig…");
     const helloResult = await host.run({
       code: hello,
       artifacts,
@@ -121,7 +121,7 @@ async function main() {
     }
     console.error(`   ok  exit=${helloResult.exitCode} ${helloResult.durationMs}ms`);
 
-    console.error("2/3 syntax error…");
+    console.error("2/4 syntax error…");
     const broken = await host.run({
       code: "pub fn main() void {\n",
       artifacts,
@@ -134,7 +134,7 @@ async function main() {
     }
     console.error(`   ok  compile failed as expected (${broken.stderr.split("\n")[0]})`);
 
-    console.error("3/3 oversized source…");
+    console.error("3/4 oversized source…");
     const oversized = await host.run({
       code: "a".repeat(WASM_SOURCE_MAX_BYTES + 1),
       artifacts,
@@ -146,6 +146,18 @@ async function main() {
       throw new Error("oversized source should be rejected without compiling");
     }
     console.error("   ok  rejected before instantiate");
+
+    console.error("4/4 zig fmt…");
+    const formatted = await host.format({
+      code: "const x=1;",
+      artifacts,
+      compileTimeoutMs,
+    });
+    if (!formatted.ok || !formatted.code.includes("x = 1")) {
+      console.error(formatted);
+      throw new Error("fmt should rewrite const x=1; with spaces around =");
+    }
+    console.error(`   ok  ${JSON.stringify(formatted.code)} ${formatted.durationMs}ms`);
   } finally {
     host.dispose();
     await new Promise((resolve) => server.close(resolve));

@@ -2,6 +2,7 @@ import {
   cloneInodeTree,
   compileZigSource,
   fetchZigArtifacts,
+  formatZigSource,
   loadTimeoutSignal,
   probeZigWasm,
   rejectOversizedSource,
@@ -9,7 +10,7 @@ import {
   unpackStdLib,
   WasiGuestError,
 } from "./wasi-guest";
-import type { HostRunRequest, HostRunResult } from "./wasi-guest";
+import type { HostFormatResult, HostRunRequest, HostRunResult } from "./wasi-guest";
 import {
   WASM_COMPILE_TIMEOUT_MS,
   WASM_LOAD_TIMEOUT_MS,
@@ -19,6 +20,7 @@ import type { ZigWorkerEvent, ZigWorkerRequest } from "./wasi-protocol";
 import type { Inode } from "@bjorn3/browser_wasi_shim";
 
 export type {
+  HostFormatResult,
   HostRunRequest,
   HostRunResult,
   LoadedZigArtifacts,
@@ -149,6 +151,41 @@ export class ZigWasiHost {
     });
   }
 
+  async format(req: HostRunRequest): Promise<HostFormatResult> {
+    if (this.disposed) {
+      return { ok: false, code: req.code, stderr: "unavailable: host has been disposed", durationMs: 0, errorKind: "unavailable" };
+    }
+    const oversized = rejectOversizedSource(req.code);
+    if (oversized) {
+      return { ok: false, code: req.code, stderr: oversized.stderr, durationMs: 0, errorKind: oversized.errorKind };
+    }
+
+    const result = await this.enqueue(async () => {
+      if (this.disposed) return unavailable("unavailable: host has been disposed");
+      if (this.mode === "in-process") return this.formatInProcess(req);
+      if (!browserWorkersAvailable()) {
+        return unavailable(
+          "unavailable: WASI host requires a browser Worker (do not import from the server)",
+        );
+      }
+      return this.postWorker({
+        type: "format",
+        code: req.code,
+        artifacts: req.artifacts,
+        loadTimeoutMs: req.loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS,
+        compileTimeoutMs: req.compileTimeoutMs ?? WASM_COMPILE_TIMEOUT_MS,
+      });
+    });
+
+    return {
+      ok: result.ok,
+      code: result.ok ? result.stdout : req.code,
+      stderr: result.stderr,
+      durationMs: result.durationMs,
+      errorKind: result.errorKind,
+    };
+  }
+
   dispose(): void {
     this.disposed = true;
     this.clearTimer();
@@ -216,12 +253,40 @@ export class ZigWasiHost {
     }
   }
 
+  private async formatInProcess(req: HostRunRequest): Promise<HostRunResult> {
+    try {
+      const loadTimeoutMs = req.loadTimeoutMs ?? WASM_LOAD_TIMEOUT_MS;
+      const loaded = await fetchZigArtifacts(req.artifacts, {
+        cache: this.artifactCache,
+        signal: loadTimeoutSignal(loadTimeoutMs),
+      });
+      const formatted = await formatZigSource(req.code, loaded);
+      if (!formatted.ok) return formatted.result;
+      return {
+        ok: true,
+        stdout: formatted.code,
+        stderr: "",
+        exitCode: 0,
+        durationMs: formatted.durationMs,
+      };
+    } catch (err) {
+      return asHostResult(err);
+    }
+  }
+
   private postWorker(
     message:
       | {
           type: "preload";
           artifacts: HostRunRequest["artifacts"];
           loadTimeoutMs: number;
+        }
+      | {
+          type: "format";
+          code: string;
+          artifacts: HostRunRequest["artifacts"];
+          loadTimeoutMs: number;
+          compileTimeoutMs: number;
         }
       | {
           type: "run";
@@ -235,7 +300,10 @@ export class ZigWasiHost {
     const worker = this.ensureWorker();
     const id = this.nextId;
     this.nextId += 1;
-    const compileTimeoutMs = message.type === "run" ? message.compileTimeoutMs : WASM_COMPILE_TIMEOUT_MS;
+    const compileTimeoutMs =
+      message.type === "run" || message.type === "format"
+        ? message.compileTimeoutMs
+        : WASM_COMPILE_TIMEOUT_MS;
     const runTimeoutMs = message.type === "run" ? message.runTimeoutMs : WASM_RUN_TIMEOUT_MS;
 
     return new Promise((resolve) => {
@@ -258,13 +326,21 @@ export class ZigWasiHost {
               artifacts: message.artifacts,
               loadTimeoutMs: message.loadTimeoutMs,
             }
-          : {
-              type: "run",
-              id,
-              code: message.code,
-              artifacts: message.artifacts,
-              loadTimeoutMs: message.loadTimeoutMs,
-            };
+          : message.type === "format"
+            ? {
+                type: "format",
+                id,
+                code: message.code,
+                artifacts: message.artifacts,
+                loadTimeoutMs: message.loadTimeoutMs,
+              }
+            : {
+                type: "run",
+                id,
+                code: message.code,
+                artifacts: message.artifacts,
+                loadTimeoutMs: message.loadTimeoutMs,
+              };
       worker.postMessage(payload);
     });
   }

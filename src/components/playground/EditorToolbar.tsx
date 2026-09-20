@@ -1,7 +1,8 @@
 "use client";
 
-import { Copy, Flag, Loader2, Play, Plus, RotateCcw } from "lucide-react";
+import { AlignLeft, Copy, Flag, Loader2, Play, Plus, RotateCcw } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,14 +25,17 @@ import { zigPlayVersions, zigVersionLabel } from "@/lib/zig-version";
 function DisabledTooltip({
   label,
   hint,
+  icon,
 }: {
   label: string;
   hint: string;
+  icon?: ReactNode;
 }) {
   return (
     <Tooltip>
       <TooltipTrigger render={<span className="inline-flex" />}>
         <Button type="button" variant="outline" size="sm" disabled>
+          {icon}
           {label}
         </Button>
       </TooltipTrigger>
@@ -43,25 +47,31 @@ function DisabledTooltip({
 export function EditorToolbar({
   channel,
   running,
+  formatting = false,
   adapterStatus = "loading",
   compact = false,
   showFormat = false,
+  canFormat = false,
   newHref,
   reportHref,
   onChannelChange,
   onRun,
+  onFormat,
   onReset,
   onCopy,
 }: {
   channel: ZigChannel;
   running: boolean;
+  formatting?: boolean;
   adapterStatus?: RunStatus;
   compact?: boolean;
   showFormat?: boolean;
+  canFormat?: boolean;
   newHref?: string;
   reportHref?: string;
   onChannelChange: (channel: ZigChannel) => void;
   onRun: () => void;
+  onFormat?: () => void;
   onReset: () => void;
   onCopy: () => void;
 }) {
@@ -113,7 +123,7 @@ export function EditorToolbar({
           type="button"
           size="sm"
           onClick={onRun}
-          disabled={running || adapterStatus === "loading"}
+          disabled={running || formatting || adapterStatus === "loading"}
           aria-busy={running || adapterStatus === "loading"}
         >
           {running || adapterStatus === "loading" ? (
@@ -174,7 +184,30 @@ export function EditorToolbar({
         )}
 
         {compact ? null : showFormat ? (
-          <DisabledTooltip label={en.play.format} hint={en.play.formatSoon} />
+          adapterStatus === "loading" || canFormat ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onFormat}
+              disabled={
+                running ||
+                formatting ||
+                adapterStatus === "loading" ||
+                adapterStatus === "unavailable"
+              }
+              aria-busy={formatting}
+            >
+              {formatting ? <Loader2 className="animate-spin" /> : <AlignLeft />}
+              {en.play.format}
+            </Button>
+          ) : (
+            <DisabledTooltip
+              label={en.play.format}
+              hint={en.play.formatSoon}
+              icon={<AlignLeft />}
+            />
+          )
         ) : null}
 
         {compact ? null : newHref ? (

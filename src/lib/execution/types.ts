@@ -26,11 +26,19 @@ export type RunResult = {
   preview?: boolean;
 };
 
+export type FormatResult = {
+  ok: boolean;
+  code: string;
+  stderr: string;
+  durationMs: number;
+};
+
 export interface ExecutionAdapter {
   id: string;
   channel: ZigChannel;
   label: string;
   status: () => RunStatus | Promise<RunStatus>;
   run: (req: RunRequest) => Promise<RunResult>;
+  format?: (code: string) => Promise<FormatResult>;
   dispose?: () => void | Promise<void>;
 }

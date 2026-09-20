@@ -71,6 +71,7 @@ export function Playground({
   className?: string;
 }) {
   const [running, setRunning] = useState(false);
+  const [formatting, setFormatting] = useState(false);
   const [statusForAdapter, setStatusForAdapter] = useState<{
     id: string;
     status: RunStatus;
@@ -82,6 +83,7 @@ export function Playground({
   const dragRef = useRef<{ startY: number; startHeight: number } | null>(null);
   const sourceRef = useRef(source);
   const runningRef = useRef(running);
+  const formattingRef = useRef(formatting);
   const clientPaint = useClientPaint();
 
   const adapterStatus: RunStatus = clientPaint
@@ -99,6 +101,10 @@ export function Playground({
   }, [running]);
 
   useEffect(() => {
+    formattingRef.current = formatting;
+  }, [formatting]);
+
+  useEffect(() => {
     let cancelled = false;
     void Promise.resolve(adapter.status()).then((next) => {
       if (!cancelled) setStatusForAdapter({ id: adapter.id, status: next });
@@ -109,7 +115,7 @@ export function Playground({
   }, [adapter]);
 
   const handleRun = useCallback(async () => {
-    if (runningRef.current) {
+    if (runningRef.current || formattingRef.current) {
       return;
     }
 
@@ -131,6 +137,32 @@ export function Playground({
       setRunning(false);
     }
   }, [adapter, channel, expectedOutput, matchSources]);
+
+  const canFormat = Boolean(adapter.format);
+
+  const handleFormat = useCallback(async () => {
+    const format = adapter.format;
+    if (!format || runningRef.current || formattingRef.current) {
+      return;
+    }
+
+    formattingRef.current = true;
+    setFormatting(true);
+
+    try {
+      const next = await format(sourceRef.current);
+      if (next.ok) {
+        onChange(next.code);
+      } else {
+        toast.error(en.play.formatFailed);
+      }
+    } catch {
+      toast.error(en.play.formatFailed);
+    } finally {
+      formattingRef.current = false;
+      setFormatting(false);
+    }
+  }, [adapter, onChange]);
 
   function onResizeStart(event: ReactPointerEvent<HTMLDivElement>) {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -174,13 +206,16 @@ export function Playground({
         <EditorToolbar
           channel={channel}
           running={running}
+          formatting={formatting}
           adapterStatus={adapterStatus}
           compact={chrome.compact}
           showFormat={chrome.showFormat}
+          canFormat={canFormat}
           newHref={chrome.newHref}
           reportHref={chrome.reportHref}
           onChannelChange={onChannelChange}
           onRun={() => void handleRun()}
+          onFormat={() => void handleFormat()}
           onReset={() => setResetOpen(true)}
           onCopy={() => void handleCopy()}
         />

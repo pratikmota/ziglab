@@ -9,6 +9,13 @@ export type ZigWorkerRequest =
       loadTimeoutMs?: number;
     }
   | {
+      type: "format";
+      id: number;
+      code: string;
+      artifacts: ZigWasmArtifacts;
+      loadTimeoutMs?: number;
+    }
+  | {
       type: "preload";
       id: number;
       artifacts: ZigWasmArtifacts;
