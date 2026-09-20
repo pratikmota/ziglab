@@ -3,9 +3,9 @@ export const siteConfig = {
   domain: "https://ziglab.org",
   description:
     "Learn Zig in the browser. Lessons, playground, and a friendly lab for the community.",
-  github: "https://github.com/OWNER/ziglab",
-  githubIssues: "https://github.com/OWNER/ziglab/issues/new",
-  sponsorsGithub: "https://github.com/sponsors/OWNER",
+  github: "https://github.com/pratikmota/ziglab",
+  githubIssues: "https://github.com/pratikmota/ziglab/issues/new",
+  sponsorsGithub: "https://github.com/sponsors/pratikmota",
   social: {
     ziggit: "https://ziggit.dev/",
     discord: "",
@@ -13,6 +13,11 @@ export const siteConfig = {
   },
   zigOfficial: "https://ziglang.org/",
   zigLearn: "https://ziglang.org/learn/",
+  zsfDonate: "https://ziglang.org/zsf/",
+  maintainer: {
+    name: "Maintainer name",
+    bio: "Placeholder bio. This will be filled before launch.",
+  },
 };
 
 export const externalLinkProps = {

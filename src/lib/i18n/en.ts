@@ -1,6 +1,12 @@
 export const en = {
   meta: {
     homeTitle: "ZigLab — Learn Zig in the browser",
+    about: "About",
+    sponsors: "Sponsors",
+    blog: "Blog",
+    privacy: "Privacy",
+    terms: "Terms",
+    notFound: "Not found",
   },
   nav: {
     learn: "Learn",
@@ -69,6 +75,94 @@ export const en = {
     empty: "No logos yet. When people and companies back the lab, they will show up here.",
     cta: "Become a sponsor",
     keepOnline: "Keep ZigLab online.",
+    pageTitle: "Help keep ZigLab online.",
+    pageLead:
+      "ZigLab stays free so anyone can learn Zig in the browser. Money covers the boring, necessary parts.",
+    whyTitle: "Why money is needed",
+    whyHosting: "Hosting and the ziglab.org domain.",
+    whyWasm: "Time to wire a real in-browser Zig compiler.",
+    whyLessons: "Time to write and maintain original lessons.",
+    githubCta: "Sponsor on GitHub",
+    thanks:
+      "Thank you if you already help. There is no paywall and no guilt. Logos appear here when people and companies choose to be listed.",
+    partners: "Partners",
+    gold: "Gold",
+    community: "Community",
+  },
+  blog: {
+    title: "Blog",
+    intro: "Release notes and short notes from the lab.",
+    empty: "No posts yet.",
+  },
+  about: {
+    title: "About ZigLab",
+    lead: "A friendly lab for learning Zig in the browser.",
+    whatTitle: "What ZigLab is",
+    whatBody:
+      "ZigLab is a guided course plus a playground. You read short lessons, optionally watch a walkthrough, and run real Zig when the in-browser compiler is connected. Progress stays on your device.",
+    notTitle: "What ZigLab is not",
+    notBody:
+      "ZigLab is not the official Zig language website. It is not a replacement for the Language Reference or the standard library docs. For those, go to ziglang.org.",
+    whyTitle: "Why it exists",
+    whyBody:
+      "Official docs and other guides are excellent. What was missing is a calm, browser-first lab: a path you can walk, a pad you can try, and no signup.",
+    maintainerTitle: "Maintainer",
+    contributeTitle: "How to contribute",
+    contributeBody:
+      "Lesson prose (MDX), bug reports, design, and later the WASM compiler are all useful. Open an issue or a pull request. Lesson writing must be original — do not paste official docs or other tutorials.",
+    communityTitle: "Community",
+    communityBody:
+      "Be respectful. Assume people are here to learn. We do not host comments or chat on the site in v1; GitHub and Ziggit are the public rooms.",
+    courtesyTitle: "Zig itself",
+    zigLink: "Official Zig website",
+    zsfLink: "Support the Zig Software Foundation",
+    zsfNote:
+      "That donate page helps Zig itself. It is separate from sponsoring ZigLab hosting.",
+  },
+  privacy: {
+    title: "Privacy",
+    intro:
+      "v1 is simple on purpose. We try not to collect what we do not need.",
+    accountsTitle: "No accounts",
+    accountsBody:
+      "There is no login, email, or GitHub sign-in on ZigLab in v1. We do not create user profiles.",
+    storageTitle: "What stays on your device",
+    storageBody:
+      "Lesson progress, lesson drafts, and playground drafts are stored in localStorage in your browser. They do not sync across devices. Clearing site data removes them.",
+    dataTitle: "We do not sell data",
+    dataBody:
+      "We do not sell personal data. We do not run a ZigLab form that stores your code.",
+    thirdTitle: "Third parties",
+    thirdBody:
+      "Links to GitHub and, if you open a lesson video, YouTube go to those companies. They have their own policies.",
+    analyticsTitle: "Analytics",
+    analyticsBody:
+      "v1 does not use analytics. If analytics are added later, they will be named on this page and will be privacy-respecting, with no ads.",
+    contactTitle: "Contact",
+    contactBody: "Use GitHub issues. There is no contact form that posts code.",
+    issues: "Open a GitHub issue",
+  },
+  terms: {
+    title: "Terms of use",
+    intro: "ZigLab is provided as-is for learning.",
+    asIsTitle: "As-is",
+    asIsBody:
+      "The site, lessons, and playground are offered for education, without warranty.",
+    codeTitle: "Your code",
+    codeBody:
+      "Code you write in the playground is your responsibility. Do not paste secrets. Do not use the playground to attack systems, mine cryptocurrency, or abuse infrastructure. That remains true when a WASM compiler is connected.",
+    licenseTitle: "Licenses",
+    licenseBody:
+      "Original ZigLab lesson prose is recommended CC BY-SA 4.0. Application code and sample programs follow the repository license (MIT).",
+    marksTitle: "Names and marks",
+    marksBody:
+      "Zig is a trademark of the Zig Software Foundation. The Zig name and logo belong to their owners. ZigLab is an independent community project and is not affiliated with the Zig Software Foundation.",
+  },
+  notFound: {
+    title: "This page compiled to nothing.",
+    body: "That route is not in the lab. Head home, or start learning.",
+    home: "Home",
+    learn: "Learn",
   },
   footer: {
     tagline: "A friendly lab for learning Zig.",

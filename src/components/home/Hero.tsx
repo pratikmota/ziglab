@@ -33,7 +33,7 @@ export function Hero() {
           <Button
             size="lg"
             variant="outline"
-            className="border-hero-foreground/40 bg-transparent text-hero-foreground hover:bg-hero-elevated hover:text-hero-foreground"
+            className="border-hero-foreground/40 bg-transparent text-hero-foreground hover:bg-hero-elevated hover:text-hero-foreground dark:border-hero-foreground/40 dark:bg-transparent dark:hover:bg-hero-elevated dark:hover:text-hero-foreground"
             nativeButton={false}
             render={<Link href="/play" />}
           >

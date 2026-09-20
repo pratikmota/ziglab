@@ -29,13 +29,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
-    title: en.meta.homeTitle,
-    description: siteConfig.description,
-    url: siteConfig.domain,
     siteName: siteConfig.name,
     locale: "en_US",
     type: "website",
