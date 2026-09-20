@@ -1,0 +1,199 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-fg);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-input: var(--bg-input);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-hero: var(--hero-bg);
+  --color-hero-foreground: var(--hero-text);
+  --color-hero-muted: var(--hero-muted);
+  --color-hero-accent: var(--hero-accent);
+  --color-hero-accent-hover: var(--hero-accent-hover);
+  --color-hero-accent-fg: var(--hero-accent-fg);
+  --color-hero-elevated: var(--hero-elevated);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
+  --radius-4xl: 1.5rem;
+}
+
+:root {
+  /* ZigLab tokens — light */
+  --bg: #f7f4ee;
+  --bg-elevated: #ffffff;
+  --bg-input: #efeae0;
+  --line: #e0d8c8;
+  --text: #1a1814;
+  --text-muted: #6b6458;
+  --accent: #c48410;
+  --accent-hover: #a86e0a;
+  --accent-fg: #fff8e8;
+  --success: #1a8f5c;
+  --error: #c53636;
+  --warning: #a67c12;
+  --focus: #c48410;
+
+  /* Hero stays dark in both themes */
+  --hero-bg: #12110f;
+  --hero-text: #f4efe4;
+  --hero-muted: #a39a88;
+  --hero-accent: #f7a41d;
+  --hero-accent-hover: #ffb83d;
+  --hero-accent-fg: #1a1408;
+  --hero-elevated: #1c1a16;
+  --hero-glow: rgb(247 164 29 / 0.22);
+
+  /* shadcn mapping */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--bg-elevated);
+  --card-foreground: var(--text);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-fg);
+  --secondary: var(--bg-input);
+  --secondary-foreground: var(--text);
+  --muted: var(--bg-input);
+  --muted-foreground: var(--text-muted);
+  --destructive: var(--error);
+  --border: var(--line);
+  --input: var(--bg-input);
+  --ring: var(--focus);
+  --chart-1: var(--accent);
+  --chart-2: var(--success);
+  --chart-3: var(--text-muted);
+  --chart-4: var(--warning);
+  --chart-5: var(--line);
+  --radius: 0.5rem;
+  --sidebar: var(--bg-elevated);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--accent-fg);
+  --sidebar-accent: var(--bg-input);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--focus);
+}
+
+.dark {
+  /* ZigLab tokens — dark (default) */
+  --bg: #12110f;
+  --bg-elevated: #1c1a16;
+  --bg-input: #161410;
+  --line: #2a261f;
+  --text: #f4efe4;
+  --text-muted: #a39a88;
+  --accent: #f7a41d;
+  --accent-hover: #ffb83d;
+  --accent-fg: #1a1408;
+  --success: #3ddc97;
+  --error: #ff5c5c;
+  --warning: #f5c14a;
+  --focus: #f7a41d;
+
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--bg-elevated);
+  --card-foreground: var(--text);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--text);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-fg);
+  --secondary: var(--bg-input);
+  --secondary-foreground: var(--text);
+  --muted: var(--bg-input);
+  --muted-foreground: var(--text-muted);
+  --destructive: var(--error);
+  --border: var(--line);
+  --input: var(--bg-input);
+  --ring: var(--focus);
+  --chart-1: var(--accent);
+  --chart-2: var(--success);
+  --chart-3: var(--text-muted);
+  --chart-4: var(--warning);
+  --chart-5: var(--line);
+  --sidebar: var(--bg-elevated);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--accent);
+  --sidebar-primary-foreground: var(--accent-fg);
+  --sidebar-accent: var(--bg-input);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--focus);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
