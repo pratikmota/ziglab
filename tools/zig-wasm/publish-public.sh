@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Copy 07-1 dist/{ver}/ into Next public/wasm/{ver}/ for same-origin /play.
+# Copy toolchain dist/{ver}/ into Next public/wasm/{ver}/ for same-origin /play.
 # Does not commit binaries. Run from repo: pnpm wasm:publish
 set -eu
 

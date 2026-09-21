@@ -39,7 +39,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# WASM toolchain (07-1): bulky trees, not Zig source
+# Local planning docs (not published to GitHub)
+/docs/
+
+# WASM toolchain: bulky trees, not Zig source
 /tools/zig-wasm/dist/
 /tools/zig-wasm/.cache/
 /tools/zig-wasm/.zig-cache/
@@ -50,5 +53,5 @@ next-env.d.ts
 # In-tree unpack of official Zig (do not commit)
 /ziglang-source/
 
-# WASM playground artifacts (07-3): copied from tools/zig-wasm/dist via pnpm wasm:publish
+# WASM playground artifacts: copied from tools/zig-wasm/dist via pnpm wasm:publish
 /public/wasm/

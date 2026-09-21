@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * 07-2 host proof. Not the product UI.
+ * Offline proof for ZigWasiHost (not the product UI).
  *
  *   pnpm exec tsx tools/zig-wasm/host-proof.mjs
  *
- * Requires local 07-1 dist/{zigVersion}/ from `zig build --release=small`.
+ * Requires local tools/zig-wasm/dist/{zigVersion}/ from `zig build --release=small`.
  */
 import fs from "node:fs";
 import http from "node:http";
@@ -103,7 +103,7 @@ async function main() {
   };
 
   const host = new ZigWasiHost({ mode: "in-process" });
-  /** Hello World compile was ~4–9s in the 07-1 spike; load/unpack is not in this budget. */
+  /** Hello World compile was ~4–9s in the toolchain spike; load/unpack is not in this budget. */
   const compileTimeoutMs = 60_000;
   const runTimeoutMs = 10_000;
 
