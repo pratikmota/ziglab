@@ -105,13 +105,24 @@ function captureFd(): { fd: ConsoleStdout; text: () => string } {
   };
 }
 
-function asWasiStart(instance: WebAssembly.Instance): Parameters<WASI["start"]>[0] {
+const WASI_TOOLCHAIN_MISSING_START =
+  "wasm module is missing WASI _start/memory";
+const WASI_PROGRAM_MISSING_START =
+  "error: compiled program has no WASI entry. Zig looks for pub fn main.";
+
+function asWasiStart(
+  instance: WebAssembly.Instance,
+  role: "toolchain" | "program" = "toolchain",
+): Parameters<WASI["start"]>[0] {
   const exports = instance.exports as {
     memory?: WebAssembly.Memory;
     _start?: () => unknown;
   };
   if (!(exports.memory instanceof WebAssembly.Memory) || typeof exports._start !== "function") {
-    throw new WasiGuestError("unavailable", "wasm module is missing WASI _start/memory");
+    if (role === "program") {
+      throw new WasiGuestError("run_failed", WASI_PROGRAM_MISSING_START);
+    }
+    throw new WasiGuestError("unavailable", WASI_TOOLCHAIN_MISSING_START);
   }
   return { exports: { memory: exports.memory, _start: exports._start } };
 }
@@ -602,7 +613,7 @@ export async function runCompiledWasm(wasm: Uint8Array): Promise<HostRunResult> 
 
   let runExit = 0;
   try {
-    runExit = runWasi.start(asWasiStart(instance));
+    runExit = runWasi.start(asWasiStart(instance, "program"));
     assertMemory(instance);
   } catch (err) {
     if (err instanceof WasiGuestError) {

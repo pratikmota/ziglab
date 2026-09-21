@@ -108,7 +108,7 @@ async function main() {
   const runTimeoutMs = 10_000;
 
   try {
-    console.error("1/4 hello.zig…");
+    console.error("1/5 hello.zig…");
     const helloResult = await host.run({
       code: hello,
       artifacts,
@@ -121,7 +121,7 @@ async function main() {
     }
     console.error(`   ok  exit=${helloResult.exitCode} ${helloResult.durationMs}ms`);
 
-    console.error("2/4 syntax error…");
+    console.error("2/5 syntax error…");
     const broken = await host.run({
       code: "pub fn main() void {\n",
       artifacts,
@@ -134,7 +134,7 @@ async function main() {
     }
     console.error(`   ok  compile failed as expected (${broken.stderr.split("\n")[0]})`);
 
-    console.error("3/4 oversized source…");
+    console.error("3/5 oversized source…");
     const oversized = await host.run({
       code: "a".repeat(WASM_SOURCE_MAX_BYTES + 1),
       artifacts,
@@ -147,7 +147,33 @@ async function main() {
     }
     console.error("   ok  rejected before instantiate");
 
-    console.error("4/4 zig fmt…");
+    console.error("4/5 private fn main…");
+    const privateMainPath = path.join(
+      repoRoot,
+      "content/lessons/hello-world/fix-main.zig",
+    );
+    const privateMain = fs.readFileSync(
+      requireFile(privateMainPath, "Expected Make it run starter"),
+      "utf8",
+    );
+    const missingEntry = await host.run({
+      code: privateMain,
+      artifacts,
+      compileTimeoutMs,
+      runTimeoutMs,
+    });
+    if (
+      missingEntry.ok ||
+      missingEntry.errorKind !== "run_failed" ||
+      !missingEntry.stderr.includes("pub fn main") ||
+      missingEntry.stderr.includes("wasm module is missing WASI _start/memory")
+    ) {
+      console.error(missingEntry);
+      throw new Error("private fn main should be run_failed with a pub fn main hint");
+    }
+    console.error(`   ok  ${missingEntry.stderr.split("\n")[0]}`);
+
+    console.error("5/5 zig fmt…");
     const formatted = await host.format({
       code: "const x=1;",
       artifacts,

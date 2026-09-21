@@ -1,7 +1,8 @@
 "use client";
 
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, Copy, Eraser, Loader2 } from "lucide-react";
 import type { PointerEvent as ReactPointerEvent } from "react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,9 +44,19 @@ export function OutputPanel({
   const fillExpanded = fill && !collapsed;
   const stdout = result?.stdout ?? "";
   const stderr = result?.stderr ?? "";
+  const outputText = `${stdout}${stdout && stderr ? "\n" : ""}${stderr}`;
   const showPreview = Boolean(result?.preview);
   const showSuccess = Boolean(result?.ok);
   const showError = Boolean(result && !result.ok && !result.preview);
+
+  async function handleCopyOutput() {
+    try {
+      await navigator.clipboard.writeText(outputText);
+      toast.success(en.play.copied);
+    } catch {
+      toast.error(en.play.copyFailed);
+    }
+  }
 
   return (
     <section
@@ -114,9 +125,22 @@ export function OutputPanel({
           </div>
         )}
         {collapsed ? <div className="min-w-0 flex-1" /> : (
-          <Button type="button" variant="ghost" size="xs" onClick={onClear}>
-            {en.play.clear}
-          </Button>
+          <div className="flex items-center gap-0.5">
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              onClick={() => void handleCopyOutput()}
+              disabled={!outputText}
+            >
+              <Copy />
+              {en.play.copy}
+            </Button>
+            <Button type="button" variant="ghost" size="xs" onClick={onClear}>
+              <Eraser />
+              {en.play.clear}
+            </Button>
+          </div>
         )}
         <Button
           type="button"
