@@ -4,14 +4,19 @@ chapter: control-flow
 slug: try-if
 type: try
 title: Choose a path
-description: Write a small if.
+description: Read an if expression and print the label it produces.
 order: 2
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#if"
 starterFile: try-if.zig
+expectedOutput: "cool"
+hints:
+  - temp is 18. The condition is temp >= 20.
+  - "Both branches of the if expression are strings. {s} prints a string."
+  - Change temp if you want a different label. Keep 18 if you still want cool.
 ---
 
-Coming in the next content pass.
+The starter binds `temp` and builds a label with `if` as an expression: `"warm"` when the reading is at least 20, otherwise `"cool"`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run it. The print uses `{s}` because the value is a string, not a number. You can change `temp` to see the other branch; leave it at 18 if you want the line below.

@@ -1,5 +1,6 @@
 const std = @import("std");
 
 pub fn main() void {
-    std.debug.print("Coming soon\n", .{});
+    defer std.debug.print("done\n", .{});
+    std.debug.print("work\n", .{});
 }

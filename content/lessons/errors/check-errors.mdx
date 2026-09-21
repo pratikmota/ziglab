@@ -4,25 +4,68 @@ chapter: errors
 slug: check-errors
 type: quiz
 title: Errors check
-description: A short check on errors, try, catch, and defer.
-order: 5
-level: core
+description: Four questions on error unions, try, catch, and defer.
+order: 6
+level: advanced
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Errors check page is a stub. Which is true?"
+    prompt: "What is the difference between ?T and E!T?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "?T is missing; E!T failed. orelse versus catch."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "They are spellings of the same type."
+      - id: c
+        text: "?T is only for pointers; ! is only for integers."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. Null is not an error. An error is not null."
+      b: "The marks are different types. The compiler will not mix orelse and catch."
+      c: "Either mark can wrap many payload types."
+  - id: q2
+    prompt: "When can you write try expr?"
+    options:
+      - id: a
+        text: "When the current function’s return type can carry the error, such as !void."
+      - id: b
+        text: "Inside any void function."
+      - id: c
+        text: "Only in test blocks."
+    answer: a
+    explain:
+      a: "Correct. try returns the error to the caller. void cannot hold it."
+      b: "pub fn main() void cannot try without changing the return type."
+      c: "try works in ordinary functions that return an error union."
+  - id: q3
+    prompt: "What does catch 0 do after a failing call?"
+    options:
+      - id: a
+        text: "It supplies 0 and stays in this function."
+      - id: b
+        text: "It retries the call zero times."
+      - id: c
+        text: "It converts the error into null."
+    answer: a
+    explain:
+      a: "Correct. catch is the fallback for !. You keep a usable value."
+      b: "There is no automatic retry."
+      c: "catch produces the payload type (here i32), not an optional."
+  - id: q4
+    prompt: "When does errdefer run?"
+    options:
+      - id: a
+        text: "At the end of every block, success or failure."
+      - id: b
+        text: "Only if the block returns an error."
+      - id: c
+        text: "Before the function starts."
+    answer: b
+    explain:
+      a: "That is defer. errdefer skips the success path."
+      b: "Correct. Use it for cleanup that should not run when you succeeded."
+      c: "Both defer and errdefer are scheduled for the way out, not the way in."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

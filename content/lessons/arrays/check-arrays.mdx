@@ -4,25 +4,68 @@ chapter: arrays
 slug: check-arrays
 type: quiz
 title: Arrays check
-description: A short check on arrays, strings, and slices.
-order: 6
+description: Four questions on arrays, byte strings, slices, and for.
+order: 7
 level: core
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Arrays check page is a stub. Which is true?"
+    prompt: "What is special about an array’s length in Zig?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "It can grow at runtime like a Python list."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "The length is part of the type, like [3]i32."
+      - id: c
+        text: "Length is always 256."
+    answer: b
+    explain:
+      a: "Fixed arrays do not grow. std ArrayList is a later, allocator-backed tool."
+      b: "Correct. [_]i32{ 1, 2, 3 } is a [3]i32."
+      c: "You choose the length when you write the array."
+  - id: q2
+    prompt: "What is a Zig string literal like \"lab\"?"
+    options:
+      - id: a
+        text: "A String object with grapheme indexing."
+      - id: b
+        text: "Bytes (u8). {s} prints them. Indexing is by byte."
+      - id: c
+        text: "A Unicode character type separate from integers."
+    answer: b
+    explain:
+      a: "There is no String class on this path. Text is data."
+      b: "Correct. Treat messages as bytes unless you take on UTF-8 later."
+      c: "u8 is an integer. A literal is a sequence of those."
+  - id: q3
+    prompt: "What does a slice store?"
+    options:
+      - id: a
+        text: "A pointer and a length into existing items."
+      - id: b
+        text: "A deep copy of the array."
+      - id: c
+        text: "Only the first element."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. nums[1..3] names a span. It does not allocate a second array."
+      b: "Slicing does not copy the payload. Changing the array can change what the slice sees."
+      c: "A slice can hold many items. len tells you how many."
+  - id: q4
+    prompt: "When do you use for instead of while?"
+    options:
+      - id: a
+        text: "When you are walking an array or slice."
+      - id: b
+        text: "When the condition is a bool you named yourself."
+      - id: c
+        text: "Never. for is banned in Zig."
+    answer: a
+    explain:
+      a: "Correct. for (nums) |n| walks the collection. while is for a counter you own."
+      b: "That is while. The continue expression after the colon still belongs to while."
+      c: "for is ordinary Zig. This chapter is where it belongs."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

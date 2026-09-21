@@ -4,14 +4,19 @@ chapter: functions
 slug: try-function
 type: try
 title: Write an add function
-description: Write a small function that adds two integers.
+description: Fill in add so it returns the sum of its two arguments.
 order: 2
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Functions"
 starterFile: try-function.zig
+expectedOutput: "5"
+hints:
+  - add takes two i32 arguments. Return their sum.
+  - "main calls add(2, 3) and prints with {d}."
+  - Replace return a with return a + b. You can drop _ = b once b is used.
 ---
 
-Coming in the next content pass.
+The starter defines `add` but currently returns only `a`, so the program prints `2`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Return `a + b`. Leave `add(2, 3)` if you want `5`.

@@ -4,13 +4,21 @@ chapter: interop
 slug: talking-to-c
 type: concept
 title: Talking to C
-description: Call C and be called from C.
+description: Zig can import C headers and link C objects. Not in this browser.
 order: 2
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Import-from-C-Header-File"
+comingFrom:
+  c: "You keep the .h and the .c. Zig can @cImport a header and call the functions. This lab cannot demonstrate that."
+  rust: "Closer to bindgen-plus-cc than to a rewrite. Zig’s usual story is “call the C,” not “replace the C first.”"
+  go: "Think cgo in spirit (call C), not a sandbox demo. You need a local toolchain and real headers."
 ---
 
-Coming in the next content pass.
+Zig’s C story is a reason people pick the language: **call C, and be called from C**, without a second FFI language in the middle.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+`@cImport` translates a C header at compile time. You then call those functions as Zig functions, link the C objects, and pick a libc when you need one. The Language Reference section [Import from C Header File](https://ziglang.org/documentation/0.16.0/#Import-from-C-Header-File) is the canonical write-up.
+
+**You cannot Run `@cImport` here.** The playground has no C compiler, no system headers, and no linker for mixed objects. A snippet that starts `@cImport({ @cInclude("stdio.h"); })` belongs on a machine with Zig installed.
+
+C++ is out of this path. When you leave the lab, install Zig, then import C from a local `build.zig` — not from this editor.

@@ -4,14 +4,19 @@ chapter: memory
 slug: try-optional
 type: try
 title: Unwrap safely
-description: Unwrap an optional without pretending it is always there.
+description: Use orelse when an optional is null.
 order: 3
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Optionals"
 starterFile: try-optional.zig
+expectedOutput: "4"
+hints:
+  - maybe is null. It is not 0.
+  - orelse 4 runs because the optional is missing.
+  - Change maybe to a number if you want. Keep null if you still want 4.
 ---
 
-Coming in the next content pass.
+The starter has a `?i32` that is `null`. `orelse` fills in `4`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run. You should see `4`. That is the missing case, handled on the page — not a crash, not a silent zero unless you chose zero as the fallback.

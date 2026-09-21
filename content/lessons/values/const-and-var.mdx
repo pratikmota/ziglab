@@ -16,12 +16,21 @@ comingFrom:
 
 A name in Zig is either **const** or **var**.
 
-`const count = 3;` binds `count` to `3`. You cannot assign a new value later. That is the usual choice.
+`const count = 3;` binds `count` to `3`. You cannot assign a new value later. That is the usual choice. If you omit the type, Zig **infers** it from the value when it can. You can still write the type: `const count: i32 = 3;`.
 
-`var ready = true;` binds `ready` and allows `ready = false;` later. Use `var` only when the value must change.
+`var ready = true;` binds `ready` and allows `ready = false;` later. `true` and `false` are **bool**. Use `var` only when the value must change.
 
-The compiler checks this. If you write `const` and then assign, the program does not compile. That is a feature: the page tells you whether a name is allowed to move.
+`undefined` means “this name exists, but I have not given it a real value yet.” Reading it before you assign is a bug. Prefer a real initial value.
 
-You can still give a type on either kind of binding: `const count: i32 = 3;`. If you omit the type, Zig infers it from the value when it can.
+```zig
+const std = @import("std");
 
-Next you will see a few typed values in an editor. After that, a short note on integers, floats, and overflow — still reading, no editor.
+pub fn main() void {
+    const count: i32 = 3;
+    var ready: bool = true;
+    ready = false;
+    std.debug.print("count={d} ready={}\n", .{ count, ready });
+}
+```
+
+Compare with `==`, `<`, `>`. Those produce a `bool`. Next you will see typed values in an editor, including how `{d}` prints a number.

@@ -1,5 +1,7 @@
 const std = @import("std");
 
 pub fn main() void {
-    std.debug.print("Coming soon\n", .{});
+    var n: i32 = 0;
+    while (n < 3) : (n += 1) {}
+    std.debug.print("{d}\n", .{n});
 }

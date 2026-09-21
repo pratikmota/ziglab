@@ -4,13 +4,21 @@ chapter: interop
 slug: zig-build
 type: concept
 title: zig build in brief
-description: What zig build is for.
+description: zig build is the local toolchain’s project runner. It does not run in this lab.
 order: 1
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "https://ziglang.org/learn/build-system/"
 ---
 
-Coming in the next content pass.
+`zig build` is how a **local** Zig project compiles, tests, and installs. A `build.zig` file describes steps: compile this executable, run these tests, copy that artifact. You write it in Zig.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+This lab’s Run button compiles a **single buffer** in the browser. It does not load `build.zig`, does not fetch dependencies, and does not produce a native binary on your disk.
+
+To use `zig build` for real:
+
+1. Install a matching 0.16.x from [ziglang.org/download](https://ziglang.org/download/)
+2. Read the official [Build System guide](https://ziglang.org/learn/build-system/)
+3. Start a project with `zig init` (or a layout you already have) and run `zig build` in that directory
+
+Treat this page as a map, not a workshop. The guide is the document to follow — ZigLab will not rewrite it.

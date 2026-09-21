@@ -1,0 +1,22 @@
+---
+id: arrays/challenge-walk
+chapter: arrays
+slug: challenge-walk
+type: challenge
+title: Walk a slice
+description: Sum a slice with for and print the total.
+order: 6
+level: core
+videoUrl: ""
+docsUrl: "#for"
+starterFile: challenge-walk.zig
+expectedOutput: "6"
+hints:
+  - "part is already nums[1..4], the values 1, 4, and 1."
+  - "for (part) |n| walks those three integers. Add each n to total."
+  - "Print is already there. The sum should be 6."
+---
+
+`part` is a slice of three integers: `1`, `4`, and `1`. `total` starts at `0`. The loop currently adds `0`.
+
+Use `for` to add each `n` to `total`. The print is already in `main`. Run until you see `6`.

@@ -4,13 +4,27 @@ chapter: comptime
 slug: what-is-comptime
 type: concept
 title: What is comptime?
-description: Comptime is ordinary Zig that runs while compiling.
+description: Comptime is ordinary Zig that the compiler runs while it builds the program.
 order: 1
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#comptime"
 ---
 
-Coming in the next content pass.
+**Comptime** is Zig that runs **while compiling**. It is not a second language. A `comptime` argument must be known before the program starts — a literal, a `const`, a type.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+fn triple(comptime n: i32) i32 {
+    return n * 3;
+}
+
+pub fn main() void {
+    std.debug.print("{d}\n", .{triple(5)});
+}
+```
+
+`5` is known at compile time, so `triple` can use it as `comptime n`. The compiler can fold `5 * 3` before `main` runs. You cannot pass a runtime `var` into a `comptime` parameter.
+
+That is the selling point in one page: the same `if`, `while`, and arithmetic, with values the compiler already knows. Reflection (`@Type`) and generating whole types at compile time wait for a later track.

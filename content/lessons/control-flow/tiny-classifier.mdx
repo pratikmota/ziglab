@@ -1,0 +1,24 @@
+---
+id: control-flow/tiny-classifier
+chapter: control-flow
+slug: tiny-classifier
+type: challenge
+title: Tiny classifier
+description: Walk 1 through 4 with while and print o or e for odd or even.
+order: 6
+level: core
+videoUrl: ""
+docsUrl: "#if"
+starterFile: tiny-classifier.zig
+expectedOutput: "oeoe"
+hints:
+  - "while already walks n from 1 to 4. You only fill the body."
+  - "Odd numbers print o. Even numbers print e. Remainder is n % 2."
+  - "Print with no spaces and no extra newlines inside the loop. The starter adds one newline after."
+---
+
+The starter already counts `n` from 1 through 4 with `while`. Your job is the **classifier**.
+
+For each `n`, print `o` if it is odd and `e` if it is even. No spaces between letters. After the loop, the starter prints a newline.
+
+You need `if` inside `while`. You do not need `for` or an array.

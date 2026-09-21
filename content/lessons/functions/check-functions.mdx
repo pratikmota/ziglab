@@ -4,25 +4,68 @@ chapter: functions
 slug: check-functions
 type: quiz
 title: Functions check
-description: A short check on functions.
+description: Four questions on pub, void, arguments, and return.
 order: 4
 level: core
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Functions check page is a stub. Which is true?"
+    prompt: "What does pub on a function mean?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "The function returns a value."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "Other code (another file, or the runtime) may call it."
+      - id: c
+        text: "The function runs at compile time."
+    answer: b
+    explain:
+      a: "The return type after the parentheses is what comes back, like i32 or void."
+      b: "Correct. Without pub, the function stays private to this file."
+      c: "comptime is a later chapter. pub is visibility."
+  - id: q2
+    prompt: "What does a return type of void mean?"
+    options:
+      - id: a
+        text: "The function returns no value."
+      - id: b
+        text: "The function may return any type."
+      - id: c
+        text: "The function failed."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. main often returns void. Helpers that only print can too."
+      b: "Zig wants one return type written on the function."
+      c: "Failure is an error union, written with !. That arrives later."
+  - id: q3
+    prompt: "How do you send a value back to the caller?"
+    options:
+      - id: a
+        text: "Assign to the function name."
+      - id: b
+        text: "Use return with a value of the declared return type."
+      - id: c
+        text: "Print it. The caller reads stdout."
+    answer: b
+    explain:
+      a: "Zig has no implicit named return like that."
+      b: "Correct. return sum; or return a + b;"
+      c: "Print is for people. Callers use the returned value."
+  - id: q4
+    prompt: "Where does zig test run?"
+    options:
+      - id: a
+        text: "Only in this browser lab."
+      - id: b
+        text: "On a machine where you installed Zig, against test blocks in a file."
+      - id: c
+        text: "Inside std.debug.print."
+    answer: b
+    explain:
+      a: "This lab uses Run on a program with main. It does not replace zig test."
+      b: "Correct. Install Zig locally when you want test files and zig test."
+      c: "print writes a message. It does not run tests."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

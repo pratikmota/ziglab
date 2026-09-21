@@ -4,14 +4,19 @@ chapter: types-user
 slug: try-struct
 type: try
 title: Make a Point
-description: Declare a small Point struct.
+description: Declare a Point and print one field.
 order: 2
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#struct"
 starterFile: try-struct.zig
+expectedOutput: "3"
+hints:
+  - Point has x and y, both i32.
+  - "The value is Point{ .x = 3, .y = 8 }. p.x is 3."
+  - "{d} prints the integer field."
 ---
 
-Coming in the next content pass.
+The starter defines `Point` and one value. Read the field names in the literal.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run. The print shows `p.x`. You can change a field; keep `3` if you want the line below.

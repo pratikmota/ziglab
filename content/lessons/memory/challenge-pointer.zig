@@ -1,5 +1,8 @@
 const std = @import("std");
 
 pub fn main() void {
-    std.debug.print("Coming soon\n", .{});
+    var n: i32 = 11;
+    const p: *i32 = &n;
+    _ = p;
+    std.debug.print("{d}\n", .{n});
 }

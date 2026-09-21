@@ -4,25 +4,68 @@ chapter: comptime
 slug: check-comptime
 type: quiz
 title: Comptime check
-description: A short check on comptime.
+description: Four questions on comptime Zig and types as values.
 order: 4
 level: advanced
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Comptime check page is a stub. Which is true?"
+    prompt: "What is comptime?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "A separate macro language you write in a .zigm file."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "Ordinary Zig that the compiler can run while building."
+      - id: c
+        text: "A garbage collector mode."
+    answer: b
+    explain:
+      a: "There is no second syntax. comptime marks when values must be known."
+      b: "Correct. if, arithmetic, and functions — with inputs the compiler already has."
+      c: "Zig is not garbage-collected."
+  - id: q2
+    prompt: "What may you pass to a comptime n: i32 parameter?"
+    options:
+      - id: a
+        text: "A var that changes in main."
+      - id: b
+        text: "A value known at compile time, such as a literal or const."
+      - id: c
+        text: "Anything, including stdin."
+    answer: b
+    explain:
+      a: "A runtime variable is not comptime-known. The compiler will reject it."
+      b: "Correct. 5, or a const built from literals, can be comptime."
+      c: "Input you only have after the program starts is runtime."
+  - id: q3
+    prompt: "What does fn zero(comptime T: type) T mean?"
+    options:
+      - id: a
+        text: "T is a type passed at comptime, and the return value has that type."
+      - id: b
+        text: "T is an integer."
+      - id: c
+        text: "The function must be named zero."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. zero(i32) returns an i32. Types are comptime values."
+      b: "type is the type of types. i32 is one such value."
+      c: "The name is yours. The signature is the idea."
+  - id: q4
+    prompt: "Does this chapter ask you to generate types with @Type?"
+    options:
+      - id: a
+        text: "Yes. That is required to use comptime."
+      - id: b
+        text: "No. Passing a named type is enough on this path."
+      - id: c
+        text: "Only if you came from C."
+    answer: b
+    explain:
+      a: "@Type and reflection are a later track, not v1."
+      b: "Correct. Keep comptime small: known numbers, known types."
+      c: "comingFrom notes do not unlock reflection."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

@@ -4,25 +4,68 @@ chapter: capstone
 slug: check-capstone
 type: quiz
 title: Wrap-up check
-description: A short wrap-up check for the v1 path.
+description: Four questions on the in-lab path and where to go next.
 order: 4
 level: advanced
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Wrap-up check page is a stub. Which is true?"
+    prompt: "What kind of program was the capstone?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "An in-memory program. No argv, files, or network."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "A CLI that parsed flags from the OS."
+      - id: c
+        text: "A networked HTTP server."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. The playground cannot host those OS APIs honestly."
+      b: "That would need args and a real process. We did not fake it."
+      c: "Networking is a later track after you install Zig."
+  - id: q2
+    prompt: "Where should you look for canonical language rules?"
+    options:
+      - id: a
+        text: "Only ZigLab quizzes."
+      - id: b
+        text: "The Language Reference at ziglang.org."
+      - id: c
+        text: "A random GitHub gist."
+    answer: b
+    explain:
+      a: "Quizzes check a chapter. They do not replace the language spec."
+      b: "Correct. ZigLab links into that page. ziglang.org remains official."
+      c: "Use the versioned Language Reference."
+  - id: q3
+    prompt: "When do ArrayList and HashMap belong?"
+    options:
+      - id: a
+        text: "After you install Zig and can pass a real allocator."
+      - id: b
+        text: "In every Hello World."
+      - id: c
+        text: "They replace arrays on this path."
+    answer: a
+    explain:
+      a: "Correct. Growable collections need an allocator you can see. Teased, not taught here."
+      b: "Hello World printed a string. No heap."
+      c: "Fixed arrays and slices are still the right tools for known lengths."
+  - id: q4
+    prompt: "Is Ziglings the same as ZigLab’s challenges?"
+    options:
+      - id: a
+        text: "Yes. This lab pasted their exercises."
+      - id: b
+        text: "No. Ziglings is a separate local practice set. ZigLab wrote its own."
+      - id: c
+        text: "Ziglings only runs in this browser."
+    answer: b
+    explain:
+      a: "ZigLab does not copy Ziglings wording or broken programs."
+      b: "Correct. Use Ziglings after (or beside) this path, on your machine."
+      c: "Ziglings expects a local Zig install."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

@@ -4,25 +4,68 @@ chapter: types-user
 slug: check-user-types
 type: quiz
 title: User types check
-description: A short check on structs, enums, and unions.
-order: 5
+description: Four questions on structs, methods, enums, and tagged unions.
+order: 6
 level: core
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This User types check page is a stub. Which is true?"
+    prompt: "How do you set struct fields in a literal?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "By name, like Point{ .x = 3, .y = 8 }."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "Only by position, like Point{ 3, 8 }."
+      - id: c
+        text: "By calling new Point()."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. Named fields. Order in the literal can differ from the type."
+      b: "Tuple-ish literals exist in some places, but the ordinary struct literal uses names."
+      c: "There is no hidden constructor. You write the struct value."
+  - id: q2
+    prompt: "What is a function declared inside a struct?"
+    options:
+      - id: a
+        text: "A method you call on the type or on a value, like Point.origin()."
+      - id: b
+        text: "A destructor that always runs when the struct goes out of scope."
+      - id: c
+        text: "Illegal. Functions must be at file scope."
+    answer: a
+    explain:
+      a: "Correct. Keep it light: namespaced functions, optional self parameter."
+      b: "Zig does not run hidden destructors. Cleanup stays on the page (defer, later)."
+      c: "Functions inside structs are ordinary Zig."
+  - id: q3
+    prompt: "Why switch on an enum instead of comparing strings?"
+    options:
+      - id: a
+        text: "The compiler can require every tag, so a new tag is a compile error."
+      - id: b
+        text: "Enums are faster strings."
+      - id: c
+        text: "switch cannot see enums."
+    answer: a
+    explain:
+      a: "Correct. A closed set of tags is something the type checker can exhaust."
+      b: "Tags are not text. Printing a name is a separate step (@tagName) if you need it."
+      c: "switch is the usual way to handle every tag."
+  - id: q4
+    prompt: "What does a tagged union remember?"
+    options:
+      - id: a
+        text: "Which tag is active, so you switch to read the matching payload."
+      - id: b
+        text: "Every payload at once, like a struct."
+      - id: c
+        text: "A pointer to the heap, always."
+    answer: a
+    explain:
+      a: "Correct. union(enum) is one tag and one payload."
+      b: "A struct holds all fields together. A union holds one alternative."
+      c: "A local union can live on the stack. Pointers are the next chapter."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

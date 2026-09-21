@@ -1,5 +1,11 @@
 const std = @import("std");
 
+const Point = struct {
+    x: i32,
+    y: i32,
+};
+
 pub fn main() void {
-    std.debug.print("Coming soon\n", .{});
+    const p = Point{ .x = 3, .y = 8 };
+    std.debug.print("{d}\n", .{p.x});
 }

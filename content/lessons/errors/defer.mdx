@@ -4,13 +4,26 @@ chapter: errors
 slug: defer
 type: concept
 title: defer and errdefer
-description: Run cleanup with defer and errdefer.
+description: Run cleanup at the end of the scope. errdefer only on error.
 order: 3
-level: core
+level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#defer"
 ---
 
-Coming in the next content pass.
+`defer` schedules a statement for the **end of the current block**. It runs when the block returns, including after an error return. Several `defer`s run in reverse order — last scheduled, first run.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    defer std.debug.print("done\n", .{});
+    std.debug.print("work\n", .{});
+}
+```
+
+This prints `work`, then `done`. The cleanup stays next to the setup instead of in a far-away `finally`.
+
+`errdefer` is the sibling that runs **only if the block returns an error**. Use it to free something you allocated on a path that failed. It does nothing on the success return.
+
+You will feel `errdefer` more once you allocate. For now: `defer` is “always on the way out”; `errdefer` is “only if we failed.”

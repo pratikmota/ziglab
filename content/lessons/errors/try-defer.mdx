@@ -4,14 +4,19 @@ chapter: errors
 slug: try-defer
 type: try
 title: Print on the way out
-description: Print from a defer so cleanup stays visible.
+description: See defer run after the rest of the block.
 order: 4
-level: core
+level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#defer"
 starterFile: try-defer.zig
+expectedOutput: "done"
+hints:
+  - defer runs when main is leaving, after the work print.
+  - You should see work, then done. The checker looks for a line equal to done.
+  - Move defer around if you want. The scheduled statement still runs at the end of the block.
 ---
 
-Coming in the next content pass.
+The starter prints `work`, and `defer` prints `done` when `main` exits.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run. Look at the order. Cleanup is visible, not hidden in a destructor.

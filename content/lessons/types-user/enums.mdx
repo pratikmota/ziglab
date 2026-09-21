@@ -4,13 +4,30 @@ chapter: types-user
 slug: enums
 type: concept
 title: Enums
-description: Name a set of alternatives with an enum.
+description: Name a closed set of alternatives with an enum.
 order: 3
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#enum"
 ---
 
-Coming in the next content pass.
+An enum names a **closed set** of tags. A value is one of those tags, not a string you hope you spelled right.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+const Size = enum { small, large };
+
+pub fn main() void {
+    const s: Size = .large;
+    const word = switch (s) {
+        .small => "small",
+        .large => "large",
+    };
+    std.debug.print("{s}\n", .{word});
+}
+```
+
+`.large` is a shorthand when Zig already knows the enum type. `switch` on an enum can omit `else` when every tag is listed — that is the compiler checking your cases again.
+
+Enums are not integers you add together. If you need a number, say so with an explicit mapping. Comparing with `==` works: `s == .large`.

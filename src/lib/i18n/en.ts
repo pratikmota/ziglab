@@ -215,7 +215,8 @@ export const en = {
   },
   learn: {
     title: "Learn Zig",
-    intro: "Go in order or jump in. Your progress stays in this browser.",
+    intro:
+      "Go in order or jump in. Chapters 1–6 are the core path (small Zig in this lab). Later chapters add Zig-shaped ideas. Progress stays in this browser.",
     continue: "Continue",
     soon: "Soon",
     prev: "Previous",

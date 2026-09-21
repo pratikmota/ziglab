@@ -1,5 +1,7 @@
 const std = @import("std");
 
 pub fn main() void {
-    std.debug.print("Coming soon\n", .{});
+    const maybe: ?i32 = null;
+    const n = maybe orelse 4;
+    std.debug.print("{d}\n", .{n});
 }

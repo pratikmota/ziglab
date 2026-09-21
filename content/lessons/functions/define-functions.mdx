@@ -4,13 +4,32 @@ chapter: functions
 slug: define-functions
 type: concept
 title: Functions
-description: Define a function, pass arguments, return a value.
+description: Define a function, mark it pub when callers need it, and return a value or void.
 order: 1
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Functions"
 ---
 
-Coming in the next content pass.
+A function is a named block with a type for each argument and a type for what it returns.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+`void` means “no value comes back.” `pub fn main() void` is the entry point you already know: public, so the runtime can call it, and it returns nothing.
+
+A helper in the same file can stay private — omit `pub`. Other files cannot call it. Return a value with `return`.
+
+```zig
+const std = @import("std");
+
+fn add(a: i32, b: i32) i32 {
+    return a + b;
+}
+
+pub fn main() void {
+    const sum = add(2, 3);
+    std.debug.print("{d}\n", .{sum});
+}
+```
+
+Arguments are `const` unless you write `var` in the parameter list. One return type for now. You will see error unions (`!`) in a later chapter.
+
+On your own machine, `zig test file.zig` runs `test` blocks. This lab has Run, not `zig test`. Keep that command for when you install Zig.

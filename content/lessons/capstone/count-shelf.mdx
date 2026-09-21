@@ -1,0 +1,22 @@
+---
+id: capstone/count-shelf
+chapter: capstone
+slug: count-shelf
+type: challenge
+title: Count the shelf
+description: Sum quantities in memory and print the total.
+order: 2
+level: advanced
+videoUrl: ""
+docsUrl: "#for"
+starterFile: count-shelf.zig
+expectedOutput: "7"
+hints:
+  - "shelf is an array of Slot. Each Slot has qty."
+  - "for (shelf) |slot| walks the three slots. Add slot.qty to total."
+  - "2 + 0 + 5 is 7. You can skip zeros with if; the sum is the same."
+---
+
+This is not a CLI. There is no `argv`. The data is the `shelf` array in the starter.
+
+Walk the slots with `for`. Add each `qty` to `total` (the loop currently adds `0`). Print is already there. Run until you see `7`.

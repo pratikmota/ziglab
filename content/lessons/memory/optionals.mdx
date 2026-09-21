@@ -4,13 +4,29 @@ chapter: memory
 slug: optionals
 type: concept
 title: Optionals
-description: A value that might be missing.
+description: "?T is a value or null. orelse supplies a fallback."
 order: 2
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Optionals"
 ---
 
-Coming in the next content pass.
+`?i32` is either an `i32` or **null**. Null is missing, not zero. Zero is a real `i32`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+You do not read an optional as if it were always there. `orelse` gives a fallback when the value is null.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const maybe: ?i32 = null;
+    const n = maybe orelse 4;
+    std.debug.print("{d}\n", .{n});
+}
+```
+
+Here `maybe` is null, so `n` becomes `4`. If you bind `maybe` to `7`, `orelse` does not run and `n` is `7`. `maybe.?` unwraps and panics if the optional is null — prefer `orelse` or `if`.
+
+`if (maybe) |value|` unwraps in a branch. `while` can do the same for a sequence of optionals. A pointer that might be missing is `?*T` — optional pointer — which you will treat with the same `orelse` / `if` tools.
+
+`?` is **missing**. The next chapter’s `!` is **failed**. They look similar and they are not the same.

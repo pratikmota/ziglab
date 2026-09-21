@@ -3,14 +3,41 @@ id: arrays/slices
 chapter: arrays
 slug: slices
 type: concept
-title: Slices
-description: A slice is a pointer and a length into an array.
+title: Slices and for
+description: A slice is a pointer and a length. for walks a slice or array.
 order: 4
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Slices"
 ---
 
-Coming in the next content pass.
+A **slice** is a pointer plus a length. It does not own a copy of the items. `nums[1..3]` is the span from index 1 up to (not including) 3.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const nums = [_]i32{ 8, 1, 2, 3 };
+    const rest = nums[1..];
+    std.debug.print("first={d} len={d}\n", .{ rest[0], rest.len });
+}
+```
+
+`nums[1..]` means “from 1 through the end.” `rest.len` is `3`.
+
+**`for` walks a collection.** This is the loop that waited until you had arrays.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const nums = [_]i32{ 1, 2, 3 };
+    var total: i32 = 0;
+    for (nums) |n| {
+        total += n;
+    }
+    std.debug.print("{d}\n", .{total});
+}
+```
+
+`|n|` names each item. The array (or slice) stays on the left of `for`. You can `for (rest)` the same way. `while` is still right when you own a counter instead of a collection.

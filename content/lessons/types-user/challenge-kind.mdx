@@ -1,0 +1,22 @@
+---
+id: types-user/challenge-kind
+chapter: types-user
+slug: challenge-kind
+type: challenge
+title: Label a box
+description: Print large when a struct’s enum field is large.
+order: 5
+level: core
+videoUrl: ""
+docsUrl: "#enum"
+starterFile: challenge-kind.zig
+expectedOutput: "large"
+hints:
+  - "box.size is a Size enum. Compare it with .large."
+  - "if (box.size == .large) or a switch both work. Print the word large."
+  - "Keep a newline. The checker looks for the line large."
+---
+
+`Box` has a `size` enum and a width. The starter builds one large box.
+
+Print the word `large` when `box.size` is `.large`. Use `if` or `switch`. You do not need to print the width.

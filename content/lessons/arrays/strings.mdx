@@ -4,13 +4,30 @@ chapter: arrays
 slug: strings
 type: concept
 title: Strings are bytes
-description: String literals are bytes, not a separate string class.
+description: A string literal is bytes (u8), not a separate string object.
 order: 3
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#String-Literals-and-Unicode-Code-Point-Literals"
+comingFrom:
+  c: "Close to a char array. There is no hidden String class. Length is not a secret field you get for free on every value."
+  rust: "A literal is bytes, more like &[u8] than String. UTF-8 is a convention on those bytes, not a different type in this lesson."
+  go: "Do not treat this like a Go string with its own type and UTF-8 indexing rules. Here you are looking at u8 values."
 ---
 
-Coming in the next content pass.
+`"lab"` looks like a string. In Zig it is **bytes**: a sequence of `u8`. There is no `String` class, no hidden length object, and no character type that is not an integer.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Print a string with `{s}`. `{d}` is for numbers. Mixing them up is a compile error, which is the compiler being useful.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const msg = "lab";
+    std.debug.print("{s} len={d}\n", .{ msg, msg.len });
+}
+```
+
+`msg.len` is `3` — three bytes. Many Unicode characters take more than one byte. Indexing a “letter” by `msg[i]` is indexing a **byte**, not a grapheme. For this path, treat text as bytes and keep messages in ASCII unless you mean to handle UTF-8 later.
+
+A sentinel-terminated pointer (`[:0]const u8`) shows up in C interop. You do not need that for `"lab"` in `main`.

@@ -4,13 +4,35 @@ chapter: capstone
 slug: what-next
 type: concept
 title: What next
-description: Where to go after the v1 path.
+description: LangRef, practice, books, then a local Zig install for files, tests, and C.
 order: 3
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "https://ziglang.org/learn/"
 ---
 
-Coming in the next content pass.
+You finished the in-lab path. Keep going with **official and community material**, then install Zig when you want files, tests, and C.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+**Read**
+
+- [ziglang.org/learn](https://ziglang.org/learn/) — the Zig project’s own map of docs, guides, and books
+- [Language Reference 0.16.0](https://ziglang.org/documentation/0.16.0/) — the canonical language page this lab links into
+- This lab’s [Learn hub](/learn) — jump back to any chapter
+
+**Practice**
+
+- [Ziglings](https://codeberg.org/ziglings/exercises/) — small broken programs you fix locally (separate from ZigLab; we do not copy their exercises)
+- [Exercism Zig](https://exercism.org/tracks/zig) — mentored practice if you want a track with tests
+
+**Books and guides** (external; pick one, do not binge)
+
+- *[Introduction to Zig](https://pedropark99.github.io/zig-book/)* — project-shaped chapters
+- [zig.guide](https://zig.guide/) — another community walkthrough
+
+**After you [install Zig](https://ziglang.org/download/)** (matching 0.16.x)
+
+- `zig test` on files with `test` blocks
+- `std.ArrayList` and `std.HashMap` — growable collections that take an allocator you can see
+- Files, args, env, processes — the OS APIs this sandbox does not pretend to teach
+- Networking — later, on a real machine
+- The next chapter in this lab is a **brief** on `zig build` and talking to C. You still cannot Run those here.

@@ -3,15 +3,20 @@ id: memory/challenge-pointer
 chapter: memory
 slug: challenge-pointer
 type: challenge
-title: Read through a pointer
-description: Read a value through a pointer.
+title: Write through a pointer
+description: Store 42 through a pointer and print the local.
 order: 4
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Pointers"
 starterFile: challenge-pointer.zig
+expectedOutput: "42"
+hints:
+  - "p already points at n. The write uses p.*, not p."
+  - "p.* = 42; changes n. Then the print shows n."
+  - "& takes an address. .* follows it."
 ---
 
-Coming in the next content pass.
+`p` already points at `n`. `n` starts at `11`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Store **42** through the pointer so that `n` changes. The print already shows `n`. Run until you see `42`.

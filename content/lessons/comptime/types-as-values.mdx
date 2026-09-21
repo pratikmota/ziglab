@@ -4,13 +4,28 @@ chapter: comptime
 slug: types-as-values
 type: concept
 title: Types as values
-description: Types can be values at comptime.
+description: A type can be a comptime argument. You still write ordinary Zig.
 order: 2
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#comptime"
 ---
 
-Coming in the next content pass.
+In Zig, a **type is a value** — but only at comptime. You can pass `i32` into a function the way you pass `5`, as long as the parameter is `comptime T: type`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+fn zero(comptime T: type) T {
+    return 0;
+}
+
+pub fn main() void {
+    const n = zero(i32);
+    std.debug.print("{d}\n", .{n});
+}
+```
+
+`zero(i32)` returns an `i32` `0`. `zero(u8)` would return a `u8`. The body is still ordinary Zig: `return 0`.
+
+You will see this pattern in the standard library: one function, many types, no copy-paste. You do not need `@Type` or a compile-time type factory for this path. Passing a type you already named is enough.

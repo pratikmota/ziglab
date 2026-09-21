@@ -3,15 +3,20 @@ id: control-flow/try-loop
 chapter: control-flow
 slug: try-loop
 type: try
-title: Loop over items
-description: Loop over a small list of items.
-order: 4
+title: Count with while
+description: Run a while loop that counts up, then print the counter.
+order: 5
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#while"
 starterFile: try-loop.zig
+expectedOutput: "3"
+hints:
+  - "n starts at 0. The part after the colon adds 1 at the end of each iteration."
+  - "After the loop, n is 3. The print uses {d}."
+  - There is no array here. while owns the counter.
 ---
 
-Coming in the next content pass.
+The starter counts with `while` and a continue expression after the colon. It does not walk a list — that waits for arrays.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Read the condition and `(n += 1)`. After the loop, print the counter. Run to see `3`.

@@ -15,7 +15,7 @@ comingFrom:
   go: "There is no garbage collector. If you need the heap, you ask for it in the code."
 ---
 
-Zig is a small programming language for writing programs you can still read six months later. It is used for tools, firmware, games, and for talking to C without a second language in the way.
+Zig is a small programming language for writing programs you can still read six months later. People use it for tools, firmware, games, and for talking to C without a second language in the way.
 
 Three ideas show up again and again:
 
@@ -23,6 +23,8 @@ Three ideas show up again and again:
 - **Allocations stay visible.** If something needs the heap, the code names an allocator. Zig does not sweep memory for you in the background.
 - **C is a neighbor, not a rewrite.** You can call C and be called from C. That is a large part of why people pick Zig for existing codebases.
 
-You do not need those three ideas memorized today. You need a feel for the tone: Zig would rather be explicit than clever.
+You do not need those three ideas memorized today. You need a feel for the tone: Zig would rather be explicit than clever. When a program misbehaves, you debug **your** loop, allocator, and integer width — not a hidden conversion or a destructor that ran on the way out.
 
-This lab is a path through that tone. Official docs stay at ziglang.org. ZigLab is a place to walk, not a replacement for the language reference.
+**Useful for:** systems tools, tight control over memory, C glue, and builds you can reproduce. **Not a shortcut for** a garbage-collected “just ship a website” stack, a language that hides memory, or a replacement for the official docs.
+
+This lab is a path through that tone. Official docs stay at [ziglang.org](https://ziglang.org/). ZigLab is a place to walk, not a replacement for the language reference. You will meet comptime and C interop in later chapters — labeled when they arrive.

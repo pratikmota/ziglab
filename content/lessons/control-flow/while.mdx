@@ -1,0 +1,30 @@
+---
+id: control-flow/while
+chapter: control-flow
+slug: while
+type: concept
+title: while
+description: Repeat work with while and a counter. for waits until arrays.
+order: 3
+level: core
+videoUrl: ""
+docsUrl: "#while"
+---
+
+`while` repeats a block as long as a bool stays true. You own the counter. That is the loop you need before you have a list of items.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    var n: i32 = 0;
+    while (n < 3) : (n += 1) {}
+    std.debug.print("{d}\n", .{n});
+}
+```
+
+The continue expression sits after the colon. Zig runs that update at the end of each iteration, so the body can stay focused on the work — here the body is empty because the increment *is* the work.
+
+`break` leaves the loop. `continue` skips to the next iteration (and still runs the continue expression if you wrote one).
+
+**`for` is not in this chapter.** It walks a collection. You will meet it with arrays. Until then, count with `while`.

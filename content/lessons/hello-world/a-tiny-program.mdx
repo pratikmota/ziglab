@@ -4,27 +4,28 @@ chapter: hello-world
 slug: a-tiny-program
 type: concept
 title: A tiny program
-description: Walk through import, pub fn main, and the print call in a complete Zig program.
+description: A complete Zig program you can run. Details of tuples wait until you print a number.
 order: 1
 level: start
 videoUrl: ""
-docsUrl: "https://ziglang.org/learn/"
+docsUrl: "#Hello-World"
 ---
 
-A Zig program that prints a line is already a complete program. Three pieces do the work.
-
-**Import.** `const std = @import("std");` loads the standard library and binds it to the name `std`. `@import` is a builtin: the compiler handles it. You are not calling a function that runs later.
+A Zig program that prints a line is already a complete program.
 
 **The entry point.** `pub fn main() void { ... }` is where the program starts. `fn` declares a function. `pub` means other code — here, the runtime — may call it. `void` means this `main` does not return a value.
 
-**Print.** `std.debug.print` writes to stderr. The first argument is a format string. `\n` is a newline. The second argument, `.{ }`, is a tuple of values to fill into the string. For a fixed message, the tuple is empty.
+**Import.** `const std = @import("std");` loads the standard library at compile time and binds it to the name `std`.
+
+**Print.** `std.debug.print` writes a message. The first argument is the text. `\n` is a newline. The second argument is a list of values to fill into the text. For a fixed message, that list is empty: `.{ }`. You will fill it when you print a number in the next chapter.
 
 ```zig
 const std = @import("std");
 
 pub fn main() void {
+    // Change Hello, ZigLab to Hi, ZigLab on the next page.
     std.debug.print("Hello, ZigLab\n", .{});
 }
 ```
 
-Read it top to bottom. There is no hidden class, no implicit `main` generated from a file name, and no extra step that “starts the app.” The next lesson puts this same program in an editor so you can change the message.
+Read it top to bottom. There is no hidden class and no implicit `main` from a file name. The next page puts this in an editor so you can change the message and Run.

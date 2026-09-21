@@ -4,21 +4,21 @@ chapter: hello-world
 slug: print-text
 type: try
 title: Print text
-description: Change the Hello World message in the editor and keep the print call in view.
+description: Change the Hello World message to Hi, ZigLab and run it.
 order: 2
 level: start
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Hello-World"
 starterFile: print-text.zig
-expectedOutput: Hello, ZigLab
+expectedOutput: "Hi, ZigLab"
 hints:
   - The first argument to print is the message. The quotes hold the text that will appear.
-  - Change the words inside the quotes. Keep the \\n if you still want a newline.
-  - Run to see your new message. The in-browser compiler prints whatever is in the quotes.
+  - Change Hello, ZigLab to Hi, ZigLab. Keep the \\n if you still want a newline.
+  - Run. The checker looks for the line Hi, ZigLab.
 ---
 
-The editor on this page starts with the tiny program from the previous lesson. Your job is to **change the message**.
+The editor starts with the tiny program from the previous lesson. Change the words in the quotes from `Hello, ZigLab` to **`Hi, ZigLab`**.
 
-Keep `std.debug.print`. Keep the empty tuple `.{ }` if you are not inserting values. Edit the string. The draft stays in this browser if you refresh.
+Keep `std.debug.print`. Keep the empty tuple `.{ }` if you are not inserting values. The draft stays in this browser if you refresh.
 
-Run compiles this program in the browser. Change the string, then Run — the output should match the line below. Code stays in this browser; do not paste tokens or private keys.
+Run compiles this program in the browser. Code stays in this browser; do not paste tokens or private keys.

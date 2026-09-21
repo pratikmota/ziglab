@@ -4,13 +4,33 @@ chapter: types-user
 slug: unions
 type: concept
 title: Unions
-description: Hold one of several payloads in a union.
+description: A short look at tagged unions — one tag, one payload.
 order: 4
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#union"
 ---
 
-Coming in the next content pass.
+A **union** holds one of several payloads. A **tagged** union (`union(enum)`) remembers which one, so you cannot read the wrong field by accident.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+const Slot = union(enum) {
+    empty,
+    qty: i32,
+};
+
+pub fn main() void {
+    const slot: Slot = .{ .qty = 4 };
+    const n = switch (slot) {
+        .empty => 0,
+        .qty => |q| q,
+    };
+    std.debug.print("{d}\n", .{n});
+}
+```
+
+`.empty` has no extra data. `.qty` carries an `i32`. `switch` unwraps the payload with `|q|`.
+
+You do not need a pointer to store a union in a local. Untagged unions exist for C layouts; skip them until you are matching a C ABI. This page is the peek: **one tag, one payload, switch to read it.**

@@ -4,14 +4,19 @@ chapter: arrays
 slug: try-slice
 type: try
 title: Take a slice
-description: Take a slice from an array.
+description: Slice off the first element and print the new first value.
 order: 5
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Slices"
 starterFile: try-slice.zig
+expectedOutput: "1"
+hints:
+  - "nums[1..] starts at index 1 and runs to the end."
+  - "rest[0] is the first value of that slice, which is 1."
+  - "{d} prints the integer."
 ---
 
-Coming in the next content pass.
+The starter builds an array and takes `nums[1..]` — everything after the first slot.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run. The print shows `rest[0]`. Next you will walk a slice with `for` yourself.

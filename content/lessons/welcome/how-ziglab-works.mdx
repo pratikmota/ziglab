@@ -4,21 +4,25 @@ chapter: welcome
 slug: how-ziglab-works
 type: concept
 title: How this lab works
-description: Short lessons, a playground, local progress, and an optional video when a lesson has one.
+description: Short lessons, a playground, local progress, and an optional local Zig install.
 order: 2
 level: start
 videoUrl: ""
-docsUrl: ""
+docsUrl: "https://ziglang.org/download/"
 ---
 
 ZigLab is a **guided path** plus a **playground**.
 
-Each chapter is a handful of short pages. A **concept** page is reading: one idea, in plain language. Later chapters add **try** and **challenge** pages with an editor, and a **quiz** at the end of the chapter. Chapter 01 is concepts and a quiz only. There is no editor here on purpose.
+Each chapter is a handful of short pages. A **concept** page is reading: one idea, often with a small snippet. **Try** and **challenge** pages add an editor. A **quiz** sits at the end of the chapter.
+
+Chapters **1–6** are the **core path**: enough Zig to write small programs in this browser. Later chapters add structs, pointers, errors, and comptime.
 
 You can go in order with Previous and Next, or jump from the sidebar. Nothing is locked.
 
-Progress is saved in **this browser** (`localStorage`). There is no account and no sync. Another device, another browser, or a cleared site store starts you over. That is the whole privacy model for v1.
+Progress is saved in **this browser** (`localStorage`). There is no account and no sync. Another device, another browser, or a cleared site store starts you over.
 
-Some lessons may offer **Watch a walkthrough**. If a lesson has no video, you will not see an empty player. The playground compiles Zig in this browser so you can try an idea without a lesson around it. It is a learning sandbox, not ziglang.org, and it is not a pretend compiler.
+The playground compiles Zig **in this browser**. Home never downloads the compiler. It is a learning sandbox, not ziglang.org.
+
+You do **not** need Zig installed to learn here. When you leave the lab — real `zig build`, `zig test`, files, C linking — install a matching 0.16.x from [ziglang.org/download](https://ziglang.org/download/) and use any editor with a Zig extension. Next you write a real program in the editor.
 
 If a page looks wrong, use **Report a problem**. It opens a GitHub issue with the lesson id and URL. It never pastes your editor code into the link.

@@ -4,14 +4,19 @@ chapter: arrays
 slug: try-array
 type: try
 title: Fill an array
-description: Put values into an array.
+description: Put values into a three-slot array and print one of them.
 order: 2
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Arrays"
 starterFile: try-array.zig
+expectedOutput: "20"
+hints:
+  - "nums has three i32 slots. Index 0 is the first."
+  - "The print reads nums[1], the middle slot, which is set to 20."
+  - "You can change a slot. Keep 20 at index 1 if you still want that line."
 ---
 
-Coming in the next content pass.
+The starter declares a three-integer array and fills each slot by index. Read `nums[0]`, `nums[1]`, `nums[2]`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run. The print shows the middle value. Indexing is enough here — `for` arrives with slices on the next pages.

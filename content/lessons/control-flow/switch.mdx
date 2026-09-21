@@ -1,0 +1,32 @@
+---
+id: control-flow/switch
+chapter: control-flow
+slug: switch
+type: concept
+title: switch
+description: Branch on a value with switch. Every case must be covered.
+order: 4
+level: core
+videoUrl: ""
+docsUrl: "#switch"
+---
+
+`switch` picks a branch from a value. Unlike a chain of `else if`, Zig wants the cases **complete**: every possibility, or an `else`.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const n: i32 = 2;
+    const word = switch (n) {
+        1 => "one",
+        2 => "two",
+        else => "other",
+    };
+    std.debug.print("{s}\n", .{word});
+}
+```
+
+Ranges work: `0...9 => "digit"`. You can `switch` on integers, enums, and a few other types. Like `if`, `switch` can be a statement or an expression.
+
+If you omit `else` on an integer, the compiler asks you to cover the rest. That is the point: forgotten cases show up at compile time, not in production.

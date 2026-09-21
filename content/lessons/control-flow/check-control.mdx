@@ -4,25 +4,68 @@ chapter: control-flow
 slug: check-control
 type: quiz
 title: Control flow check
-description: A short check on if, while, and for.
-order: 6
+description: Four questions on if, while, and switch.
+order: 7
 level: core
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Control flow check page is a stub. Which is true?"
+    prompt: "What type must an if condition have?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "Any integer. Non-zero means true."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "bool. You compare first, then branch."
+      - id: c
+        text: "A string that says true or false."
+    answer: b
+    explain:
+      a: "Zig does not treat integers as truthy. if (1) is a compile error."
+      b: "Correct. Compare, get a bool, then if."
+      c: "Strings are bytes, not conditions."
+  - id: q2
+    prompt: "When can you write if as an expression, like const label = if (ok) \"a\" else \"b\"?"
+    options:
+      - id: a
+        text: "When both branches produce the same type."
+      - id: b
+        text: "Only inside while."
+      - id: c
+        text: "Never. if is always a statement."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. Both sides must agree so the name has one type."
+      b: "if expressions work in ordinary functions, not only loops."
+      c: "Zig allows if as a value when the types match."
+  - id: q3
+    prompt: "What does while (n < 3) : (n += 1) do with the part after the colon?"
+    options:
+      - id: a
+        text: "It runs once before the loop starts."
+      - id: b
+        text: "It runs at the end of each iteration."
+      - id: c
+        text: "It is how Zig writes for-each over an array."
+    answer: b
+    explain:
+      a: "Initialization stays on the line before while. The colon part is the continue expression."
+      b: "Correct. That update runs after the body, including after continue."
+      c: "for walks collections. You will meet it with arrays. This is still while."
+  - id: q4
+    prompt: "Why does switch on an integer usually need else?"
+    options:
+      - id: a
+        text: "So forgotten cases are a compile error instead of a silent miss."
+      - id: b
+        text: "else is required even when you listed every enum field."
+      - id: c
+        text: "else turns switch into a while loop."
+    answer: a
+    explain:
+      a: "Correct. Integers have many values. else (or a full cover) makes the switch complete."
+      b: "A switch on an enum can omit else when every tag is listed."
+      c: "switch chooses a branch. It does not loop."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

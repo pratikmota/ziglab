@@ -4,14 +4,19 @@ chapter: functions
 slug: challenge-params
 type: challenge
 title: Return a value
-description: Return a value from a function you write.
+description: Return big when the number is at least ten.
 order: 3
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Functions"
 starterFile: challenge-params.zig
+expectedOutput: "big"
+hints:
+  - "label takes an i32 and returns a string. main already prints with {s}."
+  - n is 12, which is at least 10. Return big in that case. You can drop _ = n once n is used.
+  - "An if expression works: return if (n >= 10) \"big\" else \"small\";"
 ---
 
-Coming in the next content pass.
+`label` should return **`big`** when `n` is at least 10, otherwise `"small"`. Right now it always returns `"small"`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Use `if` as an expression (or a block). Leave `main` alone. Run until you see `big`.

@@ -4,14 +4,19 @@ chapter: errors
 slug: try-catch
 type: try
 title: Catch an error
-description: Catch an error from a failing call.
+description: Catch a failing call and print the fallback.
 order: 2
-level: core
+level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#catch"
 starterFile: try-catch.zig
+expectedOutput: "0"
+hints:
+  - "load(false) returns error.Empty instead of 9."
+  - "catch 0 turns that failure into the integer 0."
+  - "main stays void, so try would not fit unless you change the return type."
 ---
 
-Coming in the next content pass.
+The starter calls `load(false)` and handles failure with `catch`. Read the error set on `load` and the `return error.Empty` branch.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Run. You should see `0` — the fallback, not a crash.

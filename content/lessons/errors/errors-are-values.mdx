@@ -4,13 +4,38 @@ chapter: errors
 slug: errors-are-values
 type: concept
 title: Errors are values
-description: Treat errors as values, not thrown exceptions.
+description: "? is missing. ! is failed. catch is not orelse."
 order: 1
-level: core
+level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#Error-Union-Type"
+comingFrom:
+  c: "Closer to returning an error code than to longjmp. The ! in the type is visible, and you cannot ignore it by accident."
+  rust: "Like Result, not like panic. error{Range}!i32 is a success payload or an error — not an exception that unwinds unless you let it."
+  go: "You still handle failure next to the call, but Zig puts the error in the type (!). catch is the cousin of if err != nil."
 ---
 
-Coming in the next content pass.
+An error is a **value**, not a stack unwind you forgot about. A function that might fail returns an **error union**: `error{Range}!i32` — either an `i32` or an error from that set.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+**`?T`** means missing. Fallback: **`orelse`**.  
+**`!T`** means failed. Fallback: **`catch`**.
+
+`try` unwraps an error union or returns the error to the caller. That only works when the caller’s return type can hold the error (`!void`, not `void`). `catch` stays in the function and supplies a fallback.
+
+```zig
+const std = @import("std");
+
+const Fail = error{ Empty };
+
+fn load(ok: bool) Fail!i32 {
+    if (!ok) return error.Empty;
+    return 9;
+}
+
+pub fn main() void {
+    const n = load(false) catch 0;
+    std.debug.print("{d}\n", .{n});
+}
+```
+
+`load(false)` fails. `catch 0` turns that into `0`. `orelse` would not compile here — this is `!`, not `?`.

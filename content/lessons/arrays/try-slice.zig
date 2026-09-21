@@ -1,5 +1,7 @@
 const std = @import("std");
 
 pub fn main() void {
-    std.debug.print("Coming soon\n", .{});
+    const nums = [_]i32{ 8, 1, 2, 3 };
+    const rest = nums[1..];
+    std.debug.print("{d}\n", .{rest[0]});
 }

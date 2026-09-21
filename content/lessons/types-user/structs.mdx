@@ -4,13 +4,34 @@ chapter: types-user
 slug: structs
 type: concept
 title: Structs
-description: Group fields in a struct.
+description: Group fields in a struct. A light look at methods.
 order: 1
 level: core
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#struct"
 ---
 
-Coming in the next content pass.
+A struct is a bundle of named fields. Each field has a type. You write the names at the use site: `.{ .x = 3, .y = 8 }`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+```zig
+const std = @import("std");
+
+const Point = struct {
+    x: i32,
+    y: i32,
+
+    fn origin() Point {
+        return .{ .x = 0, .y = 0 };
+    }
+};
+
+pub fn main() void {
+    const p = Point{ .x = 3, .y = 8 };
+    const o = Point.origin();
+    std.debug.print("p.x={d} o.x={d}\n", .{ p.x, o.x });
+}
+```
+
+A function inside the struct is a **method** in the Zig sense: you call it as `Point.origin()` or, with a `self` parameter, as `p.distance()`. Keep methods small. You do not need pointers to read `p.x`.
+
+Field order in the type and in the literal can differ. What matters is the names.

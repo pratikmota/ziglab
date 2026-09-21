@@ -15,10 +15,21 @@ Zig does not treat “a number” as one type. Integers and floats are separate,
 
 **Integers.** `i32` is a signed 32-bit integer. `u8` is an unsigned 8-bit integer (0 through 255). `i64`, `u16`, and the rest follow the same pattern: `i` or `u`, then the bit count. `usize` is the pointer-sized unsigned integer, used for indexes and sizes.
 
-**Comptime integers.** A bare `3` in source is a comptime integer until it has to pick a concrete type — for example when you write `const count: i32 = 3;`. You do not need the details today. Remember that the type is not guessed from “it looks numeric.”
+**Comptime integers.** A bare `3` in source is a comptime integer until it has to pick a concrete type — for example when you write `const count: i32 = 3;`.
 
-**Floats.** `f32` and `f64` are IEEE floats. You cannot assign a float to an integer slot without being explicit. Zig would rather you notice the conversion than silently drop the fractional part.
+**Floats.** `f32` and `f64` are IEEE floats. You cannot assign a float to an integer slot without being explicit.
 
-**Bool.** `bool` is `true` or `false`. It is not an integer, even though some languages let you add `true` to `1`.
+**Bool.** `bool` is `true` or `false`. It is not an integer. `count > 0` is a bool.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+    const count: i32 = 7;
+    const ratio: f64 = 1.5;
+    const ok: bool = count > 0;
+    std.debug.print("count={d} ratio={d} ok={}\n", .{ count, ratio, ok });
+}
+```
 
 Pick the width you mean. A `u8` that overflows is a different story from a `u32`. The next page is a short safety note about that.

@@ -4,25 +4,68 @@ chapter: memory
 slug: check-memory
 type: quiz
 title: Pointers check
-description: A short check on pointers and optionals.
+description: Four questions on pointers, optionals, orelse, and stack versus heap.
 order: 5
 level: advanced
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Pointers check page is a stub. Which is true?"
+    prompt: "What does p.* mean when p is *i32?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "The address itself, as an integer."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "The i32 stored at that address."
+      - id: c
+        text: "A copy of the pointer."
+    answer: b
+    explain:
+      a: "&n is the address. p.* is the value there."
+      b: "Correct. Read or write the i32 through the pointer."
+      c: "p is the pointer. p.* is the payload."
+  - id: q2
+    prompt: "What is null in ?i32?"
+    options:
+      - id: a
+        text: "The integer 0."
+      - id: b
+        text: "Missing. No i32 is there."
+      - id: c
+        text: "A pointer to the heap."
+    answer: b
+    explain:
+      a: "Zero is a real i32. An optional can hold 0 or it can be null — those differ."
+      b: "Correct. orelse (or if) handles the missing case."
+      c: "null means missing, not “on the heap.”"
+  - id: q3
+    prompt: "What does maybe orelse 4 do?"
+    options:
+      - id: a
+        text: "Always returns 4."
+      - id: b
+        text: "Returns the i32 if maybe has one, otherwise 4."
+      - id: c
+        text: "Panics when maybe is null."
+    answer: b
+    explain:
+      a: "If maybe holds a number, you get that number. orelse is the fallback."
+      b: "Correct. Null takes the right-hand side."
+      c: "Unwrapping with .? panics on null. orelse does not."
+  - id: q4
+    prompt: "Which statement about stack and heap matches this path?"
+    options:
+      - id: a
+        text: "Locals live for the call. The heap is requested through an allocator you can see."
+      - id: b
+        text: "Zig always allocates structs on the heap."
+      - id: c
+        text: "You must use GPA or Arena for every pointer."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. No hidden new. Allocator catalogs wait for a later track."
+      b: "A Point local can live on the stack. Heap is a choice."
+      c: "This course does not require named allocator types. Do not return a pointer to a local."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

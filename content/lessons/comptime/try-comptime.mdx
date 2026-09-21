@@ -4,14 +4,19 @@ chapter: comptime
 slug: try-comptime
 type: try
 title: A tiny comptime function
-description: Write a tiny function that can run at comptime.
+description: Make a comptime function return three times its argument.
 order: 3
 level: advanced
 videoUrl: ""
-docsUrl: ""
+docsUrl: "#comptime"
 starterFile: try-comptime.zig
+expectedOutput: "15"
+hints:
+  - "triple's argument is comptime n. 5 is a literal, so it qualifies."
+  - "The body currently returns n. Return n * 3. 5 * 3 is 15."
+  - "A runtime var would not be allowed as that argument."
 ---
 
-Coming in the next content pass.
+The starter’s `triple` takes a `comptime` integer. `main` calls `triple(5)`. Right now it returns `n` unchanged, so you would see `5`.
 
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Return `n * 3`. The math can happen while compiling because the input is already known.

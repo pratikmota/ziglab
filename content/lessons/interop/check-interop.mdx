@@ -4,25 +4,68 @@ chapter: interop
 slug: check-interop
 type: quiz
 title: Interop check
-description: A short check on build and C interop.
+description: Four questions on zig build, C import, and what this lab cannot run.
 order: 3
 level: advanced
 videoUrl: ""
 docsUrl: ""
 quiz:
   - id: q1
-    prompt: "This Interop check page is a stub. Which is true?"
+    prompt: "What is zig build for?"
     options:
       - id: a
-        text: "The full lesson arrives in a later content pass."
+        text: "Running this lab’s editor."
       - id: b
-        text: "This page is the finished chapter and you should ignore later lessons."
+        text: "Building a local project from build.zig — compile, test, install."
+      - id: c
+        text: "Downloading ZigLab chapters."
+    answer: b
+    explain:
+      a: "The lab compiles one buffer in the browser. That is not zig build."
+      b: "Correct. You need Zig installed and a project directory."
+      c: "Lessons are already in the app. zig build is the toolchain."
+  - id: q2
+    prompt: "Can you Run @cImport in ZigLab?"
+    options:
+      - id: a
+        text: "Yes. Paste a header and press Run."
+      - id: b
+        text: "No. The playground has no C compiler or system headers."
+      - id: c
+        text: "Only on Tuesdays."
+    answer: b
+    explain:
+      a: "There is no C frontend in the WASM guest for this."
+      b: "Correct. Import C on a machine with Zig. This chapter is concept-only."
+      c: "The limitation is the sandbox, not the calendar."
+  - id: q3
+    prompt: "Where is the canonical zig build documentation?"
+    options:
+      - id: a
+        text: "The official Build System guide on ziglang.org."
+      - id: b
+        text: "This quiz."
+      - id: c
+        text: "The ZigLab playground README inside the WASM module."
     answer: a
     explain:
-      a: "Correct. Navigation is here so Previous and Next keep working."
-      b: "The body is a placeholder. Come back when the next content pass lands."
+      a: "Correct. ZigLab links out. It does not replace that guide."
+      b: "A check is not a build manual."
+      c: "The WASM module compiles a single file. It does not ship the build guide."
+  - id: q4
+    prompt: "Do you need Zig installed to finish Learn?"
+    options:
+      - id: a
+        text: "Yes. Chapters 1–11 will not Run without it."
+      - id: b
+        text: "No for the in-lab path. Yes for real zig build, zig test, files, and C linking."
+      - id: c
+        text: "Only if you use const."
+    answer: b
+    explain:
+      a: "Learn and Play target the browser compiler. Install is optional until you leave."
+      b: "Correct. This last chapter is the map off the island."
+      c: "const works in the lab. C headers do not."
 ---
 
-Coming in the next content pass.
-
-This page exists so the chapter list, sidebar, and Previous / Next stay complete. The real lesson is not written yet.
+Submit when each question has an answer. Wrong answers still complete the lesson. You can retry.

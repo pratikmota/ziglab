@@ -1,0 +1,22 @@
+---
+id: errors/challenge-catch
+chapter: errors
+slug: challenge-catch
+type: challenge
+title: Keep a good parse
+description: Catch a parse that can fail and print the number when it succeeds.
+order: 5
+level: advanced
+videoUrl: ""
+docsUrl: "#catch"
+starterFile: challenge-catch.zig
+expectedOutput: "3"
+hints:
+  - "parse(3) succeeds. The return type is still an error union, so you cannot print it as i32 directly."
+  - "Write parse(3) catch 0 — or catch return if you want to leave on failure."
+  - "try needs a return type that can hold the error. main is void unless you change it."
+---
+
+`parse` returns `error{Range}!i32`. `3` is in range, so the call succeeds — but the type is still an error union.
+
+Unwrap it with `catch` (fallback `0` is fine) and print the integer. Run until you see `3`.
