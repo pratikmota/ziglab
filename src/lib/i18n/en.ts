@@ -2,7 +2,7 @@ export const en = {
   meta: {
     homeTitle: "ZigLab — Learn Zig in the browser",
     about: "About",
-    sponsors: "Sponsors",
+    sponsors: "Support this project",
     blog: "Blog",
     privacy: "Privacy",
     terms: "Terms",
@@ -14,7 +14,7 @@ export const en = {
     learn: "Learn",
     play: "Playground",
     blog: "Blog",
-    sponsors: "Sponsors",
+    sponsors: "Support",
     about: "About",
     privacy: "Privacy",
     terms: "Terms",
@@ -122,18 +122,18 @@ export const en = {
   sponsors: {
     strip: "ZigLab stays free because people support it.",
     empty: "No logos yet. When people and companies back the lab, they will show up here.",
-    cta: "Become a sponsor",
-    keepOnline: "Keep ZigLab online.",
-    pageTitle: "Help keep ZigLab online.",
+    cta: "Support this project",
+    keepOnline: "Support this project",
+    pageTitle: "Support this project",
     pageLead:
-      "ZigLab stays free so anyone can learn Zig in the browser. Money covers the boring, necessary parts.",
-    whyTitle: "Why money is needed",
+      "ZigLab stays free so anyone can learn Zig in the browser. Support helps with hosting, the domain, and time to keep lessons and the playground going.",
+    whyTitle: "What support covers",
     whyHosting: "Hosting and the ziglab.org domain.",
     whyWasm: "Time to wire a real in-browser Zig compiler.",
     whyLessons: "Time to write and maintain original lessons.",
-    githubCta: "Sponsor on GitHub",
+    githubCta: "Support on GitHub",
     thanks:
-      "Thank you if you already help. There is no paywall and no guilt. Logos appear here when people and companies choose to be listed.",
+      "Thank you if you already help. There is no paywall and no guilt.",
     partners: "Partners",
     gold: "Gold",
     community: "Community",
@@ -166,7 +166,7 @@ export const en = {
     zigLink: "Official Zig website",
     zsfLink: "Support the Zig Software Foundation",
     zsfNote:
-      "That donate page helps Zig itself. It is separate from sponsoring ZigLab hosting.",
+      "That donate page helps Zig itself. It is separate from supporting ZigLab.",
   },
   privacy: {
     title: "Privacy",
@@ -270,7 +270,6 @@ export const en = {
     openSource: "ZigLab is open source.",
     navHeading: "ZigLab",
     legalHeading: "Legal",
-    supportHeading: "Support",
     disclaimerLead:
       "ZigLab is an independent community project. Zig is developed at",
     trademark:

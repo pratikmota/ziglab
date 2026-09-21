@@ -53,14 +53,19 @@ export function Footer({ compact = false }: { compact?: boolean }) {
     );
   }
 
+  const linkClass = cn(
+    chromeLinkClass,
+    "text-sm text-foreground/90 hover:text-foreground"
+  );
+
   return (
     <footer className="border-t border-line bg-bg-elevated">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6">
-        <div className="flex flex-col gap-8 md:flex-row md:justify-between">
-          <div className="max-w-sm space-y-3">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 flex-col gap-1">
             <ZigLabBrandLink />
-            <p className="text-sm text-muted-foreground">{en.footer.tagline}</p>
-            <p className="text-sm">
+            <p className="text-sm text-muted-foreground">
+              {en.footer.tagline}{" "}
               <a
                 href={siteConfig.github}
                 {...externalLinkProps}
@@ -73,94 +78,44 @@ export function Footer({ compact = false }: { compact?: boolean }) {
               </a>
             </p>
           </div>
-
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            <div className="space-y-3">
-              <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                {en.footer.navHeading}
-              </p>
-              <ul className="space-y-2 text-sm">
-                {footerNav.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        chromeLinkClass,
-                        "text-foreground/90 hover:text-foreground"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="space-y-3">
-              <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                {en.footer.legalHeading}
-              </p>
-              <ul className="space-y-2 text-sm">
-                {legalNav.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        chromeLinkClass,
-                        "text-foreground/90 hover:text-foreground"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="space-y-3">
-              <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                {en.footer.supportHeading}
-              </p>
-              <Link
-                href="/sponsors"
-                className={cn(
-                  chromeLinkClass,
-                  "text-sm font-medium text-primary hover:text-[color:var(--accent-hover)]"
-                )}
-              >
-                {en.sponsors.keepOnline}
+          <nav
+            aria-label={en.footer.navHeading}
+            className="flex flex-wrap items-center gap-x-4 gap-y-1 sm:justify-end"
+          >
+            {footerNav.map((item) => (
+              <Link key={item.href} href={item.href} className={linkClass}>
+                {item.label}
               </Link>
-            </div>
-          </div>
+            ))}
+            {legalNav.map((item) => (
+              <Link key={item.href} href={item.href} className={linkClass}>
+                {item.label}
+              </Link>
+            ))}
+            <Link href="/sponsors" className={linkClass}>
+              {en.sponsors.keepOnline}
+            </Link>
+          </nav>
         </div>
 
         <Separator />
 
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-1 text-xs text-muted-foreground">
-            <p>
-              © {year} {en.footer.copyright}. {en.footer.trademark}
-            </p>
-            <p>
-              {en.footer.disclaimerLead}{" "}
-              <a
-                href={siteConfig.zigOfficial}
-                {...externalLinkProps}
-                className={cn(
-                  chromeLinkClass,
-                  "underline-offset-4 hover:underline"
-                )}
-              >
-                ziglang.org
-              </a>
-              .
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-muted-foreground">
+            © {year} {en.footer.copyright}. {en.footer.trademark}{" "}
+            {en.footer.disclaimerLead}{" "}
+            <a
+              href={siteConfig.zigOfficial}
+              {...externalLinkProps}
+              className={cn(chromeLinkClass, "underline-offset-4 hover:underline")}
+            >
+              ziglang.org
+            </a>
+            .
+          </p>
+          <div className="flex shrink-0 items-center gap-3">
             <SocialIcon href={siteConfig.github} label={en.nav.github}>
               <GitHubIcon className="size-4" />
-            </SocialIcon>
-            <SocialIcon href={siteConfig.social.ziggit} label={en.nav.ziggit}>
-              <span className="text-xs font-semibold tracking-wide">Zg</span>
             </SocialIcon>
             <SocialIcon href={siteConfig.social.discord} label={en.nav.discord}>
               <span className="text-xs font-semibold">Dc</span>

@@ -3,13 +3,15 @@ import { en } from "@/lib/i18n/en";
 export const mainNav = [
   { href: "/learn", label: en.nav.learn },
   { href: "/play", label: en.nav.play },
-  { href: "/blog", label: en.nav.blog },
   { href: "/sponsors", label: en.nav.sponsors },
+  // Blog: { href: "/blog", label: en.nav.blog },
 ] as const;
 
 export const footerNav = [
-  ...mainNav,
+  { href: "/learn", label: en.nav.learn },
+  { href: "/play", label: en.nav.play },
   { href: "/about", label: en.nav.about },
+  // Blog: { href: "/blog", label: en.nav.blog },
 ] as const;
 
 export const legalNav = [

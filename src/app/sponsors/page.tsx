@@ -14,7 +14,6 @@ export const metadata = routeMetadata({
 
 export default function SponsorsPage() {
   const sponsors = getSponsors();
-  const hasSponsors = hasAnySponsors(sponsors);
 
   return (
     <Prose>
@@ -50,26 +49,9 @@ export default function SponsorsPage() {
         {en.sponsors.thanks}
       </p>
 
-      {hasSponsors ? (
+      {hasAnySponsors(sponsors) ? (
         <SponsorLogoWall sponsors={sponsors} />
-      ) : (
-        <div className="mt-10 rounded-xl border border-dashed border-line bg-bg-elevated px-6 py-10 text-center">
-          <p className="mx-auto max-w-md text-sm text-muted-foreground">
-            {en.sponsors.empty}
-          </p>
-          <Button
-            className="mt-5"
-            size="lg"
-            variant="outline"
-            nativeButton={false}
-            render={
-              <a href={siteConfig.sponsorsGithub} {...externalLinkProps} />
-            }
-          >
-            {en.sponsors.cta}
-          </Button>
-        </div>
-      )}
+      ) : null}
     </Prose>
   );
 }
