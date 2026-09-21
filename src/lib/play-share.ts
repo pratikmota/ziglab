@@ -8,7 +8,7 @@
  */
 import type { ZigChannel } from "@/lib/execution/types";
 import { WASM_SOURCE_MAX_BYTES } from "@/lib/execution/wasm-limits";
-import { offeredZigChannel } from "@/lib/zig-version";
+import { DEFAULT_ZIG_CHANNEL, offeredZigChannel } from "@/lib/zig-version";
 
 export type PlaySharePayload = {
   code: string;
@@ -103,8 +103,8 @@ export async function decodePlayShare(hash: string): Promise<PlaySharePayload | 
 
   const channel =
     typeof record.channel === "string"
-      ? offeredZigChannel(record.channel as ZigChannel)
-      : offeredZigChannel("stable");
+      ? offeredZigChannel(record.channel)
+      : DEFAULT_ZIG_CHANNEL;
 
   return { code: record.code, channel };
 }

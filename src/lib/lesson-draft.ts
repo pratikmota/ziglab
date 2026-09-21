@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 
 import type { ZigChannel } from "@/lib/execution/types";
-import { offeredZigChannel } from "@/lib/zig-version";
+import { DEFAULT_ZIG_CHANNEL, offeredZigChannel } from "@/lib/zig-version";
 
 export const LESSON_DRAFT_KEY = "ziglab.lesson.draft.v1";
 
@@ -25,10 +25,6 @@ function canUseStorage() {
 
 function invalidateCache() {
   draftCache = null;
-}
-
-function isChannel(value: unknown): value is ZigChannel {
-  return value === "stable" || value === "master";
 }
 
 export function readLessonDraftStore(): LessonDraftStore {
@@ -65,7 +61,7 @@ export function readLessonDraftStore(): LessonDraftStore {
       next[lessonId] = {
         code: entry.code,
         channel: offeredZigChannel(
-          isChannel(entry.channel) ? entry.channel : "stable"
+          typeof entry.channel === "string" ? entry.channel : DEFAULT_ZIG_CHANNEL
         ),
         updatedAt: typeof entry.updatedAt === "string" ? entry.updatedAt : "",
       };

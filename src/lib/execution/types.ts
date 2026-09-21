@@ -1,4 +1,5 @@
-export type ZigChannel = "stable" | "master";
+/** Catalog id for an offered playground compiler (`zigPlayVersions[].id`). */
+export type ZigChannel = string;
 
 export type RunStatus =
   | "idle"

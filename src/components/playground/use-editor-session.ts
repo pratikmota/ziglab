@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import type { ZigChannel } from "@/lib/execution/types";
-import { offeredZigChannel } from "@/lib/zig-version";
+import { DEFAULT_ZIG_CHANNEL, offeredZigChannel } from "@/lib/zig-version";
 
 export type EditorSessionValue = {
   code: string;
@@ -14,7 +14,7 @@ export function useEditorSession({
   sessionKey,
   stored,
   fallbackCode,
-  fallbackChannel = "stable",
+  fallbackChannel = DEFAULT_ZIG_CHANNEL,
   persist,
 }: {
   sessionKey?: string;

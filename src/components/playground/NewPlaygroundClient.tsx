@@ -7,6 +7,7 @@ import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { PLAYGROUND_HELLO_SOURCE } from "@/lib/content/hello-zig";
 import { en } from "@/lib/i18n/en";
 import { writePlayDraft } from "@/lib/play-draft";
+import { DEFAULT_ZIG_CHANNEL } from "@/lib/zig-version";
 
 export function NewPlaygroundClient() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export function NewPlaygroundClient() {
     confirmed.current = true;
     writePlayDraft({
       code: PLAYGROUND_HELLO_SOURCE,
-      channel: "stable",
+      channel: DEFAULT_ZIG_CHANNEL,
     });
     router.replace("/play");
   }

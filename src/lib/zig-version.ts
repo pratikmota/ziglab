@@ -26,11 +26,14 @@ export const zigPlayVersions: ZigPlayVersion[] = [
   },
 ];
 
+export const DEFAULT_ZIG_CHANNEL: ZigChannel =
+  zigPlayVersions.find((item) => item.id === "stable")?.id ?? zigPlayVersions[0].id;
+
 export function playVersion(channel: ZigChannel): ZigPlayVersion | undefined {
   return zigPlayVersions.find((item) => item.id === channel);
 }
 
-export function zigVersionLabel(channel: ZigChannel = "stable") {
+export function zigVersionLabel(channel: ZigChannel = DEFAULT_ZIG_CHANNEL) {
   const match = playVersion(channel);
   return `Zig ${match?.zigVersion ?? siteConfig.zigStableLabel}`;
 }
@@ -40,8 +43,9 @@ export function zigDocsUrl(hash = "") {
   return hash ? `${base}${hash.startsWith("#") ? hash : `#${hash}`}` : base;
 }
 
-export function offeredZigChannel(channel: ZigChannel): ZigChannel {
+/** Unknown or retired catalog ids fall back to the default offered row. */
+export function offeredZigChannel(channel: string): ZigChannel {
   return zigPlayVersions.some((item) => item.id === channel)
     ? channel
-    : "stable";
+    : DEFAULT_ZIG_CHANNEL;
 }
