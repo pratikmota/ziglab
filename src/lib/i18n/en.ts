@@ -128,7 +128,7 @@ export const en = {
     pageLead:
       "ZigLab stays free so anyone can learn Zig in the browser. Support helps with hosting, the domain, and time to keep lessons and the playground going.",
     whyTitle: "What support covers",
-    whyHosting: "Hosting and the ziglab.org domain.",
+    whyHosting: "Hosting and the ziglab.dev domain.",
     whyWasm: "Time to wire a real in-browser Zig compiler.",
     whyLessons: "Time to write and maintain original lessons.",
     githubCta: "Support on GitHub",

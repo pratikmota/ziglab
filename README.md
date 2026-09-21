@@ -1,6 +1,6 @@
 # ZigLab
 
-A friendly lab for learning Zig in the browser: [ziglab.org](https://ziglab.org).
+A friendly lab for learning Zig in the browser: [ziglab.dev](https://ziglab.dev).
 
 This is an independent community project. Zig is developed at [ziglang.org](https://ziglang.org/).
 

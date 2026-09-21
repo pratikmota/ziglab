@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "ZigLab",
-  domain: "https://ziglab.org",
+  domain: "https://ziglab.dev",
   description:
     "Learn Zig in the browser. Lessons, playground, and a friendly lab for the community.",
   github: "https://github.com/pratikmota/ziglab",
