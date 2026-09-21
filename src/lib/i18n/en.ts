@@ -155,7 +155,12 @@ export const en = {
     whyTitle: "Why it exists",
     whyBody:
       "Official docs and other guides are excellent. What was missing is a calm, browser-first lab: a path you can walk, a pad you can try, and no signup.",
-    maintainerTitle: "Maintainer",
+    creatorTitle: "Creator",
+    createdBy: "Created by",
+    github: "GitHub",
+    x: "X",
+    mastodon: "Mastodon",
+    linkedin: "LinkedIn",
     contributeTitle: "How to contribute",
     contributeBody:
       "Lesson prose (MDX), bug reports, design, and later the WASM compiler are all useful. Open an issue or a pull request. Lesson writing must be original — do not paste official docs or other tutorials.",
@@ -164,9 +169,6 @@ export const en = {
       "Be respectful. Assume people are here to learn. We do not host comments or chat on the site in v1; GitHub and Ziggit are the public rooms.",
     courtesyTitle: "Zig itself",
     zigLink: "Official Zig website",
-    zsfLink: "Support the Zig Software Foundation",
-    zsfNote:
-      "That donate page helps Zig itself. It is separate from supporting ZigLab.",
   },
   privacy: {
     title: "Privacy",

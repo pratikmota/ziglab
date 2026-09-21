@@ -4,6 +4,7 @@ import {
   Prose,
   proseLinkClass,
 } from "@/components/content/Prose";
+import { CreatorCard } from "@/components/about/CreatorCard";
 import { siteConfig, externalLinkProps } from "@/config/site";
 import { en } from "@/lib/i18n/en";
 import { routeMetadata } from "@/lib/seo";
@@ -31,11 +32,8 @@ export default function AboutPage() {
         <p>{en.about.whyBody}</p>
       </ContentSection>
 
-      <ContentSection title={en.about.maintainerTitle}>
-        <p>
-          <strong className="font-semibold">{siteConfig.maintainer.name}</strong>
-        </p>
-        <p className="text-muted-foreground">{siteConfig.maintainer.bio}</p>
+      <ContentSection title={en.about.creatorTitle}>
+        <CreatorCard />
       </ContentSection>
 
       <ContentSection title={en.about.contributeTitle}>
@@ -65,16 +63,6 @@ export default function AboutPage() {
             {en.about.zigLink}
           </a>
         </p>
-        <p>
-          <a
-            href={siteConfig.zsfDonate}
-            className={proseLinkClass}
-            {...externalLinkProps}
-          >
-            {en.about.zsfLink}
-          </a>
-        </p>
-        <p className="text-muted-foreground">{en.about.zsfNote}</p>
       </ContentSection>
     </Prose>
   );

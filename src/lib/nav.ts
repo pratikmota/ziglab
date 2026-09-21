@@ -3,7 +3,7 @@ import { en } from "@/lib/i18n/en";
 export const mainNav = [
   { href: "/learn", label: en.nav.learn },
   { href: "/play", label: en.nav.play },
-  { href: "/sponsors", label: en.nav.sponsors },
+  { href: "/support", label: en.nav.sponsors },
   // Blog: { href: "/blog", label: en.nav.blog },
 ] as const;
 

@@ -9,10 +9,10 @@ import { routeMetadata } from "@/lib/seo";
 export const metadata = routeMetadata({
   title: en.meta.sponsors,
   description: en.sponsors.pageLead,
-  path: "/sponsors",
+  path: "/support",
 });
 
-export default function SponsorsPage() {
+export default function SupportPage() {
   const sponsors = getSponsors();
 
   return (

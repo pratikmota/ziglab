@@ -75,8 +75,7 @@ No environment variables are required. Edit [`src/config/site.ts`](src/config/si
 
 These are config values, not fake companies. Fill them before going live:
 
-- Discord and X URLs are empty, so those footer icons stay hidden
-- Maintainer name and bio on `/about` are still placeholders
+- Discord URL is empty, so that footer icon stays hidden
 - Confirm the GitHub Sponsors page at the URL in `siteConfig.sponsorsGithub` is enabled
 - Production Open Graph image is not exported yet
 

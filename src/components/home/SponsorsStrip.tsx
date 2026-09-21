@@ -17,7 +17,7 @@ export function SponsorsStrip() {
       <Button
         className="mt-6"
         nativeButton={false}
-        render={<Link href="/sponsors" />}
+        render={<Link href="/support" />}
       >
         {en.sponsors.cta}
       </Button>

@@ -92,7 +92,7 @@ export function Footer({ compact = false }: { compact?: boolean }) {
                 {item.label}
               </Link>
             ))}
-            <Link href="/sponsors" className={linkClass}>
+            <Link href="/support" className={linkClass}>
               {en.sponsors.keepOnline}
             </Link>
           </nav>
@@ -116,12 +116,6 @@ export function Footer({ compact = false }: { compact?: boolean }) {
           <div className="flex shrink-0 items-center gap-3">
             <SocialIcon href={siteConfig.github} label={en.nav.github}>
               <GitHubIcon className="size-4" />
-            </SocialIcon>
-            <SocialIcon href={siteConfig.social.discord} label={en.nav.discord}>
-              <span className="text-xs font-semibold">Dc</span>
-            </SocialIcon>
-            <SocialIcon href={siteConfig.social.x} label={en.nav.x}>
-              <span className="text-xs font-semibold">X</span>
             </SocialIcon>
           </div>
         </div>

@@ -1,7 +1,10 @@
+import Link from "next/link";
+
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { Button } from "@/components/ui/button";
 import { siteConfig, externalLinkProps } from "@/config/site";
 import { en } from "@/lib/i18n/en";
+import { chromeLinkClass } from "@/lib/utils";
 
 export function Community() {
   return (
@@ -12,6 +15,11 @@ export function Community() {
             {en.community.title}
           </h2>
           <p className="mt-3 text-muted-foreground">{en.community.body}</p>
+          <p className="mt-4 text-sm text-muted-foreground">
+            <Link href="/about" className={chromeLinkClass}>
+              {en.about.createdBy} {siteConfig.maintainer.name}
+            </Link>
+          </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button

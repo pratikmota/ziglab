@@ -9,16 +9,20 @@ export const siteConfig = {
   social: {
     ziggit: "https://ziggit.dev/",
     discord: "",
-    x: "",
+    x: "https://x.com/pratik__mota",
   },
   zigOfficial: "https://ziglang.org/",
   zigLearn: "https://ziglang.org/learn/",
-  zsfDonate: "https://ziglang.org/zsf/",
   zigStableLabel: "0.16.0",
-  // Launch placeholders — fill before going live; do not invent companies.
   maintainer: {
-    name: "Maintainer name",
-    bio: "Placeholder bio. This will be filled before launch.",
+    name: "Pratik Mota",
+    role: "Created ZigLab",
+    bio: "Solo developer in Tokyo. I built ZigLab so anyone can learn Zig in the browser.",
+    photo: "/images/pratik-mota.png",
+    github: "https://github.com/pratikmota",
+    x: "https://x.com/pratik__mota",
+    mastodon: "https://mastodon.social/@pratikmota",
+    linkedin: "https://www.linkedin.com/in/pratik-mota/",
   },
 };
 
