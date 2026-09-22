@@ -1,6 +1,5 @@
 import { siteConfig } from "@/config/site";
-import type { ZigChannel } from "@/lib/execution/types";
-import { zigVersionLabel } from "@/lib/zig-version";
+import { zigVersionLabel, type ZigChannel } from "@/lib/zig-version";
 
 const reportBody = (lessonId: string, fullUrl: string, channel?: ZigChannel) =>
   [

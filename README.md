@@ -21,7 +21,7 @@ No login. Playground and lesson drafts stay in the browser (`localStorage`). The
 ## Prerequisites
 
 - **Node.js** and **pnpm** (see `packageManager` in `package.json`)
-- **Host Zig** on PATH only if you build the in-browser compiler (must match `hostZig` in [`tools/zig-wasm/VERSION`](tools/zig-wasm/VERSION)). Details: [`tools/zig-wasm/README.md`](tools/zig-wasm/README.md)
+- **Host Zig** on PATH only if you build compiler files in the zigeditor repo (`host Zig` in `toolchain/VERSION`)
 
 ## Quick start
 
@@ -34,15 +34,15 @@ Open [http://localhost:3000](http://localhost:3000). Without WASM artifacts, `/p
 
 ## In-browser compiler (optional)
 
-Publish toolchain artifacts into `public/wasm/` (gitignored). Full build steps: [`tools/zig-wasm/README.md`](tools/zig-wasm/README.md). Host API and sandbox limits: [`src/lib/execution/README.md`](src/lib/execution/README.md).
+`/play` and lessons use the `zigeditor` package. Compiler files are built in that repo, then copied here. `public/wasm/` is gitignored.
 
 ```bash
-cd tools/zig-wasm && zig build --release=small
-cd ../.. && pnpm wasm:publish
+cd ../zigeditor/toolchain && zig build --release=small && sh publish-public.sh
+cd ../../ziglab && pnpm wasm:publish
 pnpm dev
 ```
 
-Home never downloads `zig.wasm`. Missing files under `public/wasm/` → mock fallback, not a fake compile.
+Home never downloads `zig.wasm`. Missing files under `public/wasm/` make the editor use its mock preview runner.
 
 ## Scripts
 
@@ -52,7 +52,7 @@ Home never downloads `zig.wasm`. Missing files under `public/wasm/` → mock fal
 | `pnpm build` / `pnpm start` | Production build and serve |
 | `pnpm lint` | ESLint |
 | `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm wasm:publish` | Copy toolchain `dist/` → `public/wasm/` |
+| `pnpm wasm:publish` | Copy zigeditor `toolchain/publish/{ver}/` → `public/wasm/{ver}/` |
 
 ## Project layout
 
@@ -60,11 +60,9 @@ Home never downloads `zig.wasm`. Missing files under `public/wasm/` → mock fal
 | --- | --- |
 | `src/app/` | App Router pages (`/`, `/learn`, `/play`, …) |
 | `src/components/` | UI (playground, learn, layout, shadcn) |
-| `src/lib/execution/` | WASI host, worker, WasmAdapter / mock |
 | `src/lib/zig-version.ts` | Playground compiler catalog (`zigPlayVersions`) |
 | `src/config/site.ts` | Site URLs, Zig version label, sponsors |
 | `content/` | Lessons, curriculum, playground starters, blog |
-| `tools/zig-wasm/` | Build-machine toolchain → `zig.wasm` (not imported by the app) |
 | `public/wasm/` | Published compiler artifacts (gitignored) |
 
 ## Config
@@ -81,4 +79,4 @@ These are config values, not fake companies. Fill them before going live:
 
 ## License
 
-The application is MIT ([LICENSE](LICENSE)). Original lesson prose in `content/lessons/` is CC BY-SA 4.0. Official Zig compiler artifacts built under [`tools/zig-wasm/`](tools/zig-wasm/) remain MIT; see [`tools/zig-wasm/NOTICE`](tools/zig-wasm/NOTICE).
+The application is MIT ([LICENSE](LICENSE)). Original lesson prose in `content/lessons/` is CC BY-SA 4.0. Official Zig compiler artifacts stay with the zigeditor toolchain and remain MIT.

@@ -10,6 +10,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { siteConfig } from "@/config/site";
 import { en } from "@/lib/i18n/en";
 
+import "zigeditor/styles.css";
 import "./globals.css";
 
 const geistSans = Geist({

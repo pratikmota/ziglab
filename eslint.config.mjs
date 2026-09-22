@@ -12,12 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    "tools/zig-wasm/.cache/**",
-    "tools/zig-wasm/.vendor/**",
-    "tools/zig-wasm/dist/**",
-    "tools/zig-wasm/.zig-cache/**",
-    "tools/zig-wasm/zig-out/**",
-    "tools/zig-wasm/spike/node_modules/**",
   ]),
 ]);
 

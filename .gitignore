@@ -42,16 +42,8 @@ next-env.d.ts
 # Local planning docs (not published to GitHub)
 /docs/
 
-# WASM toolchain: bulky trees, not Zig source
-/tools/zig-wasm/dist/
-/tools/zig-wasm/.cache/
-/tools/zig-wasm/.zig-cache/
-/tools/zig-wasm/zig-out/
-/tools/zig-wasm/.vendor/
-/tools/zig-wasm/spike/node_modules/
-
 # In-tree unpack of official Zig (do not commit)
 /ziglang-source/
 
-# WASM playground artifacts: copied from tools/zig-wasm/dist via pnpm wasm:publish
+# WASM playground artifacts: copied from zigeditor toolchain/publish via pnpm wasm:publish
 /public/wasm/

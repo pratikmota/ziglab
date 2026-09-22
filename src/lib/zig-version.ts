@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
-import type { ZigChannel } from "@/lib/execution/types";
+
+export type ZigChannel = string;
 
 export type ZigPlayVersion = {
   id: ZigChannel;

@@ -6,9 +6,9 @@
  * Hash shape: `/play#v1.{payload}` where payload is gzip(JSON) then base64url.
  * Unknown versions are rejected. Decoded size is capped at WASM_SOURCE_MAX_BYTES.
  */
-import type { ZigChannel } from "@/lib/execution/types";
-import { WASM_SOURCE_MAX_BYTES } from "@/lib/execution/wasm-limits";
-import { DEFAULT_ZIG_CHANNEL, offeredZigChannel } from "@/lib/zig-version";
+import { WASM_SOURCE_MAX_BYTES } from "zigeditor";
+
+import { DEFAULT_ZIG_CHANNEL, offeredZigChannel, type ZigChannel } from "@/lib/zig-version";
 
 export type PlaySharePayload = {
   code: string;

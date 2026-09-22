@@ -3,8 +3,7 @@
 import { useSyncExternalStore } from "react";
 
 import { PLAYGROUND_HELLO_SOURCE } from "@/lib/content/hello-zig";
-import type { ZigChannel } from "@/lib/execution/types";
-import { DEFAULT_ZIG_CHANNEL, offeredZigChannel } from "@/lib/zig-version";
+import { DEFAULT_ZIG_CHANNEL, offeredZigChannel, type ZigChannel } from "@/lib/zig-version";
 
 export const PLAY_DRAFT_KEY = "ziglab.play.draft.v1";
 

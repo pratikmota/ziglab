@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import type { ZigChannel } from "@/lib/execution/types";
-import { DEFAULT_ZIG_CHANNEL, offeredZigChannel } from "@/lib/zig-version";
+import { DEFAULT_ZIG_CHANNEL, offeredZigChannel, type ZigChannel } from "@/lib/zig-version";
 
 export type EditorSessionValue = {
   code: string;
