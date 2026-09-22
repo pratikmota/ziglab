@@ -1,10 +1,13 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useState } from "react";
+import { toast } from "sonner";
 import { ZigEditor, type ZigEditorTheme } from "zigeditor";
 
-import { EditorReset } from "@/components/playground/EditorReset";
 import type { PlaygroundPane } from "@/components/playground/types";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { en } from "@/lib/i18n/en";
 import { cn } from "@/lib/utils";
 import {
   playVersion,
@@ -31,8 +34,8 @@ export function ZigPlayEditor({
   reportHref,
   matchSources,
   expectedOutput,
-  resetTitle,
-  resetBody,
+  resetTitle = en.play.resetTitle,
+  resetBody = en.play.resetBody,
   className,
 }: {
   code: string;
@@ -51,19 +54,11 @@ export function ZigPlayEditor({
   className?: string;
 }) {
   const { theme, resolvedTheme } = useTheme();
+  const [resetOpen, setResetOpen] = useState(false);
   const row = playVersion(channel) ?? zigPlayVersions[0];
 
   return (
-    <div className={cn("flex min-h-0 flex-1 flex-col gap-2", className)}>
-      <div className="flex justify-end">
-        <EditorReset
-          source={code}
-          template={template}
-          onChange={onChange}
-          title={resetTitle}
-          body={resetBody}
-        />
-      </div>
+    <div className={cn("flex min-h-0 flex-1 flex-col", className)}>
       <div className="min-h-0 flex-1">
         <ZigEditor
           key={channel}
@@ -86,11 +81,25 @@ export function ZigPlayEditor({
           pane={pane}
           compact={compact}
           showFormat={showFormat}
-          showReset={false}
+          onReset={() => setResetOpen(true)}
           newHref={newHref}
           reportHref={reportHref}
         />
       </div>
+      <ConfirmDialog
+        open={resetOpen}
+        onOpenChange={setResetOpen}
+        title={resetTitle}
+        description={resetBody}
+        confirmLabel={en.play.resetConfirm}
+        onConfirm={() => {
+          const alreadyTemplate = code === template;
+          onChange(template);
+          if (!alreadyTemplate) {
+            toast.success(en.play.resetDone);
+          }
+        }}
+      />
     </div>
   );
 }
